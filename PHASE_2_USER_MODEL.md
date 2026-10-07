@@ -133,16 +133,55 @@ journey
 
 ---
 
-## 6. PHASE GATE SIGN-OFF & TRANSITION
+## 6. "HOW MIGHT WE" (HMW) DESIGN OPPORTUNITY STATEMENTS
 
-### Status: Phase 2 Approved
+These HMW statements act as the creative bridge connecting Rhea and Arjun's emotional pain points directly to the system's structural requirements:
+
+1. **HMW (Instant Kitchen Rescue):** How might we help Rhea transform 2–3 random pantry staples into a comforting, hot meal in under 10 minutes without spending money or waiting for delivery?
+2. **HMW (Sustainable Planning Ritual):** How might we make Arjun’s weekly meal planning feel like a playful 5-minute Sunday moodboard ritual rather than a rigid chore?
+3. **HMW (Zero Grocery Friction):** How might we bridge the gap between missing recipe ingredients and 10-minute doorstep quick-commerce (Blinkit/Zepto) with zero manual typing?
+4. **HMW (Forgiving & Flexible Kitchens):** How might we allow users to swap ingredients (Jugaad Hacks) or shift planned meals when their energy levels suddenly drop on a Thursday night?
+5. **HMW (Cognitive Relief in Scaling):** How might we eliminate the mental math of recipe measurements when cooking for unexpected flatmates or guests?
+
+---
+
+## 7. NARRATIVE MICRO-SCENARIOS (DAY-IN-THE-LIFE VIGNETTES)
+
+### Scenario A: The 10:30 PM Studio Rescue (Rhea)
+> *It's 10:30 PM on a Thursday at NIFT Hyderabad. Rhea returns to her Gachibowli flat after a grueling 12-hour garment construction review. Exhausted and carrying ₹250 left in her weekly budget, she refuses to order Swiggy. She opens CravePlan, taps the search bar, and taps two Hero Base pills: `[ 🍞 Bread ]` and `[ 🥚 Eggs ]`.  
+> In 2 seconds, the app returns **Masala French Toast (8 Mins — 100% Match)**. It notes: *"No fresh coriander? Add a pinch of oregano or chili flakes."* She cooks in one pan, eats hot comfort food, and washes a single plate before midnight.*
+
+### Scenario B: The 5-Minute Sunday Bento Ritual (Arjun)
+> *It's 4:00 PM on Sunday in Indiranagar, Bangalore. Arjun is lounging with coffee before his workweek starts. Instead of feeling dread about what he will eat, he opens CravePlan's Bento Board.  
+> Using the "Surprise Me" dice roll and dragging in his favorite Truffle Pasta, he schedules Mon–Thu dinners in 4 minutes flat. He taps `[ 🛒 Export to Zepto ]`; the app consolidates shared garlic, onions, and veggies into one basket. By 4:25 PM, his fresh groceries arrive at his door, perfectly portioned with zero waste.*
+
+### Scenario C: The Friday Night Flatmate Cook (Arjun & Friends)
+> *At 7:00 PM on Friday, Arjun’s flatmate brings two college friends over unexpectedly. They decide to stay in for dinner. Arjun pulls up his planned Paneer Burger recipe, currently set to `Serves 1`.  
+> He taps the serving stepper to `[-] 4 [+]`. The ingredient list instantly jumps from 1 patty and 1 bun to 4 buns, 400g paneer, and 2 onions. In 1 tap, he orders the 3 missing burger buns via Blinkit, and within 12 minutes, they are cooking together without anyone guessing measurements.*
+
+---
+
+## 8. CORE UX EXPERIENCE TENETS (OUR 3 GOLDEN DESIGN RULES)
+
+1. **Zero Data-Entry Guilt:** Never make the user feel like an inventory accountant. No manual barcode scanning, no spreadsheet tracking.
+2. **Tactile & Appetizing Over Clinical:** Cooking is sensory. The UI must feel warm, playful, and editorial—never like a cold calorie-counting hospital chart.
+3. **Reality-Adaptive & Forgiving:** When plans fail or energy crashes, the app gently adapts (via quick swaps, 8-minute rescue meals, and flexible slot shifting) rather than judging the user.
+
+---
+
+## 9. PHASE GATE SIGN-OFF & TRANSITION
+
+### Status: Phase 2 Completed & Jury-Ready (100%)
 * [x] Target demographic narrowed to authentic Dual-Core (Student + Young Professional).
-* [x] Indian Urban Metro Context formalized (Hyderabad/Bangalore Q-commerce and rental living).
+* [x] Indian Urban Metro Context formalized (Hyderabad/Bangalore Q-commerce and rental flat culture).
 * [x] Rhea Sharma & Arjun Mehta persona profiles fully articulated.
-* [x] Sensory Empathy Maps and Sunday-to-Friday Journey Map mapped.
-* [x] Hybrid Kitchen Rescue and Jugaad Swaps integrated into the behavioral model.
+* [x] Sensory Empathy Maps and Sunday-to-Friday Journey Map complete.
+* [x] Hybrid Kitchen Rescue and Jugaad Swaps modeled.
+* [x] 5 HMW Opportunity Statements developed.
+* [x] 3 Narrative Micro-Scenarios authored.
+* [x] 3 Core Experience Tenets established.
 
 ### Up Next: **Phase 3: Information Architecture & Taxonomy**
-* Global Navigation Structure & Hierarchy (Tabs, Drawers, Sheets).
+* Global Navigation Structure & Hierarchy (Bottom Tab Bar & Drawer Specs).
 * Card Sorting & Content Inventory (Recipe Taxonomy, Mood Tags, Aisle Schema).
 * Sitemaps & Relational Linking (Search $\leftrightarrow$ Recipe Card $\leftrightarrow$ Bento Board $\leftrightarrow$ Grocery Basket).
