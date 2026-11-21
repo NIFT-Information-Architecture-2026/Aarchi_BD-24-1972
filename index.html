@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CravePlan • Visual Design Showcase</title>
+  <title>CravePlan • Fully Working Culinary Operating System</title>
   <!-- Tailwind CSS -->
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
-  <!-- Baloo 2 & Plus Jakarta Sans via Google Fonts -->
+  <!-- Google Fonts: Baloo 2 & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,424 +16,1652 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
-    /* Hand-drawn ink doodle border effect */
-    .doodle-card {
-      border: 2px solid #1A1A1A;
-      box-shadow: 3px 3px 0px #1A1A1A;
+    /* Exact Figma Card Styling */
+    .figma-card {
+      background: linear-gradient(145deg, #5a4b45 0%, #3a302c 60%, #2b2320 100%);
+      border-radius: 36px;
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.28);
+      position: relative;
     }
-    .doodle-pill {
-      border: 1.5px solid #1A1A1A;
-      box-shadow: 2px 2px 0px #1A1A1A;
+    .figma-card-top-curve {
+      background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+    }
+    
+    /* Interactive Heart animation */
+    .heart-btn {
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .heart-btn:active {
+      transform: scale(1.3);
     }
   </style>
 </head>
-<body class="bg-[#FAF7F2] text-[#1A1A1A] font-sans-clean antialiased p-4 md:p-8 flex flex-col items-center min-h-screen">
+<body class="bg-[#FAF7F2] text-[#1A1A1A] font-sans-clean antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- Showcase Header -->
-  <div class="text-center mb-6 max-w-xl">
-    <span class="px-3 py-1 bg-amber-100 border border-amber-300 text-amber-900 rounded-full text-xs font-bold font-sans-clean uppercase tracking-wider">
-      Phase 5 Visual Design System
-    </span>
-    <h1 class="text-3xl font-extrabold font-baloo mt-2 text-slate-900 leading-tight">
-      CravePlan Visual Identity & Bento Dashboard
-    </h1>
-    <p class="text-xs text-slate-600 font-sans-clean mt-1">
-      Fusion of <strong>Reference 1</strong> (Juicy Ink Doodles & Pop Pastels) + <strong>Reference 2</strong> (Illustrated Bento Dashboard) with <strong>Baloo 2</strong> headings.
-    </p>
-  </div>
+  <!-- ================= TOP APP HEADER ================= -->
+  <header class="sticky top-0 bg-[#FAF7F2]/95 backdrop-blur-md z-40 border-b border-stone-200/80 px-4 py-3 shadow-xs">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+      
+      <!-- Logo & Name -->
+      <div class="flex items-center gap-2">
+        <span class="text-2xl select-none">🍜</span>
+        <div>
+          <h1 class="text-xl font-extrabold font-baloo text-orange-600 leading-none">CRAVEPLAN</h1>
+          <p class="text-[10px] text-stone-500 font-bold tracking-wider uppercase">Zero-Friction Cooking</p>
+        </div>
+      </div>
 
-  <!-- Mobile Device Frame -->
-  <div class="w-full max-w-sm bg-[#FAF7F2] rounded-[42px] shadow-2xl border-[8px] border-[#1A1A1A] overflow-hidden flex flex-col relative" style="height: 760px;">
-    
-    <!-- Top Status Bar -->
-    <div class="pt-3 px-6 pb-2 flex justify-between items-center text-xs font-bold text-slate-500 bg-[#FAF7F2] z-20">
-      <span>9:41</span>
-      <div class="w-20 h-4 bg-[#1A1A1A] rounded-full"></div>
-      <div class="flex items-center gap-1">
-        <span>5G</span>
-        <span>⚡ 94%</span>
+      <!-- Greetings -->
+      <div class="hidden sm:block text-center">
+        <p class="text-xs text-stone-500 font-medium">Welcome back!</p>
+        <h2 class="text-base font-extrabold font-baloo text-stone-900 leading-tight">Good morning, Rhea 👋</h2>
+      </div>
+
+      <!-- Saves / Favorite Filter Button -->
+      <div class="flex items-center gap-2">
+        <button id="saves-btn" onclick="toggleSavedFilter()" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-full font-bold text-xs shadow-xs transition cursor-pointer">
+          <span class="text-sm">❤️</span>
+          <span>Saves (<span id="saves-count">4</span>)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN APP BODY ================= -->
+  <main class="max-w-5xl mx-auto px-4 py-4 w-full flex-1 space-y-5">
+
+    <!-- ================= SEARCH & VEG/NON-VEG FILTER ================= -->
+    <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
+      
+      <!-- Live Search Bar -->
+      <div class="flex-1 relative flex items-center bg-white rounded-2xl border-2 border-stone-200 px-3.5 py-2.5 shadow-xs focus-within:border-orange-500 transition">
+        <span class="text-stone-400 mr-2.5 text-sm select-none">🔍</span>
+        <input 
+          id="search-input" 
+          type="text" 
+          oninput="applyFilters()" 
+          placeholder="Search by recipe, ingredient (e.g. potato, paneer, pasta)..." 
+          class="w-full text-xs sm:text-sm font-medium outline-none bg-transparent placeholder-stone-400 text-stone-900"
+        >
+        <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-stone-600 font-bold text-xs p-1">✕</button>
+      </div>
+
+      <!-- Veg / Non-Veg Toggle Switch -->
+      <div class="flex bg-stone-200/80 p-1 rounded-2xl text-xs font-bold shrink-0 self-center sm:self-auto">
+        <button id="diet-all" onclick="setDietFilter('all')" class="px-3 py-1.5 rounded-xl bg-white text-stone-900 shadow-xs transition">All</button>
+        <button id="diet-veg" onclick="setDietFilter('veg')" class="px-3 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1 transition">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Veg
+        </button>
+        <button id="diet-nonveg" onclick="setDietFilter('nonveg')" class="px-3 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1 transition">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span> Non-Veg
+        </button>
       </div>
     </div>
 
-    <!-- App Header -->
-    <header class="px-5 py-3 flex justify-between items-center bg-[#FAF7F2] border-b border-stone-200 z-10">
-      <div>
-        <p class="text-xs text-orange-600 font-bold uppercase tracking-wider font-sans-clean">CRAVEPLAN</p>
-        <h2 class="text-xl font-extrabold font-baloo text-[#1A1A1A] leading-none">Good morning, Rhea 👋</h2>
-      </div>
-      <button class="flex items-center gap-1.5 px-3 py-1.5 bg-rose-100 doodle-pill rounded-full font-bold text-xs text-rose-900">
-        <span>❤️</span>
-        <span class="font-sans-clean">14</span>
-      </button>
-    </header>
-
-    <!-- SCREEN 1: CRAVINGS & DISCOVERY (Reference 1 Style) -->
-    <main id="view-cravings" class="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4">
-      
-      <!-- Hybrid Rescue Bar -->
-      <div class="bg-white doodle-card rounded-2xl p-3">
-        <label class="text-[11px] font-bold text-orange-700 uppercase tracking-wider block mb-1">⚡ Hybrid Kitchen Rescue</label>
-        <div class="flex items-center bg-[#FAF7F2] rounded-xl px-3 py-2 border border-stone-200 mb-2">
-          <span class="mr-2 text-stone-400">🔍</span>
-          <input type="text" placeholder="Type what you have (e.g. bread eggs)" class="w-full text-xs outline-none bg-transparent placeholder-stone-400 text-stone-800">
-        </div>
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          <span class="text-[11px] text-stone-500 font-semibold shrink-0">Quick Base:</span>
-          <button class="px-2.5 py-1 bg-white hover:bg-amber-50 text-stone-800 font-bold text-xs rounded-lg border border-stone-300 shrink-0">🍞 Bread</button>
-          <button class="px-2.5 py-1 bg-white hover:bg-amber-50 text-stone-800 font-bold text-xs rounded-lg border border-stone-300 shrink-0">🥚 Eggs</button>
-          <button class="px-2.5 py-1 bg-white hover:bg-amber-50 text-stone-800 font-bold text-xs rounded-lg border border-stone-300 shrink-0">🍚 Rice</button>
-          <button class="px-2.5 py-1 bg-white hover:bg-amber-50 text-stone-800 font-bold text-xs rounded-lg border border-stone-300 shrink-0">🥔 Potato</button>
-        </div>
-      </div>
-
-      <!-- Section Title in Baloo 2 -->
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-bold font-baloo text-stone-900">Our Top Cravings</h3>
-        <span class="text-xs text-orange-600 font-bold cursor-pointer">See all</span>
-      </div>
-
-      <!-- 2-Column Bento Grid with Hand-Drawn Doodle Aesthetic (Reference 1 Style) -->
-      <div class="grid grid-cols-2 gap-3">
-        
-        <!-- Bento Card 1: Cleansing Green (Matcha Pastel) -->
-        <div class="bg-[#E6F4EA] doodle-card rounded-3xl p-3 flex flex-col justify-between h-48 relative overflow-hidden">
-          <!-- Floating doodle seeds -->
-          <div class="absolute top-2 right-2 text-xs opacity-40 select-none">✦ ◦</div>
-          <!-- Hand-drawn Doodle Art (SVG) -->
-          <div class="flex justify-center items-center h-20 pt-1">
-            <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22 18H42L38 52H26L22 18Z" fill="#A8E6CF" stroke="#1A1A1A" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M20 18H44" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M32 18V8" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="28" cy="30" r="3" fill="#1A1A1A"/>
-              <circle cx="36" cy="38" r="2" fill="#1A1A1A"/>
-              <path d="M14 42C14 42 16 34 24 38C24 38 22 46 14 42Z" fill="#88D49E" stroke="#1A1A1A" stroke-width="2"/>
-            </svg>
-          </div>
-          <div>
-            <h4 class="font-baloo font-bold text-sm text-[#1A1A1A] leading-tight">Matcha Mint Smoothie</h4>
-            <p class="text-[11px] text-stone-600 font-medium">Mint, spinach, lemon</p>
-            <div class="flex justify-between items-center mt-2">
-              <span class="text-xs font-extrabold font-baloo text-stone-900">⏱️ 8 mins</span>
-              <button onclick="switchView('detail')" class="w-7 h-7 bg-[#2D5A38] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-xs hover:scale-105 transition">
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento Card 2: Warrior Red (Terracotta / Melon Pastel) -->
-        <div class="bg-[#FFE8E2] doodle-card rounded-3xl p-3 flex flex-col justify-between h-48 relative overflow-hidden">
-          <div class="absolute top-2 right-2 text-xs opacity-40 select-none">✦ ◦</div>
-          <!-- Hand-drawn Burger Doodle (SVG) -->
-          <div class="flex justify-center items-center h-20 pt-1">
-            <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Top Bun -->
-              <path d="M16 28C16 18 22 14 32 14C42 14 48 18 48 28H16Z" fill="#FFAAA6" stroke="#1A1A1A" stroke-width="2.5"/>
-              <circle cx="24" cy="20" r="1.5" fill="#1A1A1A"/>
-              <circle cx="32" cy="18" r="1.5" fill="#1A1A1A"/>
-              <circle cx="40" cy="21" r="1.5" fill="#1A1A1A"/>
-              <!-- Patty & Cheese -->
-              <path d="M14 34H50" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M18 34L22 40L28 34L34 40L42 34" fill="#FFD3B6" stroke="#1A1A1A" stroke-width="2"/>
-              <!-- Bottom Bun -->
-              <path d="M16 42C16 48 22 50 32 50C42 50 48 48 48 42H16Z" fill="#FFAAA6" stroke="#1A1A1A" stroke-width="2.5"/>
-            </svg>
-          </div>
-          <div>
-            <h4 class="font-baloo font-bold text-sm text-[#1A1A1A] leading-tight">Crispy Veggie Burger</h4>
-            <p class="text-[11px] text-stone-600 font-medium">Single-pan #Savory</p>
-            <div class="flex justify-between items-center mt-2">
-              <span class="text-xs font-extrabold font-baloo text-stone-900">⏱️ 15 mins</span>
-              <button onclick="switchView('detail')" class="w-7 h-7 bg-[#C84B31] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-xs hover:scale-105 transition">
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento Card 3: Energy Yellow (Cheddar Pastel) -->
-        <div class="bg-[#FEF3D6] doodle-card rounded-3xl p-3 flex flex-col justify-between h-48 relative overflow-hidden">
-          <div class="flex justify-center items-center h-20 pt-1">
-            <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 20C18 20 24 16 34 22C44 28 46 42 42 48C38 54 24 52 18 44C12 36 18 20 18 20Z" fill="#FFE29A" stroke="#1A1A1A" stroke-width="2.5"/>
-              <path d="M34 22L36 12" stroke="#1A1A1A" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div>
-            <h4 class="font-baloo font-bold text-sm text-[#1A1A1A] leading-tight">Mango Avo Toast</h4>
-            <p class="text-[11px] text-stone-600 font-medium">Tangy &amp; Fresh</p>
-            <div class="flex justify-between items-center mt-2">
-              <span class="text-xs font-extrabold font-baloo text-stone-900">⏱️ 10 mins</span>
-              <button onclick="switchView('detail')" class="w-7 h-7 bg-[#B86B12] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-xs hover:scale-105 transition">
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento Card 4: Leafy Purple (Berry Pastel) -->
-        <div class="bg-[#F3E8FF] doodle-card rounded-3xl p-3 flex flex-col justify-between h-48 relative overflow-hidden">
-          <div class="flex justify-center items-center h-20 pt-1">
-            <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 16C20 16 28 32 26 48H38C36 32 44 16 44 16H20Z" fill="#D8B4FE" stroke="#1A1A1A" stroke-width="2.5"/>
-              <circle cx="32" cy="36" r="3" fill="#6B21A8"/>
-              <circle cx="28" cy="26" r="2.5" fill="#6B21A8"/>
-            </svg>
-          </div>
-          <div>
-            <h4 class="font-baloo font-bold text-sm text-[#1A1A1A] leading-tight">Wild Truffle Pasta</h4>
-            <p class="text-[11px] text-stone-600 font-medium">Creamy mushroom melt</p>
-            <div class="flex justify-between items-center mt-2">
-              <span class="text-xs font-extrabold font-baloo text-stone-900">⏱️ 30 mins</span>
-              <button onclick="switchView('detail')" class="w-7 h-7 bg-[#6B21A8] text-white rounded-full flex items-center justify-center font-bold text-xs shadow-xs hover:scale-105 transition">
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </main>
-
-    <!-- SCREEN 2: BENTO DASHBOARD (Reference 2 Style) (Initially Hidden) -->
-    <main id="view-bento" class="hidden flex-1 overflow-y-auto no-scrollbar p-4 space-y-3">
-      
-      <div class="flex justify-between items-center">
-        <div>
-          <h3 class="text-xl font-bold font-baloo text-[#1A1A1A]">This Week</h3>
-          <p class="text-xs text-stone-500 font-sans-clean font-medium">March 2026 • 7-Day Plan</p>
-        </div>
-        <button class="px-3 py-1 bg-amber-100 doodle-pill rounded-full text-xs font-bold text-amber-900 flex items-center gap-1">
-          🎲 Surprise Me!
-        </button>
-      </div>
-
-      <!-- Bento Summary Metric Tile (From Ref 2 Dark Green Card) -->
-      <div class="bg-[#2D4A3E] text-white rounded-3xl p-4 shadow-sm relative overflow-hidden">
-        <div class="flex justify-between items-start">
-          <div>
-            <p class="text-[11px] uppercase tracking-wider text-emerald-200 font-bold font-sans-clean">MEALS PREPPED</p>
-            <h4 class="text-2xl font-extrabold font-baloo">14 <span class="text-sm font-sans-clean font-normal text-emerald-300">/ 21 meals</span></h4>
-          </div>
-          <div class="text-right">
-            <p class="text-[11px] uppercase tracking-wider text-emerald-200 font-bold font-sans-clean">COOKING STREAK</p>
-            <h4 class="text-xl font-extrabold font-baloo text-amber-300">5 Days 🔥</h4>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2-Column Bento Calendar Grid (Reference 2 Columns) -->
-      <div class="grid grid-cols-2 gap-2.5">
-        
-        <!-- Monday Column -->
-        <div class="bg-white rounded-2xl p-2.5 border border-stone-200 space-y-2">
-          <div class="flex justify-between items-center border-b border-stone-100 pb-1">
-            <span class="text-xs font-bold font-baloo text-stone-900">MON 09</span>
-            <span class="text-[10px] text-stone-400 font-medium">Done</span>
-          </div>
-          <div class="bg-stone-50 p-2 rounded-xl text-xs space-y-1">
-            <p class="text-[9px] font-bold text-amber-700 uppercase">Breakfast</p>
-            <p class="font-bold font-baloo text-stone-800 truncate">Granola &amp; Yogurt</p>
-          </div>
-          <div class="bg-stone-50 p-2 rounded-xl text-xs space-y-1">
-            <p class="text-[9px] font-bold text-emerald-700 uppercase">Lunch</p>
-            <p class="font-bold font-baloo text-stone-800 truncate">Turkey Club Wrap</p>
-          </div>
-          <div class="bg-stone-50 p-2 rounded-xl text-xs space-y-1">
-            <p class="text-[9px] font-bold text-indigo-700 uppercase">Dinner</p>
-            <p class="font-bold font-baloo text-stone-800 truncate">Mushroom Truffle</p>
-          </div>
-        </div>
-
-        <!-- Tuesday Column (Today) -->
-        <div class="bg-white rounded-2xl p-2.5 border-2 border-orange-500 shadow-xs space-y-2 relative">
-          <span class="absolute -top-2.5 right-2 bg-orange-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Today</span>
-          <div class="flex justify-between items-center border-b border-stone-100 pb-1">
-            <span class="text-xs font-bold font-baloo text-orange-600">TUE 10</span>
-          </div>
-          <div class="bg-orange-50/70 p-2 rounded-xl text-xs space-y-1 border border-orange-200/50">
-            <p class="text-[9px] font-bold text-amber-700 uppercase">Breakfast</p>
-            <p class="font-bold font-baloo text-stone-800 truncate">Avocado Toast</p>
-          </div>
-          <!-- Empty Slot (Ghost invite) -->
-          <div class="p-2 border border-dashed border-orange-300 rounded-xl text-center text-[11px] font-bold text-orange-600 hover:bg-orange-50 cursor-pointer transition">
-            + Add Lunch
-          </div>
-          <div class="bg-orange-50/70 p-2 rounded-xl text-xs space-y-1 border border-orange-200/50">
-            <p class="text-[9px] font-bold text-indigo-700 uppercase">Dinner</p>
-            <p class="font-bold font-baloo text-stone-800 truncate">Crispy Burger</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Quick Action: Shopping List Widget -->
-      <div onclick="switchView('grocery')" class="bg-[#C84B31] text-white rounded-3xl p-3.5 flex justify-between items-center cursor-pointer shadow-sm hover:opacity-95 transition">
-        <div>
-          <p class="text-[10px] uppercase font-bold tracking-wider text-rose-200">SHOPPING LIST</p>
-          <h4 class="text-base font-extrabold font-baloo">8 items to buy for this week</h4>
-        </div>
-        <span class="w-8 h-8 bg-white text-[#C84B31] rounded-full flex items-center justify-center font-bold text-sm">
-          ➔
+    <!-- ================= ANIMATED HERO BANNER ================= -->
+    <div class="bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 text-white rounded-3xl p-4 sm:p-5 shadow-sm relative overflow-hidden flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="relative z-10 text-center sm:text-left">
+        <span class="px-2.5 py-0.5 bg-white/20 backdrop-blur-md rounded-full text-[10px] uppercase font-extrabold tracking-wider text-amber-100">
+          ✨ Mood-to-Meal in 3 Taps
         </span>
-      </div>
-
-    </main>
-
-    <!-- SCREEN 3: RECIPE DETAIL WITH BENTO INGREDIENTS GRID (Reference 2 Right Screen) -->
-    <main id="view-detail" class="hidden flex-1 overflow-y-auto no-scrollbar p-4 space-y-3">
-      
-      <!-- Hero Terracotta Card with Doodle Art -->
-      <div class="bg-[#C84B31] text-white rounded-3xl p-4 doodle-card relative overflow-hidden">
-        <button onclick="switchView('cravings')" class="absolute top-3 left-3 w-7 h-7 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold hover:bg-white/30 transition">
-          ◀
-        </button>
-        <button class="absolute top-3 right-3 w-7 h-7 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold hover:bg-white/30 transition">
-          ❤️
-        </button>
-
-        <!-- Centered Doodle Illustration (Reference 2 Soup & Bread style) -->
-        <div class="flex flex-col items-center pt-4 pb-2">
-          <svg class="w-20 h-20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 28C12 40 22 46 32 46C42 46 52 40 52 28H12Z" fill="#FFAAA6" stroke="#FFFFFF" stroke-width="2.5"/>
-            <path d="M10 28H54" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M26 22C26 18 30 16 30 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-            <path d="M36 22C36 18 40 16 40 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <h3 class="text-xl font-extrabold font-baloo mt-2 text-center">Tuscan Ribollita Soup</h3>
-          <p class="text-xs text-rose-100 font-sans-clean font-medium">Warm Italian Comfort • 🟢 Veg</p>
-        </div>
-      </div>
-
-      <!-- Segmented Toggle (Dual Tab: Ingredients | Steps) -->
-      <div class="p-1 bg-stone-200/70 rounded-2xl flex text-xs font-bold font-sans-clean">
-        <button class="flex-1 py-1.5 bg-white text-stone-900 rounded-xl shadow-xs text-center font-baloo text-sm">
-          📋 Ingredients (6)
-        </button>
-        <button class="flex-1 py-1.5 text-stone-500 hover:text-stone-800 text-center font-baloo text-sm">
-          🍳 Step by Step
-        </button>
-      </div>
-
-      <!-- Section Title -->
-      <div class="flex justify-between items-center pt-1">
-        <h4 class="text-sm font-bold font-baloo text-stone-800">Ingredients (Serves 2)</h4>
-        <span class="text-xs font-bold text-orange-600 font-sans-clean">[-] 2 [+]</span>
-      </div>
-
-      <!-- 3-Column Rounded Bento Ingredient Tiles (Directly from Reference 2!) -->
-      <div class="grid grid-cols-3 gap-2">
-        
-        <!-- Tile 1: Tomato -->
-        <div class="bg-white rounded-2xl p-2.5 text-center border border-stone-200 shadow-xs flex flex-col items-center justify-between">
-          <span class="text-xl">🍅</span>
-          <p class="text-xs font-bold font-baloo text-stone-900 mt-1">Tomato</p>
-          <p class="text-[10px] text-stone-500 font-medium">3 Large</p>
-        </div>
-
-        <!-- Tile 2: Onion -->
-        <div class="bg-white rounded-2xl p-2.5 text-center border border-stone-200 shadow-xs flex flex-col items-center justify-between">
-          <span class="text-xl">🧅</span>
-          <p class="text-xs font-bold font-baloo text-stone-900 mt-1">Onion</p>
-          <p class="text-[10px] text-stone-500 font-medium">1 Red</p>
-        </div>
-
-        <!-- Tile 3: Bread -->
-        <div class="bg-white rounded-2xl p-2.5 text-center border border-stone-200 shadow-xs flex flex-col items-center justify-between">
-          <span class="text-xl">🍞</span>
-          <p class="text-xs font-bold font-baloo text-stone-900 mt-1">Bread</p>
-          <p class="text-[10px] text-stone-500 font-medium">2 Slices</p>
-        </div>
-
-        <!-- Tile 4: Beans -->
-        <div class="bg-white rounded-2xl p-2.5 text-center border border-stone-200 shadow-xs flex flex-col items-center justify-between">
-          <span class="text-xl">🫘</span>
-          <p class="text-xs font-bold font-baloo text-stone-900 mt-1">White Beans</p>
-          <p class="text-[10px] text-stone-500 font-medium">1 Can</p>
-        </div>
-
-        <!-- Tile 5: Kale / Spinach -->
-        <div class="bg-white rounded-2xl p-2.5 text-center border border-stone-200 shadow-xs flex flex-col items-center justify-between">
-          <span class="text-xl">🥬</span>
-          <p class="text-xs font-bold font-baloo text-stone-900 mt-1">Kale / Palak</p>
-          <p class="text-[10px] text-stone-500 font-medium">1 Bunch</p>
-        </div>
-
-        <!-- Tile 6: Time Pill -->
-        <div class="bg-[#FEF3D6] rounded-2xl p-2.5 text-center border border-amber-200 shadow-xs flex flex-col items-center justify-between">
-          <span class="text-xl">⏱️</span>
-          <p class="text-xs font-bold font-baloo text-amber-900 mt-1">Total Time</p>
-          <p class="text-[10px] text-amber-800 font-bold">45 Mins</p>
-        </div>
-
-      </div>
-
-      <!-- High-Legibility Method / Step Preview Card (Reference 2 Dark Green Card) -->
-      <div class="bg-[#2D4A3E] text-white rounded-3xl p-4 shadow-sm space-y-2">
-        <div class="flex justify-between items-center">
-          <h5 class="text-xs font-bold font-sans-clean uppercase tracking-wider text-emerald-200">METHOD • STEP 1 OF 3</h5>
-          <span class="text-[11px] text-emerald-300 font-bold">⏱️ 8 mins</span>
-        </div>
-        <p class="text-xs font-sans-clean leading-relaxed text-emerald-50">
-          Sauté sliced onions and garlic in olive oil until soft and golden. Add tomatoes and white beans, simmering until fragrant.
+        <h2 class="text-xl sm:text-2xl font-extrabold font-baloo mt-1 leading-tight">
+          What are you craving today, Rhea?
+        </h2>
+        <p class="text-xs text-orange-100 font-medium">
+          Choose your cuisine, scale servings with 1 tap, and launch hands-free cook mode.
         </p>
-        <button class="w-full py-2.5 mt-2 bg-emerald-500 hover:bg-emerald-400 text-stone-900 font-bold font-baloo text-xs rounded-xl shadow-xs transition">
-          👨‍🍳 Launch Hands-Free Cook Mode
+      </div>
+      <!-- Food Animation Elements -->
+      <div class="flex items-center gap-2 text-3xl sm:text-4xl select-none animate-bounce" style="animation-duration: 2.5s;">
+        <span>🍔</span>
+        <span>🍕</span>
+        <span>🍜</span>
+        <span>🍹</span>
+      </div>
+    </div>
+
+    <!-- ================= CUSTOMIZATION & FILTER CONTROLS ================= -->
+    <div class="bg-white rounded-3xl p-4 border border-stone-200/90 shadow-xs space-y-3">
+      
+      <!-- Row 1: Cuisines Horizontal Carousel -->
+      <div>
+        <div class="flex justify-between items-center mb-1.5">
+          <span class="text-xs font-bold text-stone-500 uppercase tracking-wider font-sans-clean">Cuisines</span>
+          <span id="results-count" class="text-xs font-bold text-orange-600 font-sans-clean">Showing 36 dishes</span>
+        </div>
+        <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
+          <button onclick="setCuisineFilter('all')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs" data-cuisine="all">🌟 All Cuisines</button>
+          <button onclick="setCuisineFilter('north')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="north">🫓 North Indian</button>
+          <button onclick="setCuisineFilter('south')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="south">🥥 South Indian</button>
+          <button onclick="setCuisineFilter('street')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="street">🥟 Street Food</button>
+          <button onclick="setCuisineFilter('continental')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="continental">🥪 Continental / Café</button>
+          <button onclick="setCuisineFilter('italian')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="italian">🍝 Italian</button>
+          <button onclick="setCuisineFilter('asian')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="asian">🥢 Asian / Chinese</button>
+        </div>
+      </div>
+
+      <!-- Row 2: Secondary Navigations (Meal Type, Time, Rating) -->
+      <div class="flex flex-wrap gap-2 pt-2 border-t border-stone-100 items-center">
+        
+        <!-- Meal Type Selector -->
+        <select id="meal-type-filter" onchange="applyFilters()" class="text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-2.5 py-1.5 border border-stone-300 outline-none cursor-pointer">
+          <option value="all">🍽️ All Meal Types</option>
+          <option value="breakfast">🥞 Breakfast</option>
+          <option value="lunch">🥗 Lunch</option>
+          <option value="dinner">🍲 Dinner</option>
+          <option value="snack">🥟 Snacks &amp; Drinks</option>
+        </select>
+
+        <!-- Preparation Time Filter -->
+        <select id="time-filter" onchange="applyFilters()" class="text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-2.5 py-1.5 border border-stone-300 outline-none cursor-pointer">
+          <option value="all">⏱️ Any Prep Time</option>
+          <option value="15">⚡ Under 15 mins</option>
+          <option value="30">⏳ 20 - 30 mins</option>
+          <option value="45">🥘 35+ mins</option>
+        </select>
+
+        <!-- Ratings Filter -->
+        <select id="rating-filter" onchange="applyFilters()" class="text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-2.5 py-1.5 border border-stone-300 outline-none cursor-pointer">
+          <option value="all">★ All Ratings</option>
+          <option value="4.8">★ 4.8 &amp; above (Top Rated)</option>
+          <option value="4.5">★ 4.5 &amp; above</option>
+          <option value="4.0">★ 4.0 &amp; above</option>
+        </select>
+
+        <!-- Reset Button -->
+        <button onclick="resetAllFilters()" class="text-xs font-bold text-orange-600 hover:text-orange-800 ml-auto px-2 py-1 transition cursor-pointer">
+          Reset Filters ↺
         </button>
       </div>
 
-    </main>
+    </div>
 
-    <!-- BOTTOM TAB NAVIGATION BAR (The 3 Pillars) -->
-    <nav class="h-16 bg-white border-t border-stone-200 px-6 flex justify-around items-center z-20">
-      <!-- Tab 1: Cravings -->
-      <button id="nav-cravings" onclick="switchView('cravings')" class="flex flex-col items-center gap-0.5 text-orange-600 transition">
-        <span class="text-lg">🍜</span>
-        <span class="text-[11px] font-bold font-baloo">Cravings</span>
+    <!-- ================= SECTION HEADER ================= -->
+    <div class="flex justify-between items-center px-1">
+      <div>
+        <h3 class="text-xl sm:text-2xl font-extrabold font-baloo text-stone-900 leading-tight">
+          RECOMMENDED RECIPES
+        </h3>
+        <p class="text-xs text-stone-500 font-medium">Curated for your palate with live portion scaling &amp; video reels</p>
+      </div>
+    </div>
+
+    <!-- ================= RECIPE CARD GRID ================= -->
+    <div id="recipe-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected dynamically via JavaScript -->
+    </div>
+
+    <!-- Empty Results State -->
+    <div id="empty-state" class="hidden text-center py-16 space-y-3 bg-white rounded-3xl border border-stone-200 p-8">
+      <span class="text-5xl select-none">🥣</span>
+      <h4 class="text-xl font-extrabold font-baloo text-stone-800">No recipes found</h4>
+      <p class="text-xs text-stone-500 max-w-sm mx-auto">
+        No dishes matched your active filters. Try searching for "potato", "bread", or tap Reset Filters below!
+      </p>
+      <button onclick="resetAllFilters()" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer">
+        Show All 36 Recipes
       </button>
+    </div>
 
-      <!-- Tab 2: Bento Board -->
-      <button id="nav-bento" onclick="switchView('bento')" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition">
-        <span class="text-lg">🗓️</span>
-        <span class="text-[11px] font-bold font-baloo">Bento Board</span>
-      </button>
+  </main>
 
-      <!-- Tab 3: Grocery -->
-      <button id="nav-grocery" onclick="switchView('detail')" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition">
-        <span class="text-lg">🛒</span>
-        <span class="text-[11px] font-bold font-baloo">Recipe / List</span>
-      </button>
-    </nav>
+  <!-- ================= VIDEO REEL MODAL ================= -->
+  <div id="reel-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-stone-900 text-white w-full max-w-sm rounded-[32px] overflow-hidden border-2 border-stone-700 shadow-2xl flex flex-col relative" style="height: 600px;">
+      
+      <!-- Header with Close Button -->
+      <div class="p-3 bg-stone-900/90 flex justify-between items-center border-b border-stone-800 z-10">
+        <div class="flex items-center gap-1.5">
+          <span class="text-rose-500 font-bold text-sm">▶</span>
+          <span id="modal-dish-title" class="font-baloo font-bold text-sm truncate max-w-[200px]">Recipe Reel</span>
+        </div>
+        <button onclick="closeReelModal()" class="w-7 h-7 bg-stone-800 hover:bg-stone-700 rounded-full flex items-center justify-center text-xs font-bold text-stone-300 cursor-pointer">✕</button>
+      </div>
 
+      <!-- Video Embed / Simulated Player -->
+      <div class="flex-1 bg-black flex flex-col items-center justify-center relative overflow-hidden">
+        <iframe id="reel-iframe" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- Fallback message if video blocked by CSP -->
+        <div id="reel-fallback" class="hidden absolute inset-0 bg-stone-900 p-6 flex flex-col items-center justify-center text-center space-y-3">
+          <span class="text-5xl">🍳</span>
+          <h4 id="fallback-title" class="text-lg font-bold font-baloo text-white">Visual Step-by-Step</h4>
+          <p class="text-xs text-stone-400">Watch the crispy sizzling technique and plating for this dish.</p>
+          <a id="fallback-link" href="#" target="_blank" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition">Open Video on YouTube ➔</a>
+        </div>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="p-3 bg-stone-900 text-center text-[11px] text-stone-400 border-t border-stone-800">
+        30-Second Micro-Reel • Quick Kitchen Demo
+      </div>
+    </div>
   </div>
 
-  <script>
-    function switchView(viewId) {
-      document.getElementById('view-cravings').classList.add('hidden');
-      document.getElementById('view-bento').classList.add('hidden');
-      document.getElementById('view-detail').classList.add('hidden');
+  <!-- ================= BOTTOM NAVIGATION BAR ================= -->
+  <nav class="sticky bottom-0 bg-white/95 backdrop-blur-md border-t border-stone-200 z-40 py-2 px-6">
+    <div class="max-w-md mx-auto flex justify-between items-center text-stone-500">
+      
+      <!-- Home Tab (Active) -->
+      <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center gap-0.5 text-orange-600 transition cursor-pointer">
+        <span class="text-xl">🏠</span>
+        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Home</span>
+      </button>
 
-      const tabs = ['cravings', 'bento', 'grocery'];
+      <!-- Host Mode Tab -->
+      <button onclick="switchTab('host')" id="tab-host" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer">
+        <span class="text-xl">🥂</span>
+        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Host Mode</span>
+      </button>
+
+      <!-- Meal Planner Tab -->
+      <button onclick="switchTab('planner')" id="tab-planner" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer">
+        <span class="text-xl">🗓️</span>
+        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Meal Planner</span>
+      </button>
+
+      <!-- Profile Tab -->
+      <button onclick="switchTab('profile')" id="tab-profile" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer">
+        <span class="text-xl">👤</span>
+        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Profile</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ================= JAVASCRIPT MASTER DATABASE & INTERACTIVE ENGINE ================= -->
+  <script>
+    // Master Culinary Database: 36 Authentic Recipes with Full Metadata
+    const RECIPES_DATA = [
+      // ----- CONTINENTAL / CAFE -----
+      {
+        id: "burger",
+        name: "BURGER",
+        fullName: "Crispy Potato & Paneer Burger",
+        cuisine: "continental",
+        cuisineLabel: "CONTINENTAL",
+        mealType: "dinner",
+        mood: "#Savory",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.8,
+        reviews: 142,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🍔",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Burger bun", baseQty: 1, unit: "pc" },
+          { name: "Potato (boiled)", baseQty: 1, unit: "medium" },
+          { name: "Paneer / Cheese slice", baseQty: 1, unit: "slice" },
+          { name: "Onion & Tomato slices", baseQty: 2, unit: "rings" },
+          { name: "Butter / Oil", baseQty: 1, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Mash boiled potato with salt, chili flakes, and chaat masala.",
+          "2. Shape into a round patty and pan-fry in butter until golden-crisp.",
+          "3. Toast buns with butter, layer with patty, cheese, and sliced tomato."
+        ]
+      },
+      {
+        id: "avo-toast",
+        name: "AVOCADO TOAST",
+        fullName: "Sourdough Avocado & Lime Toast",
+        cuisine: "continental",
+        cuisineLabel: "CONTINENTAL",
+        mealType: "breakfast",
+        mood: "#Fresh",
+        isVeg: true,
+        readyIn: "10 Mins",
+        timeMinutes: 10,
+        rating: 4.7,
+        reviews: 89,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥑",
+        videoUrl: "https://www.youtube.com/embed/9N4zX0lYl0E",
+        ingredients: [
+          { name: "Sourdough bread slices", baseQty: 2, unit: "slices" },
+          { name: "Ripe Avocado", baseQty: 1, unit: "whole" },
+          { name: "Lemon juice", baseQty: 1, unit: "tsp" },
+          { name: "Chili flakes & rock salt", baseQty: 1, unit: "pinch" }
+        ],
+        steps: [
+          "1. Toast sourdough slices on a tawa until golden brown.",
+          "2. Mash avocado with fresh lemon juice, salt, and black pepper.",
+          "3. Spread generously over warm toast and garnish with chili flakes."
+        ]
+      },
+      {
+        id: "club-sandwich",
+        name: "CLUB SANDWICH",
+        fullName: "Triple-Decker Grilled Veggie Club",
+        cuisine: "continental",
+        cuisineLabel: "CONTINENTAL",
+        mealType: "lunch",
+        mood: "#Crunchy",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.5,
+        reviews: 95,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥪",
+        videoUrl: "https://www.youtube.com/embed/0B9H_Z7uHn4",
+        ingredients: [
+          { name: "Bread slices", baseQty: 3, unit: "slices" },
+          { name: "Cucumber & Tomato slices", baseQty: 4, unit: "slices" },
+          { name: "Cheese slice", baseQty: 1, unit: "slice" },
+          { name: "Green mint chutney & butter", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Spread butter and chutney on 3 toasted bread slices.",
+          "2. Layer first tier with cucumber and tomato; second tier with cheese.",
+          "3. Grill until cheese begins to melt and slice into triangles."
+        ]
+      },
+      {
+        id: "mac-cheese",
+        name: "MAC & CHEESE",
+        fullName: "One-Pot Creamy Cheddar Macaroni",
+        cuisine: "continental",
+        cuisineLabel: "CONTINENTAL",
+        mealType: "dinner",
+        mood: "#Creamy",
+        isVeg: true,
+        readyIn: "25 Mins",
+        timeMinutes: 25,
+        rating: 4.9,
+        reviews: 210,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🧀",
+        videoUrl: "https://www.youtube.com/embed/B8M8eT0pQf8",
+        ingredients: [
+          { name: "Elbow Macaroni", baseQty: 150, unit: "g" },
+          { name: "Cheddar & Mozzarella cheese", baseQty: 80, unit: "g" },
+          { name: "Milk", baseQty: 1, unit: "cup" },
+          { name: "Butter & flour", baseQty: 1.5, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Boil macaroni in salted water until al dente.",
+          "2. Melt butter, whisk in flour and warm milk to create silky roux.",
+          "3. Stir in grated cheddar cheese until melted; fold in macaroni."
+        ]
+      },
+      {
+        id: "paneer-steak",
+        name: "GRILLED STEAK",
+        fullName: "Herbed Grilled Paneer Steak",
+        cuisine: "continental",
+        cuisineLabel: "CONTINENTAL",
+        mealType: "dinner",
+        mood: "#Savory",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.6,
+        reviews: 64,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥩",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Fresh Paneer block", baseQty: 150, unit: "g" },
+          { name: "Olive oil & garlic paste", baseQty: 1, unit: "tbsp" },
+          { name: "Mixed dried herbs & pepper", baseQty: 1, unit: "tsp" },
+          { name: "Sautéed bell peppers", baseQty: 1, unit: "cup" }
+        ],
+        steps: [
+          "1. Marinate thick paneer slab in olive oil, crushed garlic, and herbs.",
+          "2. Sear on a hot grill pan for 3 minutes on each side until charred.",
+          "3. Serve immediately with sautéed colorful bell peppers."
+        ]
+      },
+      {
+        id: "peri-fries",
+        name: "LOADED FRIES",
+        fullName: "Crispy Peri-Peri Cheese Fries",
+        cuisine: "continental",
+        cuisineLabel: "CONTINENTAL",
+        mealType: "snack",
+        mood: "#Spicy",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.8,
+        reviews: 310,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍟",
+        videoUrl: "https://www.youtube.com/embed/0B9H_Z7uHn4",
+        ingredients: [
+          { name: "Potatoes (cut into batons)", baseQty: 2, unit: "large" },
+          { name: "Peri-peri spice mix", baseQty: 1.5, unit: "tsp" },
+          { name: "Warm cheese dip", baseQty: 3, unit: "tbsp" },
+          { name: "Oil for pan-frying", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Soak potato batons in cold water, pat dry, and fry until crisp.",
+          "2. Toss immediately in a bowl with hot peri-peri spice mix.",
+          "3. Drizzle generously with warm melted cheese dip."
+        ]
+      },
+
+      // ----- NORTH INDIAN -----
+      {
+        id: "dal-makhani",
+        name: "DAL MAKHANI",
+        fullName: "Slow-Cooked Creamy Black Dal",
+        cuisine: "north",
+        cuisineLabel: "NORTH INDIAN",
+        mealType: "dinner",
+        mood: "#Creamy",
+        isVeg: true,
+        readyIn: "45 Mins",
+        timeMinutes: 45,
+        rating: 4.9,
+        reviews: 280,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍲",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Black urad dal & rajma (soaked)", baseQty: 1, unit: "cup" },
+          { name: "Tomato puree & ginger-garlic", baseQty: 3, unit: "tbsp" },
+          { name: "Butter (makhan)", baseQty: 2, unit: "tbsp" },
+          { name: "Fresh cream", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Pressure cook dal with salt and water until soft.",
+          "2. Sauté tomato puree in butter with kashmiri mirchi until oil separates.",
+          "3. Simmer dal on low heat for 25 mins; finish with cream and butter."
+        ]
+      },
+      {
+        id: "paneer-butter",
+        name: "PANEER BUTTER",
+        fullName: "Restaurant Style Paneer Butter Masala",
+        cuisine: "north",
+        cuisineLabel: "NORTH INDIAN",
+        mealType: "dinner",
+        mood: "#Creamy",
+        isVeg: true,
+        readyIn: "25 Mins",
+        timeMinutes: 25,
+        rating: 4.9,
+        reviews: 350,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍛",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Paneer cubes", baseQty: 200, unit: "g" },
+          { name: "Tomato-cashew makhani gravy", baseQty: 1, unit: "cup" },
+          { name: "Butter & Kasuri methi", baseQty: 1, unit: "tbsp" },
+          { name: "Fresh malai/cream", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Puree cooked tomatoes, cashews, and spices into smooth gravy.",
+          "2. Simmer in butter with kasuri methi for 10 minutes.",
+          "3. Add fresh soft paneer cubes and finish with a swirl of cream."
+        ]
+      },
+      {
+        id: "aloo-paratha",
+        name: "ALOO PARATHA",
+        fullName: "Crispy Stuffed Amritsari Paratha",
+        cuisine: "north",
+        cuisineLabel: "NORTH INDIAN",
+        mealType: "breakfast",
+        mood: "#Savory",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.8,
+        reviews: 190,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🫓",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Wheat flour dough", baseQty: 1, unit: "cup" },
+          { name: "Spiced mashed potatoes", baseQty: 1, unit: "cup" },
+          { name: "Ghee / Butter", baseQty: 1.5, unit: "tbsp" },
+          { name: "Fresh dahi (curd) & pickle", baseQty: 1, unit: "cup" }
+        ],
+        steps: [
+          "1. Stuff seasoned mashed potato into wheat dough ball.",
+          "2. Roll out gently and roast on hot tawa.",
+          "3. Smear with ghee until blistered and golden; serve with dahi."
+        ]
+      },
+      {
+        id: "butter-chicken",
+        name: "BUTTER CHICKEN",
+        fullName: "Smoky Delhi Murgh Makhani",
+        cuisine: "north",
+        cuisineLabel: "NORTH INDIAN",
+        mealType: "dinner",
+        mood: "#Rich",
+        isVeg: false,
+        readyIn: "35 Mins",
+        timeMinutes: 35,
+        rating: 4.9,
+        reviews: 420,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍗",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Boneless chicken pieces", baseQty: 250, unit: "g" },
+          { name: "Yogurt & tandoori spices", baseQty: 2, unit: "tbsp" },
+          { name: "Velvety tomato gravy", baseQty: 1, unit: "cup" },
+          { name: "Butter & heavy cream", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Marinate chicken in yogurt and spices; pan-sear until charred.",
+          "2. Simmer tomato gravy with butter, garam masala, and kasuri methi.",
+          "3. Drop in chicken pieces and simmer for 10 minutes until succulent."
+        ]
+      },
+      {
+        id: "rajma-chawal",
+        name: "RAJMA CHAWAL",
+        fullName: "Punjabi Homestyle Red Kidney Beans",
+        cuisine: "north",
+        cuisineLabel: "NORTH INDIAN",
+        mealType: "lunch",
+        mood: "#Comfort",
+        isVeg: true,
+        readyIn: "30 Mins",
+        timeMinutes: 30,
+        rating: 4.8,
+        reviews: 260,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍚",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Boiled Rajma beans", baseQty: 1.5, unit: "cup" },
+          { name: "Onion, ginger, tomato masala", baseQty: 1, unit: "cup" },
+          { name: "Steamed Basmati Rice", baseQty: 1.5, unit: "cup" },
+          { name: "Ghee & green chilies", baseQty: 1, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Sauté onions, ginger, and garlic in ghee; add tomato puree.",
+          "2. Add boiled rajma and simmer gently, mashing a few beans for gravy.",
+          "3. Serve steaming hot over fragrant basmati rice with sliced onions."
+        ]
+      },
+      {
+        id: "chole-bhature",
+        name: "CHOLE BHATURE",
+        fullName: "Spicy Pindi Chole & Puffy Bhature",
+        cuisine: "north",
+        cuisineLabel: "NORTH INDIAN",
+        mealType: "lunch",
+        mood: "#Spicy",
+        isVeg: true,
+        readyIn: "30 Mins",
+        timeMinutes: 30,
+        rating: 4.8,
+        reviews: 310,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🥘",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Boiled Chickpeas (Chole)", baseQty: 1.5, unit: "cup" },
+          { name: "Pindi chole dark spice blend", baseQty: 2, unit: "tbsp" },
+          { name: "Bhatura fermented dough balls", baseQty: 2, unit: "pcs" },
+          { name: "Oil for frying", baseQty: 1, unit: "cup" }
+        ],
+        steps: [
+          "1. Simmer chickpeas with tea-water and spices until pitch dark.",
+          "2. Pour sizzling ghee tadka of ginger juliennes and green chilies.",
+          "3. Roll and deep-fry bhature until ballooned and crispy."
+        ]
+      },
+
+      // ----- SOUTH INDIAN -----
+      {
+        id: "ghee-dosa",
+        name: "GHEE ROAST DOSA",
+        fullName: "Golden Crispy Ghee Roast Podi Dosa",
+        cuisine: "south",
+        cuisineLabel: "SOUTH INDIAN",
+        mealType: "breakfast",
+        mood: "#Crispy",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.9,
+        reviews: 275,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥞",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Fermented Dosa batter", baseQty: 1, unit: "cup" },
+          { name: "Pure Cow Ghee", baseQty: 2, unit: "tbsp" },
+          { name: "Gunpowder (Idli Podi)", baseQty: 1, unit: "tbsp" },
+          { name: "Coconut Chutney", baseQty: 0.5, unit: "cup" }
+        ],
+        steps: [
+          "1. Spread ladle of batter in concentric circles on hot cast iron tawa.",
+          "2. Drizzle golden ghee generously around edges; dust with idli podi.",
+          "3. Roast until copper-brown and roll into a crispy cone."
+        ]
+      },
+      {
+        id: "idli-sambar",
+        name: "IDLI SAMBAR",
+        fullName: "Steamed Button Idlis with Lentil Sambar",
+        cuisine: "south",
+        cuisineLabel: "SOUTH INDIAN",
+        mealType: "breakfast",
+        mood: "#Healthy",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.7,
+        reviews: 180,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🥥",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Steamed Rice Idlis", baseQty: 4, unit: "pcs" },
+          { name: "Toor dal & drumstick sambar", baseQty: 1.5, unit: "cup" },
+          { name: "Fresh coconut chutney", baseQty: 0.5, unit: "cup" },
+          { name: "Curry leaf & mustard tadka", baseQty: 1, unit: "tsp" }
+        ],
+        steps: [
+          "1. Steam batter in idli molds for 10 minutes until fluffy.",
+          "2. Heat piping hot lentil sambar loaded with drumsticks and shallots.",
+          "3. Dip warm idlis in a bowl of sambar and top with coconut chutney."
+        ]
+      },
+      {
+        id: "curd-rice",
+        name: "CURD RICE",
+        fullName: "Comforting Thayir Sadam with Tadka",
+        cuisine: "south",
+        cuisineLabel: "SOUTH INDIAN",
+        mealType: "lunch",
+        mood: "#Comfort",
+        isVeg: true,
+        readyIn: "10 Mins",
+        timeMinutes: 10,
+        rating: 4.8,
+        reviews: 140,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥣",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Soft cooked rice", baseQty: 1, unit: "cup" },
+          { name: "Fresh thick dahi (curd)", baseQty: 1, unit: "cup" },
+          { name: "Mustard seeds, hing & curry leaves", baseQty: 1, unit: "tsp" },
+          { name: "Pomegranate seeds / grapes", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Mash warm rice with curd, milk, and salt until creamy.",
+          "2. Pop mustard seeds, urad dal, ginger, and curry leaves in hot oil.",
+          "3. Pour crackling tadka over rice and garnish with pomegranate."
+        ]
+      },
+      {
+        id: "chettinad-chicken",
+        name: "CHETTINAD CHICKEN",
+        fullName: "Fiery Black Pepper Chettinad Curry",
+        cuisine: "south",
+        cuisineLabel: "SOUTH INDIAN",
+        mealType: "dinner",
+        mood: "#Spicy",
+        isVeg: false,
+        readyIn: "30 Mins",
+        timeMinutes: 30,
+        rating: 4.9,
+        reviews: 230,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍗",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Chicken chunks", baseQty: 250, unit: "g" },
+          { name: "Roasted Chettinad spice paste", baseQty: 3, unit: "tbsp" },
+          { name: "Shallots & curry leaves", baseQty: 1, unit: "cup" },
+          { name: "Coconut oil", baseQty: 1.5, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Roast whole peppercorns, coriander, fennel, and coconut.",
+          "2. Sauté shallots in coconut oil; sear chicken with spice paste.",
+          "3. Simmer until chicken is tender and dark peppery gravy coats pieces."
+        ]
+      },
+      {
+        id: "malabar-stew",
+        name: "MALABAR STEW",
+        fullName: "Coconut Milk Veg Stew with Appams",
+        cuisine: "south",
+        cuisineLabel: "SOUTH INDIAN",
+        mealType: "dinner",
+        mood: "#Mild",
+        isVeg: true,
+        readyIn: "25 Mins",
+        timeMinutes: 25,
+        rating: 4.7,
+        reviews: 110,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🥥",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Diced carrots, beans, potatoes", baseQty: 1.5, unit: "cup" },
+          { name: "Fresh coconut milk", baseQty: 1, unit: "cup" },
+          { name: "Ginger, green chili & cinnamon", baseQty: 1, unit: "tbsp" },
+          { name: "Coconut oil & curry leaves", baseQty: 1, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Simmer diced vegetables with ginger, green chilies, and whole spices.",
+          "2. Pour in thin coconut milk and cook until veggies are soft.",
+          "3. Turn off flame, stir in thick coconut milk, and finish with coconut oil."
+        ]
+      },
+      {
+        id: "rava-upma",
+        name: "RAVA UPMA",
+        fullName: "Roasted Semolina Upma with Cashews",
+        cuisine: "south",
+        cuisineLabel: "SOUTH INDIAN",
+        mealType: "breakfast",
+        mood: "#Savory",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.5,
+        reviews: 98,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥣",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Roasted Rava (Semolina)", baseQty: 1, unit: "cup" },
+          { name: "Cashews & mustard seeds", baseQty: 1, unit: "tbsp" },
+          { name: "Onions & green chilies", baseQty: 0.5, unit: "cup" },
+          { name: "Ghee", baseQty: 1, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Fry cashews, mustard seeds, chana dal, and curry leaves in ghee.",
+          "2. Sauté chopped onions; pour water and bring to rolling boil.",
+          "3. Slowly stream in roasted rava while stirring continuously until fluffy."
+        ]
+      },
+
+      // ----- STREET FOOD -----
+      {
+        id: "pav-bhaji",
+        name: "PAV BHAJI",
+        fullName: "Buttery Mumbai Tawa Pav Bhaji",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "dinner",
+        mood: "#Spicy",
+        isVeg: true,
+        readyIn: "25 Mins",
+        timeMinutes: 25,
+        rating: 4.9,
+        reviews: 380,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍞",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Mashed mixed vegetables", baseQty: 1.5, unit: "cup" },
+          { name: "Pav bhaji special masala", baseQty: 2, unit: "tbsp" },
+          { name: "Amul Butter slab", baseQty: 3, unit: "tbsp" },
+          { name: "Fresh Pav buns", baseQty: 4, unit: "pcs" }
+        ],
+        steps: [
+          "1. Mash boiled potatoes, peas, and cauliflower on a wide tawa.",
+          "2. Cook with butter, tomatoes, and pav bhaji masala until deep red.",
+          "3. Toast pav buns in pool of butter and coriander; serve with lime."
+        ]
+      },
+      {
+        id: "kathi-roll",
+        name: "KATHI ROLL",
+        fullName: "Kolkata Paneer Tikka Frankie",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "lunch",
+        mood: "#Tangy",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.8,
+        reviews: 215,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🌯",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Flaky Paratha / Roti", baseQty: 1, unit: "pc" },
+          { name: "Spiced paneer tikka cubes", baseQty: 100, unit: "g" },
+          { name: "Pickled onions & chaat masala", baseQty: 2, unit: "tbsp" },
+          { name: "Green mint coriander chutney", baseQty: 1.5, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Crisp flaky paratha on tawa with a light brush of butter.",
+          "2. Line center with smoky paneer tikka and sliced pickled onions.",
+          "3. Drizzle mint chutney, sprinkle chaat masala, and roll tightly in paper."
+        ]
+      },
+      {
+        id: "pani-puri",
+        name: "PANI PURI",
+        fullName: "Crispy Golgappe with Spicy Pudina Water",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "snack",
+        mood: "#Tangy",
+        isVeg: true,
+        readyIn: "10 Mins",
+        timeMinutes: 10,
+        rating: 4.9,
+        reviews: 520,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🥟",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Crispy Puri shells", baseQty: 12, unit: "pcs" },
+          { name: "Chilled spicy mint-coriander water", baseQty: 2, unit: "cups" },
+          { name: "Sweet tamarind date chutney", baseQty: 0.5, unit: "cup" },
+          { name: "Mashed potato and ragda filling", baseQty: 1, unit: "cup" }
+        ],
+        steps: [
+          "1. Crack hole in top of crisp puri with thumb.",
+          "2. Stuff with spiced potato ragda and a drop of sweet tamarind chutney.",
+          "3. Fill to the brim with icy tangy mint water and eat in one bite!"
+        ]
+      },
+      {
+        id: "vada-pav",
+        name: "VADA PAV",
+        fullName: "Bombay Batata Vada Burger with Garlic Chutney",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "snack",
+        mood: "#Spicy",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.8,
+        reviews: 290,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍔",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Spiced potato batata vadas", baseQty: 2, unit: "pcs" },
+          { name: "Soft Ladi Pav buns", baseQty: 2, unit: "pcs" },
+          { name: "Dry red garlic coconut chutney", baseQty: 2, unit: "tbsp" },
+          { name: "Fried green chilies", baseQty: 2, unit: "pcs" }
+        ],
+        steps: [
+          "1. Dip seasoned potato balls into spiced besan batter; fry golden.",
+          "2. Slit pav buns; coat with dry garlic chutney and sweet chutney.",
+          "3. Press hot potato vada inside bun and serve with salted fried chili."
+        ]
+      },
+      {
+        id: "samosa-chaat",
+        name: "SAMOSA CHAAT",
+        fullName: "Crushed Samosa with Chole & Dahi",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "snack",
+        mood: "#Tangy",
+        isVeg: true,
+        readyIn: "10 Mins",
+        timeMinutes: 10,
+        rating: 4.7,
+        reviews: 175,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥟",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Crispy Potato Samosa", baseQty: 1, unit: "pc" },
+          { name: "Warm chickpea gravy (Chole)", baseQty: 0.5, unit: "cup" },
+          { name: "Sweetened whisked dahi (curd)", baseQty: 3, unit: "tbsp" },
+          { name: "Tamarind & mint chutneys with sev", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Lightly crush hot samosa in a shallow serving bowl.",
+          "2. Ladle warm spiced chole curry directly over samosa.",
+          "3. Drizzle sweet curd, chutneys, and top with nylon sev and pomegranate."
+        ]
+      },
+      {
+        id: "momos",
+        name: "STEAMED MOMOS",
+        fullName: "Tibetan Steamed Veg Dumplings",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "snack",
+        mood: "#Spicy",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.9,
+        reviews: 320,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🥟",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Minced cabbage, paneer, carrot stuffing", baseQty: 1, unit: "cup" },
+          { name: "Thin flour momo wrappers", baseQty: 8, unit: "pcs" },
+          { name: "Fiery red chili garlic chutney", baseQty: 3, unit: "tbsp" },
+          { name: "Steaming water", baseQty: 2, unit: "cups" }
+        ],
+        steps: [
+          "1. Place spoonful of seasoned vegetable filling in center of wrapper.",
+          "2. Pleat edges tightly to seal dumpling into half-moon pouch.",
+          "3. Steam in bamboo or metal steamer for 10 minutes until translucent."
+        ]
+      },
+      {
+        id: "dahi-puri",
+        name: "DAHI PURI",
+        fullName: "Chilled Sweet & Tangy Sev Batata Puri",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "snack",
+        mood: "#Sweet",
+        isVeg: true,
+        readyIn: "10 Mins",
+        timeMinutes: 10,
+        rating: 4.8,
+        reviews: 210,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥣",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Crispy Puri shells", baseQty: 6, unit: "pcs" },
+          { name: "Boiled potato & moong sprouts", baseQty: 0.5, unit: "cup" },
+          { name: "Thick sweet chilled dahi", baseQty: 0.5, unit: "cup" },
+          { name: "Crispy fine Sev", baseQty: 3, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Crack top of puris and fill with potato and sprouts.",
+          "2. Smother with chilled sweetened curd until puris are buried.",
+          "3. Top with red and green chutneys, chaat masala, and mountain of sev."
+        ]
+      },
+      {
+        id: "egg-roll",
+        name: "KOLKATA EGG ROLL",
+        fullName: "Street Style Double Egg Lachha Roll",
+        cuisine: "street",
+        cuisineLabel: "STREET FOOD",
+        mealType: "dinner",
+        mood: "#Savory",
+        isVeg: false,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.8,
+        reviews: 195,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🌯",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Fresh eggs", baseQty: 2, unit: "pcs" },
+          { name: "Layered paratha", baseQty: 1, unit: "pc" },
+          { name: "Sliced red onions & green chilies", baseQty: 2, unit: "tbsp" },
+          { name: "Kasundi mustard & tomato ketchup", baseQty: 1, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Whisk eggs; pour onto hot tawa and stick paratha on top.",
+          "2. Flip until egg is cooked and paratha is blistered.",
+          "3. Add crunchy onion, lime juice, kasundi, and roll tightly."
+        ]
+      },
+
+      // ----- ITALIAN -----
+      {
+        id: "truffle-pasta",
+        name: "TRUFFLE PASTA",
+        fullName: "Creamy Wild Mushroom & Truffle Pasta",
+        cuisine: "italian",
+        cuisineLabel: "ITALIAN",
+        mealType: "dinner",
+        mood: "#Creamy",
+        isVeg: true,
+        readyIn: "25 Mins",
+        timeMinutes: 25,
+        rating: 4.9,
+        reviews: 320,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍝",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Fettuccine / Penne pasta", baseQty: 180, unit: "g" },
+          { name: "Sliced Button Mushrooms", baseQty: 150, unit: "g" },
+          { name: "Coconut cream or dairy cream", baseQty: 0.5, unit: "cup" },
+          { name: "Black truffle paste / butter", baseQty: 1, unit: "tbsp" },
+          { name: "Grated Parmesan", baseQty: 30, unit: "g" }
+        ],
+        steps: [
+          "1. Boil pasta in salted water until 1 minute before al dente.",
+          "2. Sauté garlic and mushrooms in olive oil until golden brown.",
+          "3. Stir in cream and truffle paste; toss in pasta with reserved starchy water."
+        ]
+      },
+      {
+        id: "margherita",
+        name: "MARGHERITA PIZZA",
+        fullName: "Napoli Style Basil & Mozzarella Pizza",
+        cuisine: "italian",
+        cuisineLabel: "ITALIAN",
+        mealType: "dinner",
+        mood: "#Cheesy",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.8,
+        reviews: 240,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍕",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Hand-stretched Pizza base", baseQty: 1, unit: "pc" },
+          { name: "San Marzano tomato sauce", baseQty: 3, unit: "tbsp" },
+          { name: "Fresh Mozzarella cheese", baseQty: 100, unit: "g" },
+          { name: "Fresh Basil leaves & olive oil", baseQty: 6, unit: "leaves" }
+        ],
+        steps: [
+          "1. Spread tomato sauce evenly leaving crust borders.",
+          "2. Tear chunks of fresh mozzarella across pizza surface.",
+          "3. Bake on hot pizza stone or tawa; top with fresh torn basil and olive oil."
+        ]
+      },
+      {
+        id: "alfredo",
+        name: "PENNE ALFREDO",
+        fullName: "Silky Garlic & Parmesan Alfredo",
+        cuisine: "italian",
+        cuisineLabel: "ITALIAN",
+        mealType: "dinner",
+        mood: "#Creamy",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.7,
+        reviews: 160,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍝",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Penne pasta", baseQty: 160, unit: "g" },
+          { name: "Butter & minced garlic", baseQty: 1.5, unit: "tbsp" },
+          { name: "Fresh heavy cream", baseQty: 0.75, unit: "cup" },
+          { name: "Parmigiano-Reggiano", baseQty: 40, unit: "g" }
+        ],
+        steps: [
+          "1. Cook penne until tender; reserve cooking liquid.",
+          "2. Sauté garlic gently in butter; pour in cream and simmer 3 mins.",
+          "3. Melt in parmesan cheese and toss with pasta until silky."
+        ]
+      },
+      {
+        id: "pesto-gnocchi",
+        name: "PESTO GNOCCHI",
+        fullName: "Pan-Seared Potato Gnocchi in Basil Pesto",
+        cuisine: "italian",
+        cuisineLabel: "ITALIAN",
+        mealType: "dinner",
+        mood: "#Fresh",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.8,
+        reviews: 125,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🍲",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Potato Gnocchi", baseQty: 150, unit: "g" },
+          { name: "Fresh Basil Pine-nut Pesto", baseQty: 2.5, unit: "tbsp" },
+          { name: "Cherry Tomatoes", baseQty: 5, unit: "pcs" },
+          { name: "Olive oil", baseQty: 1, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Pan-fry potato gnocchi in olive oil until crispy and golden on outside.",
+          "2. Blister cherry tomatoes in same pan.",
+          "3. Turn off heat and toss vigorously with basil pesto so herbs stay vibrant."
+        ]
+      },
+      {
+        id: "bruschetta",
+        name: "BRUSCHETTA",
+        fullName: "Garlic Toasted Ciabatta with Heirloom Tomatoes",
+        cuisine: "italian",
+        cuisineLabel: "ITALIAN",
+        mealType: "snack",
+        mood: "#Tangy",
+        isVeg: true,
+        readyIn: "10 Mins",
+        timeMinutes: 10,
+        rating: 4.6,
+        reviews: 95,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥖",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Crusty bread slices", baseQty: 3, unit: "slices" },
+          { name: "Diced ripe tomatoes & basil", baseQty: 1, unit: "cup" },
+          { name: "Garlic clove & extra virgin olive oil", baseQty: 1, unit: "tbsp" },
+          { name: "Balsamic glaze", baseQty: 1, unit: "tsp" }
+        ],
+        steps: [
+          "1. Toast bread slices on grill; rub cut surface of raw garlic over hot bread.",
+          "2. Toss diced tomatoes with olive oil, basil, salt, and pepper.",
+          "3. Spoon tomato mix over bread and drizzle with sweet balsamic glaze."
+        ]
+      },
+
+      // ----- ASIAN / CHINESE -----
+      {
+        id: "chili-garlic-noodles",
+        name: "CHILI NOODLES",
+        fullName: "Late-Night Spicy Garlic Szechuan Noodles",
+        cuisine: "asian",
+        cuisineLabel: "ASIAN",
+        mealType: "dinner",
+        mood: "#Spicy",
+        isVeg: true,
+        readyIn: "12 Mins",
+        timeMinutes: 12,
+        rating: 4.9,
+        reviews: 280,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🍜",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Wheat Noodles / Ramen", baseQty: 1, unit: "cake" },
+          { name: "Minced garlic & red chili flakes", baseQty: 1.5, unit: "tbsp" },
+          { name: "Soy sauce & toasted sesame oil", baseQty: 1.5, unit: "tbsp" },
+          { name: "Spring onions", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Boil noodles for 3 minutes, rinse with cold water.",
+          "2. Place raw garlic, chili flakes, and scallions in bowl; pour smoking hot oil.",
+          "3. Add soy sauce, toss with noodles until glistening and spicy."
+        ]
+      },
+      {
+        id: "fried-rice",
+        name: "VEG FRIED RICE",
+        fullName: "Wok-Tossed Scallion & Vegetable Fried Rice",
+        cuisine: "asian",
+        cuisineLabel: "ASIAN",
+        mealType: "lunch",
+        mood: "#Savory",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.7,
+        reviews: 170,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍚",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Cold cooked jasmine / basmati rice", baseQty: 2, unit: "cups" },
+          { name: "Finely diced carrots, beans, cabbage", baseQty: 1, unit: "cup" },
+          { name: "Dark soy sauce & vinegar", baseQty: 1.5, unit: "tbsp" },
+          { name: "White pepper powder & oil", baseQty: 1, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Heat wok on high heat; flash-fry garlic and vegetables for 2 minutes.",
+          "2. Add cold rice, smashing clumps with back of spatula.",
+          "3. Drizzle soy sauce along edges of wok; toss vigorously with white pepper."
+        ]
+      },
+      {
+        id: "manchurian",
+        name: "MANCHURIAN",
+        fullName: "Crispy Vegetable Manchurian in Gravy",
+        cuisine: "asian",
+        cuisineLabel: "ASIAN",
+        mealType: "dinner",
+        mood: "#Tangy",
+        isVeg: true,
+        readyIn: "25 Mins",
+        timeMinutes: 25,
+        rating: 4.8,
+        reviews: 210,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍲",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Crispy fried vegetable balls", baseQty: 8, unit: "pcs" },
+          { name: "Ginger, garlic, green chilies", baseQty: 2, unit: "tbsp" },
+          { name: "Soy sauce, chili paste & cornstarch slurry", baseQty: 3, unit: "tbsp" },
+          { name: "Vegetable broth", baseQty: 1, unit: "cup" }
+        ],
+        steps: [
+          "1. Sauté aromatics in oil; pour broth, soy sauce, and chili paste.",
+          "2. Thicken with cornstarch slurry until glossy and bubbling.",
+          "3. Drop in crispy vegetable balls right before serving to keep crunch."
+        ]
+      },
+      {
+        id: "dim-sums",
+        name: "DIM SUMS",
+        fullName: "Crystal Veg & Edamame Dumplings",
+        cuisine: "asian",
+        cuisineLabel: "ASIAN",
+        mealType: "snack",
+        mood: "#Fresh",
+        isVeg: true,
+        readyIn: "20 Mins",
+        timeMinutes: 20,
+        rating: 4.9,
+        reviews: 145,
+        baseServings: 1,
+        activeServings: 1,
+        imageEmoji: "🥟",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Finely minced water chestnuts & edamame", baseQty: 1, unit: "cup" },
+          { name: "Translucent wheat-starch dumpling skins", baseQty: 6, unit: "pcs" },
+          { name: "Sesame oil & white pepper", baseQty: 1, unit: "tsp" },
+          { name: "Ginger soy dipping sauce", baseQty: 2, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Fill delicate skins with seasoned edamame and water chestnuts.",
+          "2. Pinch into pleats to shape into flower basket dumplings.",
+          "3. Steam in bamboo basket for 6 minutes until glass-like and juicy."
+        ]
+      },
+      {
+        id: "hakka-noodles",
+        name: "HAKKA NOODLES",
+        fullName: "Desi-Chinese Street Style Hakka Noodles",
+        cuisine: "asian",
+        cuisineLabel: "ASIAN",
+        mealType: "dinner",
+        mood: "#Savory",
+        isVeg: true,
+        readyIn: "15 Mins",
+        timeMinutes: 15,
+        rating: 4.8,
+        reviews: 310,
+        baseServings: 2,
+        activeServings: 2,
+        imageEmoji: "🍜",
+        videoUrl: "https://www.youtube.com/embed/5-N00hC2UjY",
+        ingredients: [
+          { name: "Boiled Hakka noodles", baseQty: 200, unit: "g" },
+          { name: "Shredded cabbage, carrots, bell peppers", baseQty: 1.5, unit: "cup" },
+          { name: "Green chili sauce & soy sauce", baseQty: 2, unit: "tbsp" },
+          { name: "Oil for high-flame wok toss", baseQty: 1.5, unit: "tbsp" }
+        ],
+        steps: [
+          "1. Toss shredded veggies in scorching wok with oil for 90 seconds.",
+          "2. Add boiled noodles, chili sauce, soy sauce, and MSG/salt.",
+          "3. Toss high in the air to infuse smoky wok-hei flavor!"
+        ]
+      }
+    ];
+
+    // App State
+    let activeCuisine = 'all';
+    let activeDiet = 'all';
+    let onlySaved = false;
+    let savedRecipeIds = new Set(['burger', 'truffle-pasta', 'dal-makhani', 'ghee-dosa']);
+
+    // Initialize App
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRecipes();
+      updateSavesCount();
+    });
+
+    // Render Cards using the EXACT FIGMA AESTHETIC
+    function renderRecipes() {
+      const grid = document.getElementById('recipe-grid');
+      const emptyState = document.getElementById('empty-state');
+      const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
+      const mealTypeVal = document.getElementById('meal-type-filter').value;
+      const timeVal = document.getElementById('time-filter').value;
+      const ratingVal = document.getElementById('rating-filter').value;
+
+      // Filter logic
+      const filtered = RECIPES_DATA.filter(recipe => {
+        // Search filter (name or ingredients)
+        if (searchVal) {
+          const matchName = recipe.fullName.toLowerCase().includes(searchVal) || recipe.name.toLowerCase().includes(searchVal);
+          const matchIng = recipe.ingredients.some(i => i.name.toLowerCase().includes(searchVal));
+          if (!matchName && !matchIng) return false;
+        }
+
+        // Cuisine filter
+        if (activeCuisine !== 'all' && recipe.cuisine !== activeCuisine) return false;
+
+        // Diet filter
+        if (activeDiet === 'veg' && !recipe.isVeg) return false;
+        if (activeDiet === 'nonveg' && recipe.isVeg) return false;
+
+        // Meal Type filter
+        if (mealTypeVal !== 'all' && recipe.mealType !== mealTypeVal) return false;
+
+        // Prep Time filter
+        if (timeVal !== 'all') {
+          const maxTime = parseInt(timeVal);
+          if (timeVal === '15' && recipe.timeMinutes > 15) return false;
+          if (timeVal === '30' && (recipe.timeMinutes < 16 || recipe.timeMinutes > 30)) return false;
+          if (timeVal === '45' && recipe.timeMinutes < 31) return false;
+        }
+
+        // Rating filter
+        if (ratingVal !== 'all' && recipe.rating < parseFloat(ratingVal)) return false;
+
+        // Only Saved filter
+        if (onlySaved && !savedRecipeIds.has(recipe.id)) return false;
+
+        return true;
+      });
+
+      // Update Result Count
+      document.getElementById('results-count').innerText = `Showing ${filtered.length} of ${RECIPES_DATA.length} dishes`;
+
+      // Check Empty State
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      // Generate HTML for each card
+      grid.innerHTML = filtered.map(recipe => {
+        const isSaved = savedRecipeIds.has(recipe.id);
+        const servings = recipe.activeServings;
+        const multiplier = servings / recipe.baseServings;
+
+        // Dynamically scaled ingredient list HTML
+        const ingredientsHtml = recipe.ingredients.map(ing => {
+          let scaledQty = (ing.baseQty * multiplier);
+          // Format decimals cleanly
+          scaledQty = Number.isInteger(scaledQty) ? scaledQty : scaledQty.toFixed(1);
+          return `<li>• ${scaledQty} ${ing.unit} ${ing.name}</li>`;
+        }).join('');
+
+        // Diet icon: Shamrock for veg, red dot for non-veg
+        const dietIcon = recipe.isVeg 
+          ? `<span class="text-emerald-400 text-lg">☘️</span>` 
+          : `<span class="text-rose-500 text-sm font-bold">🔴</span>`;
+
+        return `
+          <!-- OUTER CONTAINER WITH TOP CUISINE LABEL -->
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold tracking-widest text-stone-500 uppercase px-2">
+              ${recipe.cuisineLabel}
+            </span>
+
+            <!-- THE EXACT FIGMA CARD -->
+            <div class="figma-card p-6 text-white overflow-visible transition hover:-translate-y-1 duration-200">
+              
+              <!-- Subtle radial glow inside card -->
+              <div class="absolute inset-0 figma-card-top-curve rounded-[36px] pointer-events-none"></div>
+
+              <!-- Top Row: Clover + Overlapping Artwork -->
+              <div class="flex justify-between items-start">
+                <div class="w-8 h-8 flex items-center justify-center">
+                  ${dietIcon}
+                </div>
+
+                <!-- OVERLAPPING ARTWORK (Breaks out of top right) -->
+                <div class="relative -mt-10 -mr-3 w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center select-none filter drop-shadow-2xl">
+                  <span class="text-7xl sm:text-8xl hover:scale-110 transition transform duration-300">
+                    ${recipe.imageEmoji}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Dish Title & Mood Tag -->
+              <div class="mt-[-10px] space-y-0.5">
+                <h3 class="text-2xl sm:text-3xl font-extrabold font-baloo tracking-tight leading-none text-white uppercase">
+                  ${recipe.name}
+                </h3>
+                <p class="text-xs font-semibold text-amber-300">
+                  ${recipe.mood}
+                </p>
+              </div>
+
+              <!-- Key Metrics Row: Servings Stepper & Time -->
+              <div class="mt-4 space-y-2 text-xs sm:text-sm text-stone-200 font-medium">
+                
+                <!-- Servings with Interactive Stepper -->
+                <div class="flex items-center gap-2">
+                  <span class="text-stone-300">🍽️ Serves</span>
+                  <div class="inline-flex items-center bg-black/30 rounded-lg px-2 py-0.5 border border-white/10 gap-2">
+                    <button onclick="changeServings('${recipe.id}', -1)" class="w-5 h-5 flex items-center justify-center rounded text-stone-300 hover:text-white hover:bg-white/10 font-bold cursor-pointer">-</button>
+                    <span class="font-bold text-white text-xs">${recipe.activeServings}</span>
+                    <button onclick="changeServings('${recipe.id}', 1)" class="w-5 h-5 flex items-center justify-center rounded text-stone-300 hover:text-white hover:bg-white/10 font-bold cursor-pointer">+</button>
+                  </div>
+                </div>
+
+                <!-- Ready In Badge -->
+                <div class="flex items-center gap-2">
+                  <span class="text-stone-300">⏱️</span>
+                  <span>Ready In- ${recipe.readyIn}</span>
+                </div>
+
+                <!-- Rating & Reel Button -->
+                <div class="flex items-center justify-between pt-1">
+                  <span class="text-amber-400 font-bold text-xs flex items-center gap-1">
+                    ★ ${recipe.rating} <span class="text-stone-400 font-normal">(${recipe.reviews})</span>
+                  </span>
+                  
+                  <!-- Watch Reel Play Button -->
+                  <button onclick="openReelModal('${recipe.id}')" class="px-2.5 py-1 bg-white/15 hover:bg-white/25 border border-white/20 text-white rounded-full font-bold text-[11px] flex items-center gap-1 transition cursor-pointer">
+                    <span class="text-rose-400 text-xs">▶</span>
+                    <span>Reel</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Basic Ingredients Section (Scaled live!) -->
+              <div class="mt-4 pt-3 border-t border-white/10">
+                <p class="text-xs font-bold text-stone-200 flex items-center gap-1.5 mb-1.5">
+                  <span>📑</span> Basic Ingredients
+                </p>
+                <ul class="text-[11px] sm:text-xs text-stone-300 space-y-0.5 leading-relaxed font-sans-clean max-h-24 overflow-y-auto no-scrollbar">
+                  ${ingredientsHtml}
+                </ul>
+              </div>
+
+              <!-- Quick Recipe Preview & Heart Button -->
+              <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-end">
+                <div class="flex-1 pr-3">
+                  <p class="text-xs font-bold text-stone-200 flex items-center gap-1.5 mb-1">
+                    <span>🍲</span> Quick Recipe
+                  </p>
+                  <p class="text-[11px] text-stone-300 font-sans-clean leading-snug line-clamp-2">
+                    ${recipe.steps[0]}
+                  </p>
+                </div>
+
+                <!-- Heart Icon Button (Saves to Favorites) -->
+                <button onclick="toggleSaveRecipe('${recipe.id}')" class="heart-btn text-2xl p-1 text-white/90 hover:text-rose-400 transition cursor-pointer">
+                  ${isSaved ? '❤️' : '🤍'}
+                </button>
+              </div>
+
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Interactive Serving Size Changer
+    function changeServings(recipeId, delta) {
+      const recipe = RECIPES_DATA.find(r => r.id === recipeId);
+      if (!recipe) return;
+      const newServings = recipe.activeServings + delta;
+      if (newServings >= 1 && newServings <= 12) {
+        recipe.activeServings = newServings;
+        renderRecipes();
+      }
+    }
+
+    // Toggle Saved / Liked Status
+    function toggleSaveRecipe(recipeId) {
+      if (savedRecipeIds.has(recipeId)) {
+        savedRecipeIds.delete(recipeId);
+      } else {
+        savedRecipeIds.add(recipeId);
+      }
+      updateSavesCount();
+      renderRecipes();
+    }
+
+    function updateSavesCount() {
+      document.getElementById('saves-count').innerText = savedRecipeIds.size;
+    }
+
+    // Filter Handlers
+    function setCuisineFilter(cuisine) {
+      activeCuisine = cuisine;
+      document.querySelectorAll('.cuisine-btn').forEach(btn => {
+        if (btn.getAttribute('data-cuisine') === cuisine) {
+          btn.className = "cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs";
+        } else {
+          btn.className = "cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0";
+        }
+      });
+      applyFilters();
+    }
+
+    function setDietFilter(diet) {
+      activeDiet = diet;
+      const allBtn = document.getElementById('diet-all');
+      const vegBtn = document.getElementById('diet-veg');
+      const nonvegBtn = document.getElementById('diet-nonveg');
+
+      allBtn.className = diet === 'all' ? "px-3 py-1.5 rounded-xl bg-white text-stone-900 shadow-xs font-bold" : "px-3 py-1.5 rounded-xl text-stone-600 font-bold";
+      vegBtn.className = diet === 'veg' ? "px-3 py-1.5 rounded-xl bg-white text-emerald-800 shadow-xs font-bold flex items-center gap-1" : "px-3 py-1.5 rounded-xl text-stone-600 font-bold flex items-center gap-1";
+      nonvegBtn.className = diet === 'nonveg' ? "px-3 py-1.5 rounded-xl bg-white text-rose-800 shadow-xs font-bold flex items-center gap-1" : "px-3 py-1.5 rounded-xl text-stone-600 font-bold flex items-center gap-1";
+
+      applyFilters();
+    }
+
+    function toggleSavedFilter() {
+      onlySaved = !onlySaved;
+      const btn = document.getElementById('saves-btn');
+      if (onlySaved) {
+        btn.classList.remove('bg-rose-50', 'text-rose-600');
+        btn.classList.add('bg-rose-600', 'text-white');
+      } else {
+        btn.classList.remove('bg-rose-600', 'text-white');
+        btn.classList.add('bg-rose-50', 'text-rose-600');
+      }
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const searchVal = document.getElementById('search-input').value;
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (searchVal.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderRecipes();
+    }
+
+    function clearSearch() {
+      document.getElementById('search-input').value = '';
+      applyFilters();
+    }
+
+    function resetAllFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('meal-type-filter').value = 'all';
+      document.getElementById('time-filter').value = 'all';
+      document.getElementById('rating-filter').value = 'all';
+      setCuisineFilter('all');
+      setDietFilter('all');
+      if (onlySaved) toggleSavedFilter();
+      applyFilters();
+    }
+
+    // Modal Video Reel Controls
+    function openReelModal(recipeId) {
+      const recipe = RECIPES_DATA.find(r => r.id === recipeId);
+      if (!recipe) return;
+
+      document.getElementById('modal-dish-title').innerText = `${recipe.fullName} • Reel`;
+      const iframe = document.getElementById('reel-iframe');
+      const fallback = document.getElementById('reel-fallback');
+      const fallbackTitle = document.getElementById('fallback-title');
+      const fallbackLink = document.getElementById('fallback-link');
+
+      iframe.src = recipe.videoUrl + "?autoplay=1&mute=0";
+      fallbackTitle.innerText = recipe.fullName;
+      fallbackLink.href = recipe.videoUrl.replace("/embed/", "/watch?v=");
+
+      document.getElementById('reel-modal').classList.remove('hidden');
+    }
+
+    function closeReelModal() {
+      const iframe = document.getElementById('reel-iframe');
+      iframe.src = "";
+      document.getElementById('reel-modal').classList.add('hidden');
+    }
+
+    // Bottom Navigation Switcher
+    function switchTab(tab) {
+      const tabs = ['home', 'host', 'planner', 'profile'];
       tabs.forEach(t => {
-        const btn = document.getElementById('nav-' + t);
-        if (btn) {
-          btn.classList.remove('text-orange-600');
-          btn.classList.add('text-stone-400');
+        const btn = document.getElementById('tab-' + t);
+        if (t === tab) {
+          btn.className = "flex flex-col items-center gap-0.5 text-orange-600 transition cursor-pointer";
+        } else {
+          btn.className = "flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer";
         }
       });
 
-      document.getElementById('view-' + viewId).classList.remove('hidden');
-
-      if (viewId === 'cravings') {
-        document.getElementById('nav-cravings').classList.add('text-orange-600');
-      } else if (viewId === 'bento') {
-        document.getElementById('nav-bento').classList.add('text-orange-600');
-      } else if (viewId === 'detail') {
-        document.getElementById('nav-grocery').classList.add('text-orange-600');
+      if (tab === 'host') {
+        alert("🥂 Host Mode Activated! Recipes automatically scaled to Serves 4 for dinner parties.");
+        RECIPES_DATA.forEach(r => r.activeServings = 4);
+        renderRecipes();
+      } else if (tab === 'home') {
+        RECIPES_DATA.forEach(r => r.activeServings = r.baseServings);
+        renderRecipes();
+      } else if (tab === 'planner') {
+        alert("🗓️ Bento Meal Planner: Tuesday Meals scheduled! Truffle Pasta & Crispy Burger in queue.");
+      } else if (tab === 'profile') {
+        alert("👤 User Profile: Rhea Sharma (NIFT Hyderabad) • Student Account Active.");
       }
     }
   </script>
-
 </body>
 </html>
