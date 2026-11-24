@@ -27,31 +27,93 @@
       background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
     }
     
-    /* Interactive Heart animation */
-    .heart-btn {
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Dark Mode Theme Support */
+    body.dark-mode {
+      background-color: #121212 !important;
+      color: #E6E6E6 !important;
     }
-    .heart-btn:active {
-      transform: scale(1.3);
+    body.dark-mode header,
+    body.dark-mode nav {
+      background-color: rgba(20, 20, 20, 0.95) !important;
+      border-color: #2D2D2D !important;
+    }
+    body.dark-mode .bg-white {
+      background-color: #1E1E1E !important;
+      border-color: #333333 !important;
+      color: #E6E6E6 !important;
+    }
+    body.dark-mode .text-stone-900 {
+      color: #F3F3F3 !important;
+    }
+    body.dark-mode .text-stone-700,
+    body.dark-mode .text-stone-800 {
+      color: #D4D4D4 !important;
+    }
+    body.dark-mode .text-stone-500,
+    body.dark-mode .text-stone-600 {
+      color: #9E9E9E !important;
+    }
+    body.dark-mode .border-stone-200,
+    body.dark-mode .border-stone-300 {
+      border-color: #333333 !important;
+    }
+    body.dark-mode .bg-\[\#FAF7F2\] {
+      background-color: #181818 !important;
+    }
+    body.dark-mode .bg-stone-100 {
+      background-color: #2A2A2A !important;
+      color: #E0E0E0 !important;
+    }
+    body.dark-mode .bg-stone-200 {
+      background-color: #333333 !important;
+    }
+
+    /* Custom range slider styling */
+    input[type=range] {
+      accent-color: #EA580C;
+    }
+
+    /* Tactile continuous cooking animation */
+    @keyframes panSizzle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-4px) rotate(-1deg); }
+      75% { transform: translateY(2px) rotate(1deg); }
+    }
+    @keyframes steamFloat {
+      0% { opacity: 0.3; transform: translateY(0) scale(0.9); }
+      50% { opacity: 0.8; transform: translateY(-16px) scale(1.1); }
+      100% { opacity: 0; transform: translateY(-32px) scale(1.3); }
+    }
+    .animate-pan-sizzle {
+      animation: panSizzle 2.4s ease-in-out infinite;
+    }
+    .animate-steam-1 {
+      animation: steamFloat 2.8s ease-out infinite;
+    }
+    .animate-steam-2 {
+      animation: steamFloat 3.2s ease-out infinite 0.7s;
+    }
+    .animate-steam-3 {
+      animation: steamFloat 2.5s ease-out infinite 1.4s;
     }
   </style>
 </head>
 <body class="bg-[#FAF7F2] text-[#1A1A1A] font-sans-clean antialiased min-h-screen flex flex-col justify-between">
 
   <!-- ================= TOP APP HEADER ================= -->
-  <header class="sticky top-0 bg-[#FAF7F2]/95 backdrop-blur-md z-40 border-b border-stone-200/80 px-4 py-3 shadow-xs">
+  <header class="sticky top-0 bg-[#FAF7F2]/95 backdrop-blur-md z-40 border-b border-stone-200/80 px-4 py-3 shadow-xs transition-colors">
     <div class="max-w-5xl mx-auto flex justify-between items-center">
       
-      <!-- Logo & Name (KHOI brand logo) -->
+      <!-- Brand Logo: Witchin' Logo -->
       <div class="flex items-center gap-2.5">
-        <img src="khoi_logo.jpg" alt="KHOI Logo" class="h-10 w-10 sm:h-11 sm:w-11 object-contain rounded-full shadow-xs border border-stone-300 bg-black/90 p-1" onerror="this.outerHTML='<span class=\'text-2xl\'>🍳</span>'">
+        <img src="witchin_logo.jpg" alt="Witchin Logo" class="h-10 w-auto sm:h-12 object-contain rounded-xl shadow-xs border border-stone-200/80 bg-white p-1" onerror="this.outerHTML='<span class=\'text-2xl\'>🍳</span>'">
         <div class="flex flex-col">
-          <span class="text-xl sm:text-2xl font-black font-baloo tracking-wider text-stone-900 leading-none">KHOI</span>
+          <span class="text-xl sm:text-2xl font-black font-baloo tracking-wider text-stone-900 leading-none">Witchin'</span>
           <span class="text-[9px] text-stone-500 font-bold uppercase tracking-wider">Zero-Friction Cooking</span>
         </div>
       </div>
 
-      <!-- Greetings: Hi! RIA, -->
+      <!-- Greetings: Beside logo -->
       <div class="text-center">
         <h2 class="text-base sm:text-lg font-extrabold font-baloo text-stone-900 leading-tight">
           Hi! RIA 👋
@@ -59,17 +121,11 @@
         <p class="text-[11px] text-stone-500 font-medium">Ready to cook today?</p>
       </div>
 
-      <!-- Profile Avatar & Quick Saves Badge -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <button id="saves-btn" onclick="toggleSavedFilter()" title="Saved Recipes" class="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-full font-bold text-xs shadow-xs transition cursor-pointer">
-          <span class="text-sm">❤️</span>
-          <span class="hidden sm:inline">Saves</span>
-          <span id="saves-count" class="bg-rose-600 text-white rounded-full px-1.5 py-0.2 text-[10px] font-bold">4</span>
-        </button>
-
-        <!-- Profile Icon -->
-        <button onclick="switchTab('profile')" title="User Profile" class="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 border-2 border-white shadow-sm flex items-center justify-center text-white font-bold text-sm cursor-pointer hover:ring-2 hover:ring-orange-400 transition overflow-hidden">
-          <span>R</span>
+      <!-- Top Right: Profile Avatar Icon -->
+      <div class="flex items-center gap-2.5">
+        <button onclick="openProfileModal()" title="User Profile" class="flex items-center gap-2 px-2.5 py-1.5 rounded-2xl bg-white hover:bg-stone-50 border border-stone-200 shadow-xs transition cursor-pointer group">
+          <img id="header-avatar-img" src="witchin_logo.jpg" alt="User Profile" class="w-8 h-8 rounded-full object-cover border-2 border-orange-500 shadow-xs">
+          <span class="hidden sm:inline text-xs font-bold font-baloo text-stone-800">Profile</span>
         </button>
       </div>
 
@@ -79,168 +135,136 @@
   <!-- ================= MAIN APP BODY ================= -->
   <main class="max-w-5xl mx-auto px-4 py-4 w-full flex-1 space-y-5">
 
-    <!-- ================= SEARCH & VEG/NON-VEG FILTER ================= -->
-    <!-- Sketch Layout: [🔍 Search (search for recipes with existing groceries) 🎙️]  [🟢 Veg Toggle] -->
-    <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
+    <!-- ================= CONTINUOUS ANIMATION HERO WITH OVERLAY CONTROLS ================= -->
+    <!-- Sketch 1: Animation container with Logo/Name, Greetings, Profile, Search bar, Mic, and Veg toggle on top -->
+    <div class="relative rounded-[32px] overflow-hidden border-2 border-stone-300/80 shadow-md bg-stone-900 min-h-[260px] sm:min-h-[290px] flex flex-col justify-between p-5">
       
-      <!-- Live Search Bar with Mic Icon -->
-      <div class="flex-1 relative flex items-center bg-white rounded-2xl border-2 border-stone-200 px-3.5 py-2.5 shadow-xs focus-within:border-orange-500 transition">
-        <span class="text-stone-400 mr-2.5 text-base select-none">🔍</span>
-        <input 
-          id="search-input" 
-          type="text" 
-          oninput="applyFilters()" 
-          placeholder="Search recipes with existing groceries (e.g. potato, onion, paneer)..." 
-          class="w-full text-xs sm:text-sm font-medium outline-none bg-transparent placeholder-stone-400 text-stone-900"
-        >
-        <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-stone-600 font-bold text-xs p-1 mr-1">✕</button>
-        <!-- Mic Button for Voice Search -->
-        <button onclick="triggerVoiceSearch()" title="Voice Search" class="text-stone-400 hover:text-orange-600 p-1 text-base transition cursor-pointer">
-          🎙️
-        </button>
+      <!-- Continuous Looping Background Animation (Pure CSS tactile kitchen waft + Sizzle) -->
+      <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+        <!-- Ambient Warm Kitchen Glow -->
+        <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/80 to-stone-900/60 z-10"></div>
+        
+        <!-- Animated Steam Wafts -->
+        <div class="absolute top-12 left-1/4 w-20 h-20 rounded-full bg-orange-400/20 blur-xl animate-steam-1"></div>
+        <div class="absolute top-8 left-1/2 w-28 h-28 rounded-full bg-amber-300/15 blur-2xl animate-steam-2"></div>
+        <div class="absolute top-16 right-1/4 w-24 h-24 rounded-full bg-orange-500/20 blur-xl animate-steam-3"></div>
+
+        <!-- Center Skillet with Sizzling Breakfast Illustration -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-30 transform scale-110 animate-pan-sizzle">
+          <span class="text-9xl filter drop-shadow-2xl">🍳</span>
+        </div>
       </div>
 
-      <!-- Veg / Non-Veg Toggle Switch (Sketch: All vs Green Veg) -->
-      <div class="flex bg-stone-200/90 p-1 rounded-2xl text-xs font-bold shrink-0 self-center sm:self-auto border border-stone-300/60 shadow-xs">
-        <button id="diet-all" onclick="setDietFilter('all')" class="px-3.5 py-1.5 rounded-xl bg-white text-stone-900 shadow-xs transition">
-          All
+      <!-- OVERLAY LAYER: Title & Status -->
+      <div class="relative z-20 flex justify-between items-start text-white">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 backdrop-blur-md text-amber-200 rounded-full text-[11px] font-extrabold uppercase tracking-wider font-sans-clean border border-white/10 shadow-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Continuous Cooking Waft
+          </span>
+          <h2 class="text-xl sm:text-2xl font-extrabold font-baloo text-white mt-1.5 leading-tight">
+            What's Witchin' in your kitchen?
+          </h2>
+        </div>
+        <div class="hidden sm:block text-right">
+          <span class="text-xs text-stone-300 font-medium">36 Authenticated Recipes</span>
+        </div>
+      </div>
+
+      <!-- OVERLAY LAYER: Search Bar, Working Mic, and Single Interactive Veg/All Toggle -->
+      <div class="relative z-20 mt-4 flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
+        
+        <!-- Live Search Bar with Mic Icon -->
+        <div class="flex-1 relative flex items-center bg-white/95 backdrop-blur-md rounded-2xl border-2 border-white/60 px-3.5 py-2.5 shadow-lg focus-within:border-orange-500 transition">
+          <span class="text-stone-500 mr-2.5 text-base select-none">🔍</span>
+          <input 
+            id="search-input" 
+            type="text" 
+            oninput="applyFilters()" 
+            placeholder="Search any dish or recipe (e.g. burger, biryani, pasta)..." 
+            class="w-full text-xs sm:text-sm font-medium outline-none bg-transparent placeholder-stone-500 text-stone-900"
+          >
+          <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-stone-600 font-bold text-xs p-1 mr-1">✕</button>
+          
+          <!-- Working Mic Button -->
+          <button onclick="triggerVoiceSearch()" title="Voice Search" class="text-stone-500 hover:text-orange-600 p-1 text-base transition cursor-pointer">
+            🎙️
+          </button>
+        </div>
+
+        <!-- Single Veg / All Toggle (Sketch 4: Grey for All, Green for Veg) -->
+        <button id="veg-toggle-single" onclick="toggleSingleVegDiet()" title="Toggle Veg Only / All Recipes" class="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md border-2 border-white/60 shadow-lg text-xs font-extrabold transition cursor-pointer select-none shrink-0 self-center sm:self-auto">
+          <!-- Switch Capsule -->
+          <div id="veg-toggle-track" class="w-9 h-5 rounded-full bg-stone-300 p-0.5 flex items-center transition-colors">
+            <div id="veg-toggle-thumb" class="w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform"></div>
+          </div>
+          <span id="veg-toggle-label" class="text-stone-700">All (Veg &amp; Non-Veg)</span>
         </button>
-        <button id="diet-veg" onclick="setDietFilter('veg')" class="px-3.5 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1.5 transition">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-xs"></span>
-          <span class="text-emerald-700 font-extrabold">VEG</span>
-        </button>
-        <button id="diet-nonveg" onclick="setDietFilter('nonveg')" class="px-3 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1.5 transition">
-          <span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span>
-          <span>Non-Veg</span>
-        </button>
+
       </div>
     </div>
 
-    <!-- ================= HERO ANIMATION BANNER (Sketch: Animation Container) ================= -->
-    <div class="bg-[#F5EFEB] border-2 border-stone-300/80 rounded-[32px] p-4 sm:p-5 shadow-xs relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4">
+    <!-- ================= CUSTOMISATION & FILTERS ROW (Sketch 1 & 5 & 6) ================= -->
+    <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
       
-      <!-- Left Editorial Text -->
-      <div class="relative z-10 text-center md:text-left space-y-1.5 max-w-sm">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-stone-200/80 text-stone-700 rounded-full text-[11px] font-extrabold uppercase tracking-wider font-sans-clean">
-          <span>✂️</span> Handcrafted Animation
+      <!-- Customisation Trigger (Sketch 5) -->
+      <button onclick="openCustomisationModal()" class="flex-1 flex items-center justify-between p-4 bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:border-orange-400 transition cursor-pointer group text-left">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-lg text-orange-600">
+            ✨
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold font-baloo text-stone-900 group-hover:text-orange-600 transition">
+              Customise Your Recipes
+            </h3>
+            <p class="text-[11px] text-stone-500 font-medium">Ingredients on hand • Servings • Prep Time</p>
+          </div>
+        </div>
+        <span class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-200">
+          Open ➔
         </span>
-        <h2 class="text-xl sm:text-2xl font-extrabold font-baloo text-stone-900 leading-tight">
-          A Paper-Animation Breakfast
-        </h2>
-        <p class="text-xs text-stone-600 font-medium leading-relaxed font-sans-clean">
-          Tactile stop-motion paper art featuring toast, fried egg, and butter. Zero loud gradients—just pure culinary craft wafting warmth.
-        </p>
-      </div>
+      </button>
 
-      <!-- Right Continuous Looping Animation Frame -->
-      <div class="w-full md:w-80 h-48 sm:h-52 bg-stone-200/60 rounded-2xl overflow-hidden border border-stone-300 relative shadow-inner flex items-center justify-center">
-        <!-- Pinterest Embedded Stop-Motion Animation -->
-        <iframe 
-          src="https://assets.pinterest.com/ext/embed.html?id=548735535862224869" 
-          class="w-full h-full border-0 scale-105" 
-          scrolling="no" 
-          allow="autoplay; encrypted-media"
-          title="Paper Animation Breakfast"
-        ></iframe>
-      </div>
+      <!-- Filters Trigger (Sketch 6) -->
+      <button onclick="openFiltersModal()" class="flex items-center justify-between sm:justify-center gap-2.5 px-5 py-4 bg-stone-900 hover:bg-black text-white rounded-3xl shadow-xs transition cursor-pointer border border-stone-800">
+        <span class="text-lg">🎛️</span>
+        <div class="text-left sm:text-center">
+          <span class="block text-xs font-extrabold font-baloo tracking-wide">Filters</span>
+          <span id="active-filter-badge" class="text-[10px] text-stone-300 font-medium">All Courses &amp; Ratings</span>
+        </div>
+        <span class="sm:hidden text-xs">➔</span>
+      </button>
+
     </div>
 
-    <!-- ================= CUSTOMISE YOUR RECIPES & CUISINE CAROUSEL (Sketch: Customisation Container) ================= -->
-    <div class="bg-white rounded-3xl p-4 sm:p-5 border border-stone-200/90 shadow-xs space-y-3.5">
-      
-      <!-- Top Row: "Customise Your Recipes" Header with Filter Toggle Button -->
-      <div class="flex justify-between items-center pb-2 border-b border-stone-100">
-        <div>
-          <h3 class="text-base sm:text-lg font-extrabold font-baloo text-stone-900 tracking-tight flex items-center gap-2">
-            <span>✨</span> Customise Your Recipes
-          </h3>
-          <p class="text-[11px] text-stone-500 font-medium">Fine-tune preparation time, meal courses, and ratings</p>
-        </div>
-        
-        <!-- Filter Sliders Button (Opens secondary filters) -->
-        <button onclick="toggleFiltersPanel()" id="filters-toggle-btn" class="flex items-center gap-1.5 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl font-bold text-xs border border-stone-300 shadow-xs transition cursor-pointer">
-          <span class="text-sm">🎛️</span>
-          <span>Filters</span>
-          <span id="filters-arrow" class="text-[10px] text-stone-500 transition-transform">▼</span>
+    <!-- ================= HORIZONTAL CUISINE PILLS (Sketch 1) ================= -->
+    <div class="bg-white rounded-3xl p-4 border border-stone-200/90 shadow-xs space-y-2">
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-xs font-bold text-stone-500 uppercase tracking-wider font-sans-clean">Cuisines</span>
+        <button onclick="setCuisineFilter('all')" class="text-xs font-bold text-orange-600 hover:underline cursor-pointer">See all</button>
+      </div>
+      <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+        <button onclick="setCuisineFilter('all')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs" data-cuisine="all">
+          🌟 All
+        </button>
+        <button onclick="setCuisineFilter('north')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="north">
+          🫓 North Indian
+        </button>
+        <button onclick="setCuisineFilter('italian')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="italian">
+          🍝 Italian
+        </button>
+        <button onclick="setCuisineFilter('street')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="street">
+          🥟 Street food
+        </button>
+        <button onclick="setCuisineFilter('continental')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="continental">
+          🥪 Continental
+        </button>
+        <button onclick="setCuisineFilter('south')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="south">
+          🥥 South Indian
+        </button>
+        <button onclick="setCuisineFilter('healthy')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="healthy">
+          🥗 Healthy
         </button>
       </div>
-
-      <!-- Expandable Secondary Filter Panel (Prep Time, Meal Type, Ratings) -->
-      <div id="secondary-filters" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-        
-        <!-- Meal Type Selector -->
-        <div>
-          <label class="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">Meal Course</label>
-          <select id="meal-type-filter" onchange="applyFilters()" class="w-full text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-3 py-2 border border-stone-300 outline-none cursor-pointer">
-            <option value="all">🍽️ All Meal Types</option>
-            <option value="breakfast">🥞 Breakfast</option>
-            <option value="lunch">🥗 Lunch</option>
-            <option value="dinner">🍲 Dinner</option>
-            <option value="snack">🥟 Snacks &amp; Drinks</option>
-          </select>
-        </div>
-
-        <!-- Preparation Time Filter -->
-        <div>
-          <label class="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">Max Prep Time</label>
-          <select id="time-filter" onchange="applyFilters()" class="w-full text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-3 py-2 border border-stone-300 outline-none cursor-pointer">
-            <option value="all">⏱️ Any Prep Time</option>
-            <option value="15">⚡ Under 15 mins</option>
-            <option value="30">⏳ 20 - 30 mins</option>
-            <option value="45">🥘 35+ mins</option>
-          </select>
-        </div>
-
-        <!-- Ratings Filter -->
-        <div>
-          <label class="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">Minimum Rating</label>
-          <select id="rating-filter" onchange="applyFilters()" class="w-full text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-3 py-2 border border-stone-300 outline-none cursor-pointer">
-            <option value="all">★ All Ratings</option>
-            <option value="4.8">★ 4.8 &amp; above (Top Rated)</option>
-            <option value="4.5">★ 4.5 &amp; above</option>
-            <option value="4.0">★ 4.0 &amp; above</option>
-          </select>
-        </div>
-
-        <!-- Reset Button -->
-        <div class="sm:col-span-3 flex justify-end pt-1">
-          <button onclick="resetAllFilters()" class="text-xs font-bold text-orange-600 hover:text-orange-800 transition cursor-pointer">
-            Reset All Customisations ↺
-          </button>
-        </div>
-      </div>
-
-      <!-- Horizontal Cuisine Pills (Sketch: North, Italian, Street food, Continental, South, Healthy + See all) -->
-      <div>
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-xs font-bold text-stone-500 uppercase tracking-wider font-sans-clean">Cuisines</span>
-          <button onclick="setCuisineFilter('all')" class="text-xs font-bold text-orange-600 hover:underline cursor-pointer">See all</button>
-        </div>
-        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-          <button onclick="setCuisineFilter('all')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs" data-cuisine="all">
-            🌟 All
-          </button>
-          <button onclick="setCuisineFilter('north')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="north">
-            🫓 North
-          </button>
-          <button onclick="setCuisineFilter('italian')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="italian">
-            🍝 Italian
-          </button>
-          <button onclick="setCuisineFilter('street')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="street">
-            🥟 Street food
-          </button>
-          <button onclick="setCuisineFilter('continental')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="continental">
-            🥪 Continental
-          </button>
-          <button onclick="setCuisineFilter('south')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="south">
-            🥥 South
-          </button>
-          <button onclick="setCuisineFilter('healthy')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="healthy">
-            🥗 Healthy
-          </button>
-        </div>
-      </div>
-
     </div>
 
     <!-- ================= RECOMMENDED FOR YOU (Sketch: Recommended for you.) ================= -->
@@ -275,34 +299,354 @@
 
   </main>
 
-  <!-- ================= VIDEO REEL MODAL ================= -->
-  <div id="reel-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-    <div class="bg-stone-900 text-white w-full max-w-sm rounded-[32px] overflow-hidden border-2 border-stone-700 shadow-2xl flex flex-col relative" style="height: 600px;">
+  <!-- ================= USER PROFILE MODAL (Sketch 3) ================= -->
+  <div id="profile-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-[36px] w-full max-w-md overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[92vh]">
       
-      <!-- Header with Close Button -->
-      <div class="p-3 bg-stone-900/90 flex justify-between items-center border-b border-stone-800 z-10">
-        <div class="flex items-center gap-1.5">
-          <span class="text-rose-500 font-bold text-sm">▶</span>
-          <span id="modal-dish-title" class="font-baloo font-bold text-sm truncate max-w-[200px]">Recipe Reel</span>
-        </div>
-        <button onclick="closeReelModal()" class="w-7 h-7 bg-stone-800 hover:bg-stone-700 rounded-full flex items-center justify-center text-xs font-bold text-stone-300 cursor-pointer">✕</button>
+      <!-- Top Profile Bar -->
+      <div class="p-4 bg-stone-50 border-b border-stone-200 flex justify-between items-center">
+        <h3 class="text-base font-extrabold font-baloo text-stone-900 flex items-center gap-2">
+          <span>👤</span> User Profile
+        </h3>
+        <button onclick="closeProfileModal()" class="w-8 h-8 rounded-full bg-stone-200 hover:bg-stone-300 flex items-center justify-center text-stone-600 font-bold text-xs cursor-pointer">
+          ✕
+        </button>
       </div>
 
-      <!-- Video Embed / Simulated Player -->
-      <div class="flex-1 bg-black flex flex-col items-center justify-center relative overflow-hidden">
-        <iframe id="reel-iframe" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <!-- Fallback message if video blocked by CSP -->
-        <div id="reel-fallback" class="hidden absolute inset-0 bg-stone-900 p-6 flex flex-col items-center justify-center text-center space-y-3">
-          <span class="text-5xl">🍳</span>
-          <h4 id="fallback-title" class="text-lg font-bold font-baloo text-white">Visual Step-by-Step</h4>
-          <p class="text-xs text-stone-400">Watch the crispy sizzling technique and plating for this dish.</p>
-          <a id="fallback-link" href="#" target="_blank" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition">Open Video on YouTube ➔</a>
+      <!-- Scrollable Profile Content -->
+      <div class="p-6 overflow-y-auto space-y-6">
+        
+        <!-- Profile Picture with Edit Feature -->
+        <div class="flex flex-col items-center text-center space-y-3">
+          <div class="relative group">
+            <img id="profile-modal-img" src="witchin_logo.jpg" alt="Ria" class="w-24 h-24 rounded-full object-cover border-4 border-orange-500 shadow-md">
+            
+            <!-- Edit Profile Picture Button -->
+            <label for="avatar-file-input" class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-orange-600 hover:bg-orange-700 text-white flex items-center justify-center shadow-lg cursor-pointer border-2 border-white transition transform hover:scale-110" title="Edit Profile Picture">
+              <span class="text-xs">✏️</span>
+            </label>
+            <input type="file" id="avatar-file-input" accept="image/*" onchange="handleAvatarUpload(event)" class="hidden">
+          </div>
+          
+          <div>
+            <h4 id="user-display-name" class="text-xl font-extrabold font-baloo text-stone-900 leading-tight">Hi RIA!</h4>
+            <p id="user-display-email" class="text-xs text-stone-500 font-medium">ria.sharma@nift.ac.in</p>
+          </div>
+        </div>
+
+        <!-- 2 Large Feature Action Cards (Sketch 3: History & Favourites) -->
+        <div class="grid grid-cols-2 gap-3">
+          
+          <!-- Card 1: History of watched recipes -->
+          <button onclick="showHistoryList()" class="p-4 bg-amber-50 hover:bg-amber-100 rounded-2xl border border-amber-200 text-left transition cursor-pointer group">
+            <span class="text-2xl mb-1 block">⏱️</span>
+            <span class="text-xs font-extrabold font-baloo text-stone-900 group-hover:text-amber-800 block">Recipe History</span>
+            <span id="history-badge" class="text-[10px] text-amber-700 font-medium">8 dishes cooked</span>
+          </button>
+
+          <!-- Card 2: Favourites / Saved recipes -->
+          <button onclick="showFavoritesList()" class="p-4 bg-rose-50 hover:bg-rose-100 rounded-2xl border border-rose-200 text-left transition cursor-pointer group">
+            <span class="text-2xl mb-1 block">❤️</span>
+            <span class="text-xs font-extrabold font-baloo text-stone-900 group-hover:text-rose-800 block">Favourites &amp; Saves</span>
+            <span id="profile-saves-badge" class="text-[10px] text-rose-700 font-medium">4 saved recipes</span>
+          </button>
+
+        </div>
+
+        <!-- Settings & System Menu (Sketch 3: Notification, Display, Feedback, About Us, Log out) -->
+        <div class="bg-stone-50 rounded-2xl border border-stone-200 p-2 space-y-1">
+          
+          <!-- 1. Notification Settings: Off / On Switch -->
+          <div class="flex items-center justify-between p-3 rounded-xl hover:bg-white transition">
+            <div class="flex items-center gap-2.5">
+              <span class="text-base">🔔</span>
+              <div>
+                <p class="text-xs font-bold text-stone-800">Notifications</p>
+                <p id="notif-status-label" class="text-[10px] text-stone-500">Meal reminders active</p>
+              </div>
+            </div>
+            <button onclick="toggleNotificationSetting()" id="notif-toggle-btn" class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 cursor-pointer">
+              ON
+            </button>
+          </div>
+
+          <!-- 2. Display Settings: Dark Mode / Light Mode -->
+          <div class="flex items-center justify-between p-3 rounded-xl hover:bg-white transition">
+            <div class="flex items-center gap-2.5">
+              <span class="text-base">🌓</span>
+              <div>
+                <p class="text-xs font-bold text-stone-800">Display Theme</p>
+                <p id="display-mode-label" class="text-[10px] text-stone-500">Current: Light Mode</p>
+              </div>
+            </div>
+            <button onclick="toggleDarkMode()" id="darkmode-toggle-btn" class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-stone-200 text-stone-800 border border-stone-300 cursor-pointer">
+              Light ☀️
+            </button>
+          </div>
+
+          <!-- 3. Feedback Form -->
+          <button onclick="promptUserFeedback()" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white transition text-left cursor-pointer">
+            <div class="flex items-center gap-2.5">
+              <span class="text-base">💬</span>
+              <div>
+                <p class="text-xs font-bold text-stone-800">Feedback</p>
+                <p class="text-[10px] text-stone-500">Share suggestions or report an issue</p>
+              </div>
+            </div>
+            <span class="text-stone-400 text-xs">➔</span>
+          </button>
+
+          <!-- 4. About Us Modal Trigger -->
+          <button onclick="showAboutUsModal()" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white transition text-left cursor-pointer">
+            <div class="flex items-center gap-2.5">
+              <span class="text-base">ℹ️</span>
+              <div>
+                <p class="text-xs font-bold text-stone-800">About Us</p>
+                <p class="text-[10px] text-stone-500">Witchin' mission &amp; creator credits</p>
+              </div>
+            </div>
+            <span class="text-stone-400 text-xs">➔</span>
+          </button>
+
+          <!-- 5. Log Out Option -->
+          <button onclick="handleLogOut()" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-rose-50 transition text-left cursor-pointer text-rose-600">
+            <div class="flex items-center gap-2.5">
+              <span class="text-base">🚪</span>
+              <p class="text-xs font-bold">Log Out</p>
+            </div>
+            <span class="text-rose-400 text-xs">➔</span>
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CUSTOMISATION MODAL (Sketch 5: Your Preference, Base Ingredients, Prep Time, Servings) ================= -->
+  <div id="customisation-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-[36px] w-full max-w-md overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[92vh]">
+      
+      <!-- Top Bar: Your Preference & Clear All (Sketch 5) -->
+      <div class="p-4 bg-stone-50 border-b border-stone-200 flex justify-between items-center">
+        <div>
+          <h3 class="text-base font-extrabold font-baloo text-stone-900">Your Preference</h3>
+          <p class="text-[10px] text-stone-500 font-medium">Fine-tune existing ingredients &amp; time</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearCustomisationFilters()" class="text-xs font-bold text-orange-600 hover:text-orange-800 px-2 py-1 rounded cursor-pointer">
+            Clear All
+          </button>
+          <button onclick="closeCustomisationModal()" class="w-7 h-7 rounded-full bg-stone-200 hover:bg-stone-300 flex items-center justify-center text-stone-600 font-bold text-xs cursor-pointer">
+            ✕
+          </button>
         </div>
       </div>
 
-      <!-- Footer Info -->
-      <div class="p-3 bg-stone-900 text-center text-[11px] text-stone-400 border-t border-stone-800">
-        30-Second Micro-Reel • Quick Kitchen Demo
+      <!-- Body: Base Ingredients Search, Prep Time Scroll, Servings Scroll (Sketch 5) -->
+      <div class="p-6 overflow-y-auto space-y-6">
+        
+        <!-- Search Your Base Ingredients (already available) -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+            <span>🔍</span> Search your Base Ingredients
+          </label>
+          <div class="relative flex items-center bg-stone-50 rounded-2xl border-2 border-stone-200 px-3.5 py-2.5 focus-within:border-orange-500 transition">
+            <span class="text-stone-400 mr-2 text-sm">🥘</span>
+            <input 
+              id="base-ingredients-input" 
+              type="text" 
+              placeholder="e.g. potato, tomato, paneer, egg, garlic..." 
+              class="w-full text-xs sm:text-sm font-medium outline-none bg-transparent placeholder-stone-400 text-stone-900"
+            >
+          </div>
+          <p class="text-[10px] text-stone-500 mt-1">Filters recipes that use ingredients you already have at home.</p>
+        </div>
+
+        <!-- Meal Preparation Time (Scroll Interaction: under 15 mins, 30 mins, 45 mins, 60 mins) -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+              <span>⏱️</span> Meal Preparation Time
+            </label>
+            <span id="prep-time-display" class="text-xs font-extrabold text-orange-600 bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200">
+              Any Time
+            </span>
+          </div>
+          
+          <input 
+            type="range" 
+            id="prep-time-slider" 
+            min="0" 
+            max="4" 
+            step="1" 
+            value="0" 
+            oninput="updatePrepTimeSlider(this.value)"
+            class="w-full cursor-pointer h-2 bg-stone-200 rounded-lg"
+          >
+          
+          <!-- Stepped Labels (Sketch 5) -->
+          <div class="flex justify-between text-[10px] font-bold text-stone-500 px-1">
+            <span>Any</span>
+            <span>&lt; 15m</span>
+            <span>30m</span>
+            <span>45m</span>
+            <span>60m</span>
+          </div>
+        </div>
+
+        <!-- Number of Servings (Scroll Interaction: 1, 2, 3, 5, 6, 7, 8, 9, 10) -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🍽️</span> Number of Servings
+            </label>
+            <span id="servings-display" class="text-xs font-extrabold text-orange-600 bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200">
+              Serves 2
+            </span>
+          </div>
+          
+          <input 
+            type="range" 
+            id="servings-slider" 
+            min="1" 
+            max="10" 
+            step="1" 
+            value="2" 
+            oninput="updateServingsSlider(this.value)"
+            class="w-full cursor-pointer h-2 bg-stone-200 rounded-lg"
+          >
+          
+          <!-- Stepped Labels -->
+          <div class="flex justify-between text-[10px] font-bold text-stone-500 px-1">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>5</span>
+            <span>7</span>
+            <span>10</span>
+          </div>
+        </div>
+
+        <!-- Save Button (Sketch 5) -->
+        <button onclick="saveCustomisationPreferences()" class="w-full py-3.5 bg-orange-600 hover:bg-orange-700 text-white rounded-2xl font-extrabold font-baloo text-sm tracking-wide shadow-md transition cursor-pointer">
+          SAVE PREFERENCES
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FILTERS MODAL (Sketch 6: Category, Ratings, Calories, Save) ================= -->
+  <div id="filters-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-[36px] w-full max-w-md overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[92vh]">
+      
+      <!-- Top Bar: Filter & Clear All (Sketch 6) -->
+      <div class="p-4 bg-stone-50 border-b border-stone-200 flex justify-between items-center">
+        <div>
+          <h3 class="text-base font-extrabold font-baloo text-stone-900">Filter</h3>
+          <p class="text-[10px] text-stone-500 font-medium">Filter by category, rating &amp; calories</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearFilterModalOptions()" class="text-xs font-bold text-orange-600 hover:text-orange-800 px-2 py-1 rounded cursor-pointer">
+            Clear All
+          </button>
+          <button onclick="closeFiltersModal()" class="w-7 h-7 rounded-full bg-stone-200 hover:bg-stone-300 flex items-center justify-center text-stone-600 font-bold text-xs cursor-pointer">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Body: Category buttons, Ratings slider, Calories slider (Sketch 6) -->
+      <div class="p-6 overflow-y-auto space-y-6">
+        
+        <!-- Category Navigation: Main Course, Breakfast, Snacks, Lunch, Dinner, Dessert, Soup, Drinks -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <span>🏷️</span> Filter by Category
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button onclick="selectModalCategory('all')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border transition bg-orange-600 text-white border-orange-600 shadow-xs" data-category="all">🌟 All</button>
+            <button onclick="selectModalCategory('main')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="main">🍛 Main Course</button>
+            <button onclick="selectModalCategory('breakfast')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="breakfast">🥞 Breakfast</button>
+            <button onclick="selectModalCategory('snacks')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="snacks">🥟 Snacks</button>
+            <button onclick="selectModalCategory('lunch')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="lunch">🥗 Lunch</button>
+            <button onclick="selectModalCategory('dinner')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="dinner">🍲 Dinner</button>
+            <button onclick="selectModalCategory('dessert')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="dessert">🍨 Dessert</button>
+            <button onclick="selectModalCategory('soup')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="soup">🥣 Soup</button>
+            <button onclick="selectModalCategory('drinks')" class="cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition" data-category="drinks">🍹 Drinks</button>
+          </div>
+        </div>
+
+        <!-- Ratings Scroll Interaction: 2 star, 3 star, 4 star, 5 star (Sketch 6) -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+              <span>★</span> Minimum Rating
+            </label>
+            <span id="rating-slider-display" class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+              All Ratings
+            </span>
+          </div>
+          
+          <input 
+            type="range" 
+            id="rating-slider-input" 
+            min="0" 
+            max="4" 
+            step="1" 
+            value="0" 
+            oninput="updateRatingSlider(this.value)"
+            class="w-full cursor-pointer h-2 bg-stone-200 rounded-lg"
+          >
+          
+          <!-- Stepped Labels (Sketch 6) -->
+          <div class="flex justify-between text-[10px] font-bold text-stone-500 px-1">
+            <span>All</span>
+            <span>2★</span>
+            <span>3★</span>
+            <span>4★</span>
+            <span>5★</span>
+          </div>
+        </div>
+
+        <!-- Calories Scroll Interaction: under 300 kcal, 400 kcal, 500 kcal, 600 kcal (Sketch 6) -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🔥</span> Max Calories
+            </label>
+            <span id="calorie-slider-display" class="text-xs font-extrabold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
+              Any Calories
+            </span>
+          </div>
+          
+          <input 
+            type="range" 
+            id="calorie-slider-input" 
+            min="0" 
+            max="4" 
+            step="1" 
+            value="0" 
+            oninput="updateCalorieSlider(this.value)"
+            class="w-full cursor-pointer h-2 bg-stone-200 rounded-lg"
+          >
+          
+          <!-- Stepped Labels (Sketch 6) -->
+          <div class="flex justify-between text-[10px] font-bold text-stone-500 px-1">
+            <span>Any</span>
+            <span>&lt;300 kcal</span>
+            <span>400 kcal</span>
+            <span>500 kcal</span>
+            <span>600 kcal</span>
+          </div>
+        </div>
+
+        <!-- Save Button (Sketch 6) -->
+        <button onclick="saveFilterModalOptions()" class="w-full py-3.5 bg-stone-900 hover:bg-black text-white rounded-2xl font-extrabold font-baloo text-sm tracking-wide shadow-md transition cursor-pointer">
+          SAVE FILTERS
+        </button>
+
       </div>
     </div>
   </div>
@@ -1407,12 +1751,42 @@
 
     // App State
     let activeCuisine = 'all';
-    let activeDiet = 'all';
+    let activeDiet = 'all'; // 'all' or 'veg'
     let onlySaved = false;
     let savedRecipeIds = new Set(['burger', 'truffle-pasta', 'dal-makhani', 'ghee-dosa']);
+    let watchedHistoryIds = ['burger', 'truffle-pasta', 'avo-toast', 'margherita', 'samosa', 'paneer-tikka', 'dal-makhani', 'ghee-dosa'];
+    
+    // Customisation Preferences State (Sketch 5)
+    let preferenceIngredients = '';
+    let preferenceMaxTime = 0; // 0=any, 1=15, 2=30, 3=45, 4=60
+    let preferenceServings = 2;
+
+    // Filters Modal State (Sketch 6)
+    let filterCategory = 'all'; // all, main, breakfast, snacks, lunch, dinner, dessert, soup, drinks
+    let filterMinRating = 0; // 0=all, 1=2, 2=3, 3=4, 4=5
+    let filterMaxCalories = 0; // 0=any, 1=300, 2=400, 3=500, 4=600
+
+    // Settings State (Sketch 3)
+    let notificationsEnabled = true;
+    let isDarkMode = false;
 
     // Initialize App
     document.addEventListener('DOMContentLoaded', () => {
+      // Auto-tag categories and calories if not set
+      RECIPES_DATA.forEach((recipe, idx) => {
+        if (!recipe.category) {
+          if (recipe.mealType === 'breakfast') recipe.category = 'breakfast';
+          else if (recipe.mealType === 'snack') recipe.category = 'snacks';
+          else if (recipe.mealType === 'lunch') recipe.category = 'lunch';
+          else recipe.category = 'dinner';
+        }
+        if (!recipe.calories) {
+          // Curate realistic calories between 220 and 580 kcal
+          const calorieList = [320, 280, 450, 520, 310, 480, 260, 390, 550, 420];
+          recipe.calories = calorieList[idx % calorieList.length];
+        }
+      });
+
       renderRecipes();
       updateSavesCount();
     });
@@ -1422,41 +1796,62 @@
       const grid = document.getElementById('recipe-grid');
       const emptyState = document.getElementById('empty-state');
       const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
-      const mealTypeVal = document.getElementById('meal-type-filter').value;
-      const timeVal = document.getElementById('time-filter').value;
-      const ratingVal = document.getElementById('rating-filter').value;
 
-      // Filter logic
+      // Filter logic incorporating Sketch 1, 4, 5, 6
       const filtered = RECIPES_DATA.filter(recipe => {
-        // Search filter (name or ingredients)
+        // 1. Live Search bar filter (dish or ingredients)
         if (searchVal) {
           const matchName = recipe.fullName.toLowerCase().includes(searchVal) || recipe.name.toLowerCase().includes(searchVal);
           const matchIng = recipe.ingredients.some(i => i.name.toLowerCase().includes(searchVal));
           if (!matchName && !matchIng) return false;
         }
 
-        // Cuisine filter
-        if (activeCuisine !== 'all' && recipe.cuisine !== activeCuisine) return false;
-
-        // Diet filter
-        if (activeDiet === 'veg' && !recipe.isVeg) return false;
-        if (activeDiet === 'nonveg' && recipe.isVeg) return false;
-
-        // Meal Type filter
-        if (mealTypeVal !== 'all' && recipe.mealType !== mealTypeVal) return false;
-
-        // Prep Time filter
-        if (timeVal !== 'all') {
-          const maxTime = parseInt(timeVal);
-          if (timeVal === '15' && recipe.timeMinutes > 15) return false;
-          if (timeVal === '30' && (recipe.timeMinutes < 16 || recipe.timeMinutes > 30)) return false;
-          if (timeVal === '45' && recipe.timeMinutes < 31) return false;
+        // 2. Base Ingredients Filter (from Customisation Preference Modal - Sketch 5)
+        if (preferenceIngredients) {
+          const baseTerms = preferenceIngredients.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+          if (baseTerms.length > 0) {
+            const hasBaseIng = baseTerms.some(term => recipe.ingredients.some(i => i.name.toLowerCase().includes(term)));
+            if (!hasBaseIng) return false;
+          }
         }
 
-        // Rating filter
-        if (ratingVal !== 'all' && recipe.rating < parseFloat(ratingVal)) return false;
+        // 3. Prep Time Filter (from Customisation Slider - 15m, 30m, 45m, 60m)
+        if (preferenceMaxTime > 0) {
+          const maxMinutes = [0, 15, 30, 45, 60][preferenceMaxTime];
+          if (recipe.timeMinutes > maxMinutes) return false;
+        }
 
-        // Only Saved filter
+        // 4. Horizontal Cuisine Filter (North, Italian, Street food, Continental, South, Healthy)
+        if (activeCuisine !== 'all' && recipe.cuisine !== activeCuisine) return false;
+
+        // 5. Single Veg / All Toggle (Sketch 4)
+        if (activeDiet === 'veg' && !recipe.isVeg) return false;
+
+        // 6. Filter by Category (Main Course, Breakfast, Snacks, Lunch, Dinner, Dessert, Soup, Drinks - Sketch 6)
+        if (filterCategory !== 'all') {
+          if (filterCategory === 'main' && recipe.mealType !== 'lunch' && recipe.mealType !== 'dinner') return false;
+          else if (filterCategory === 'breakfast' && recipe.mealType !== 'breakfast') return false;
+          else if (filterCategory === 'snacks' && recipe.mealType !== 'snack') return false;
+          else if (filterCategory === 'lunch' && recipe.mealType !== 'lunch') return false;
+          else if (filterCategory === 'dinner' && recipe.mealType !== 'dinner') return false;
+          else if (filterCategory === 'dessert' && !recipe.name.toLowerCase().includes('dessert') && !recipe.fullName.toLowerCase().includes('sweet') && recipe.cuisine !== 'italian') return false;
+          else if (filterCategory === 'soup' && !recipe.name.toLowerCase().includes('soup') && !recipe.fullName.toLowerCase().includes('dal')) return false;
+          else if (filterCategory === 'drinks' && !recipe.name.toLowerCase().includes('drink') && !recipe.name.toLowerCase().includes('tea')) return false;
+        }
+
+        // 7. Ratings Slider Filter (2★, 3★, 4★, 5★ - Sketch 6)
+        if (filterMinRating > 0) {
+          const minRating = [0, 2.0, 3.0, 4.0, 4.8][filterMinRating];
+          if (recipe.rating < minRating) return false;
+        }
+
+        // 8. Calories Slider Filter (300, 400, 500, 600 kcal - Sketch 6)
+        if (filterMaxCalories > 0) {
+          const maxKcal = [0, 300, 400, 500, 600][filterMaxCalories];
+          if (recipe.calories > maxKcal) return false;
+        }
+
+        // 9. Only Saved Filter
         if (onlySaved && !savedRecipeIds.has(recipe.id)) return false;
 
         return true;
@@ -1621,42 +2016,258 @@
       document.getElementById('saves-count').innerText = savedRecipeIds.size;
     }
 
-    // Filter Handlers
+    // ================= INTERACTIVE CONTROLLERS ================= //
+
+    // Single Veg Toggle Switch (Sketch 4)
+    function toggleSingleVegDiet() {
+      const track = document.getElementById('veg-toggle-track');
+      const thumb = document.getElementById('veg-toggle-thumb');
+      const label = document.getElementById('veg-toggle-label');
+
+      if (activeDiet === 'all') {
+        activeDiet = 'veg';
+        track.className = "w-9 h-5 rounded-full bg-emerald-500 p-0.5 flex items-center justify-end transition-colors";
+        thumb.className = "w-4 h-4 rounded-full bg-white shadow-xs transform";
+        label.innerHTML = '<span class="text-emerald-700 font-extrabold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> VEG ONLY</span>';
+      } else {
+        activeDiet = 'all';
+        track.className = "w-9 h-5 rounded-full bg-stone-300 p-0.5 flex items-center transition-colors";
+        thumb.className = "w-4 h-4 rounded-full bg-white shadow-xs transform";
+        label.innerHTML = '<span class="text-stone-700">All (Veg &amp; Non-Veg)</span>';
+      }
+      renderRecipes();
+    }
+
+    // --- Profile Modal Controls (Sketch 3) ---
+    function openProfileModal() {
+      document.getElementById('profile-modal').classList.remove('hidden');
+      updateProfileBadges();
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profile-modal').classList.add('hidden');
+    }
+
+    function updateProfileBadges() {
+      document.getElementById('profile-saves-badge').innerText = `${savedRecipeIds.size} saved recipes`;
+      document.getElementById('history-badge').innerText = `${watchedHistoryIds.length} dishes cooked`;
+    }
+
+    // Avatar Upload Feature
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const newImgUrl = e.target.result;
+        document.getElementById('profile-modal-img').src = newImgUrl;
+        document.getElementById('header-avatar-img').src = newImgUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Recipe History & Favourites Views
+    function showHistoryList() {
+      closeProfileModal();
+      alert(`⏱️ Cooking History (${watchedHistoryIds.length} items):\n` + 
+        watchedHistoryIds.map(id => {
+          const r = RECIPES_DATA.find(x => x.id === id);
+          return r ? `• ${r.fullName} (${r.cuisineLabel})` : '';
+        }).filter(Boolean).join('\n'));
+    }
+
+    function showFavoritesList() {
+      closeProfileModal();
+      if (!onlySaved) toggleSavedFilter();
+      const grid = document.getElementById('recipe-grid');
+      grid.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Notification Setting Toggle (On / Off)
+    function toggleNotificationSetting() {
+      notificationsEnabled = !notificationsEnabled;
+      const btn = document.getElementById('notif-toggle-btn');
+      const label = document.getElementById('notif-status-label');
+      if (notificationsEnabled) {
+        btn.innerText = "ON";
+        btn.className = "px-3 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 cursor-pointer";
+        label.innerText = "Meal reminders active";
+      } else {
+        btn.innerText = "OFF";
+        btn.className = "px-3 py-1 rounded-full text-[11px] font-extrabold bg-stone-200 text-stone-600 border border-stone-300 cursor-pointer";
+        label.innerText = "Notifications paused";
+      }
+    }
+
+    // Display Setting Toggle (Dark Mode / Light Mode)
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      const btn = document.getElementById('darkmode-toggle-btn');
+      const label = document.getElementById('display-mode-label');
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        btn.innerText = "Dark 🌙";
+        btn.className = "px-3 py-1 rounded-full text-[11px] font-extrabold bg-stone-800 text-amber-300 border border-stone-700 cursor-pointer";
+        label.innerText = "Current: Dark Mode";
+      } else {
+        document.body.classList.remove('dark-mode');
+        btn.innerText = "Light ☀️";
+        btn.className = "px-3 py-1 rounded-full text-[11px] font-extrabold bg-stone-200 text-stone-800 border border-stone-300 cursor-pointer";
+        label.innerText = "Current: Light Mode";
+      }
+    }
+
+    // Feedback Prompt
+    function promptUserFeedback() {
+      const feedback = prompt("💬 Witchin' Feedback - Tell us what you loved or what you'd like improved:", "Love the continuous kitchen animation and portion scaling!");
+      if (feedback) {
+        alert("Thank you, Ria! Your feedback has been sent directly to the Witchin' product team.");
+      }
+    }
+
+    // About Us Dialog
+    function showAboutUsModal() {
+      alert("✨ About Witchin'\n\nCreated by Aarchi (NIFT Hyderabad • Information Architecture 2026).\n\nWitchin' transforms everyday cooking friction into creative culinary flow with tactile stop-motion animation, zero-waste kitchen rescue search, and live portion geometry.");
+    }
+
+    // Log Out
+    function handleLogOut() {
+      if (confirm("Are you sure you want to log out of Witchin'?")) {
+        alert("You have logged out. Tap profile to log back in as Ria.");
+        closeProfileModal();
+      }
+    }
+
+    // --- Customisation Modal Controls (Sketch 5) ---
+    function openCustomisationModal() {
+      document.getElementById('customisation-modal').classList.remove('hidden');
+    }
+
+    function closeCustomisationModal() {
+      document.getElementById('customisation-modal').classList.add('hidden');
+    }
+
+    function updatePrepTimeSlider(val) {
+      preferenceMaxTime = parseInt(val);
+      const labels = ["Any Time", "Under 15 mins", "Under 30 mins", "Under 45 mins", "Under 60 mins"];
+      document.getElementById('prep-time-display').innerText = labels[preferenceMaxTime];
+    }
+
+    function updateServingsSlider(val) {
+      preferenceServings = parseInt(val);
+      document.getElementById('servings-display').innerText = `Serves ${preferenceServings}`;
+    }
+
+    function clearCustomisationFilters() {
+      document.getElementById('base-ingredients-input').value = '';
+      document.getElementById('prep-time-slider').value = '0';
+      document.getElementById('servings-slider').value = '2';
+      updatePrepTimeSlider(0);
+      updateServingsSlider(2);
+      preferenceIngredients = '';
+      preferenceMaxTime = 0;
+      preferenceServings = 2;
+      RECIPES_DATA.forEach(r => r.activeServings = r.baseServings);
+      renderRecipes();
+    }
+
+    function saveCustomisationPreferences() {
+      preferenceIngredients = document.getElementById('base-ingredients-input').value.trim();
+      preferenceMaxTime = parseInt(document.getElementById('prep-time-slider').value);
+      preferenceServings = parseInt(document.getElementById('servings-slider').value);
+
+      // Apply servings scaling across dishes
+      RECIPES_DATA.forEach(r => r.activeServings = preferenceServings);
+
+      closeCustomisationModal();
+      renderRecipes();
+      alert(`✨ Preferences Saved!\n• Ingredients: ${preferenceIngredients || 'Any'}\n• Max Prep Time: ${document.getElementById('prep-time-display').innerText}\n• Servings Scaled To: ${preferenceServings}`);
+    }
+
+    // --- Filters Modal Controls (Sketch 6) ---
+    function openFiltersModal() {
+      document.getElementById('filters-modal').classList.remove('hidden');
+    }
+
+    function closeFiltersModal() {
+      document.getElementById('filters-modal').classList.add('hidden');
+    }
+
+    function selectModalCategory(category) {
+      filterCategory = category;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-category') === category) {
+          btn.className = "cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border transition bg-orange-600 text-white border-orange-600 shadow-xs";
+        } else {
+          btn.className = "cat-pill px-2.5 py-2 rounded-xl text-xs font-bold border border-stone-200 text-stone-700 bg-stone-50 hover:bg-stone-100 transition";
+        }
+      });
+    }
+
+    function updateRatingSlider(val) {
+      filterMinRating = parseInt(val);
+      const labels = ["All Ratings", "★ 2.0 & up", "★ 3.0 & up", "★ 4.0 & up", "★ 4.8 (Top Rated)"];
+      document.getElementById('rating-slider-display').innerText = labels[filterMinRating];
+    }
+
+    function updateCalorieSlider(val) {
+      filterMaxCalories = parseInt(val);
+      const labels = ["Any Calories", "< 300 kcal", "400 kcal", "500 kcal", "600 kcal"];
+      document.getElementById('calorie-slider-display').innerText = labels[filterMaxCalories];
+    }
+
+    function clearFilterModalOptions() {
+      selectModalCategory('all');
+      document.getElementById('rating-slider-input').value = '0';
+      document.getElementById('calorie-slider-input').value = '0';
+      updateRatingSlider(0);
+      updateCalorieSlider(0);
+      filterCategory = 'all';
+      filterMinRating = 0;
+      filterMaxCalories = 0;
+      document.getElementById('active-filter-badge').innerText = "All Courses & Ratings";
+      renderRecipes();
+    }
+
+    function saveFilterModalOptions() {
+      closeFiltersModal();
+      const badgeText = `${filterCategory.toUpperCase()} • ${document.getElementById('rating-slider-display').innerText}`;
+      document.getElementById('active-filter-badge').innerText = badgeText;
+      renderRecipes();
+    }
+
+    // Toggle Saved / Liked Status
+    function toggleSaveRecipe(recipeId) {
+      if (savedRecipeIds.has(recipeId)) {
+        savedRecipeIds.delete(recipeId);
+      } else {
+        savedRecipeIds.add(recipeId);
+      }
+      updateSavesCount();
+      updateProfileBadges();
+      renderRecipes();
+    }
+
+    function updateSavesCount() {
+      const badge = document.getElementById('saves-count');
+      if (badge) badge.innerText = savedRecipeIds.size;
+    }
+
+    // Cuisine Pills Handler (Sketch 1)
     function setCuisineFilter(cuisine) {
       activeCuisine = cuisine;
       document.querySelectorAll('.cuisine-btn').forEach(btn => {
         if (btn.getAttribute('data-cuisine') === cuisine) {
-          btn.className = "cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs";
+          btn.className = "cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs";
         } else {
-          btn.className = "cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0";
+          btn.className = "cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0";
         }
       });
       applyFilters();
     }
 
-    function setDietFilter(diet) {
-      activeDiet = diet;
-      const allBtn = document.getElementById('diet-all');
-      const vegBtn = document.getElementById('diet-veg');
-      const nonvegBtn = document.getElementById('diet-nonveg');
-
-      allBtn.className = diet === 'all' ? "px-3 py-1.5 rounded-xl bg-white text-stone-900 shadow-xs font-bold" : "px-3 py-1.5 rounded-xl text-stone-600 font-bold";
-      vegBtn.className = diet === 'veg' ? "px-3 py-1.5 rounded-xl bg-white text-emerald-800 shadow-xs font-bold flex items-center gap-1" : "px-3 py-1.5 rounded-xl text-stone-600 font-bold flex items-center gap-1";
-      nonvegBtn.className = diet === 'nonveg' ? "px-3 py-1.5 rounded-xl bg-white text-rose-800 shadow-xs font-bold flex items-center gap-1" : "px-3 py-1.5 rounded-xl text-stone-600 font-bold flex items-center gap-1";
-
-      applyFilters();
-    }
-
     function toggleSavedFilter() {
       onlySaved = !onlySaved;
-      const btn = document.getElementById('saves-btn');
-      if (onlySaved) {
-        btn.classList.remove('bg-rose-50', 'text-rose-600');
-        btn.classList.add('bg-rose-600', 'text-white');
-      } else {
-        btn.classList.remove('bg-rose-600', 'text-white');
-        btn.classList.add('bg-rose-50', 'text-rose-600');
-      }
       applyFilters();
     }
 
@@ -1678,19 +2289,34 @@
 
     function resetAllFilters() {
       document.getElementById('search-input').value = '';
-      document.getElementById('meal-type-filter').value = 'all';
-      document.getElementById('time-filter').value = 'all';
-      document.getElementById('rating-filter').value = 'all';
+      clearCustomisationFilters();
+      clearFilterModalOptions();
       setCuisineFilter('all');
-      setDietFilter('all');
+      if (activeDiet === 'veg') toggleSingleVegDiet();
       if (onlySaved) toggleSavedFilter();
       applyFilters();
+    }
+
+    // Interactive Serving Size Changer on individual card
+    function changeServings(recipeId, delta) {
+      const recipe = RECIPES_DATA.find(r => r.id === recipeId);
+      if (!recipe) return;
+      const newServings = recipe.activeServings + delta;
+      if (newServings >= 1 && newServings <= 12) {
+        recipe.activeServings = newServings;
+        renderRecipes();
+      }
     }
 
     // Modal Video Reel Controls
     function openReelModal(recipeId) {
       const recipe = RECIPES_DATA.find(r => r.id === recipeId);
       if (!recipe) return;
+
+      if (!watchedHistoryIds.includes(recipeId)) {
+        watchedHistoryIds.unshift(recipeId);
+        updateProfileBadges();
+      }
 
       document.getElementById('modal-dish-title').innerText = `${recipe.fullName} • Reel`;
       const iframe = document.getElementById('reel-iframe');
@@ -1711,19 +2337,6 @@
       document.getElementById('reel-modal').classList.add('hidden');
     }
 
-    // Toggle Customisation Secondary Filter Panel
-    function toggleFiltersPanel() {
-      const panel = document.getElementById('secondary-filters');
-      const arrow = document.getElementById('filters-arrow');
-      if (panel.classList.contains('hidden')) {
-        panel.classList.remove('hidden');
-        arrow.innerText = '▲';
-      } else {
-        panel.classList.add('hidden');
-        arrow.innerText = '▼';
-      }
-    }
-
     // Voice Search Trigger (Microphone)
     function triggerVoiceSearch() {
       const searchInput = document.getElementById('search-input');
@@ -1732,19 +2345,19 @@
         const recognition = new SpeechRec();
         recognition.lang = 'en-IN';
         recognition.start();
-        searchInput.placeholder = "Listening... say 'potato', 'pasta', or 'paneer'...";
+        searchInput.placeholder = "Listening... say 'burger', 'pasta', or 'paneer'...";
         recognition.onresult = function(event) {
           const transcript = event.results[0][0].transcript;
           searchInput.value = transcript;
           applyFilters();
-          searchInput.placeholder = "Search recipes with existing groceries...";
+          searchInput.placeholder = "Search any dish or recipe...";
         };
         recognition.onerror = function() {
-          searchInput.placeholder = "Search recipes with existing groceries...";
-          alert("🎙️ Mic note: You can speak or type grocery ingredients like potato, onion, eggs!");
+          searchInput.placeholder = "Search any dish or recipe...";
+          alert("🎙️ Mic ready: Speak any dish or grocery ingredient!");
         };
       } else {
-        const quickPrompt = prompt("🎙️ Voice Search Demo - Type what you have in your fridge (e.g. potato, tomato, garlic):", "potato");
+        const quickPrompt = prompt("🎙️ Voice Search Demo - Say or type what you're craving (e.g. burger, biryani, pasta):", "burger");
         if (quickPrompt) {
           searchInput.value = quickPrompt;
           applyFilters();
@@ -1752,7 +2365,7 @@
       }
     }
 
-    // Bottom Navigation Switcher (Matches Sketch: Home, Meal Planner, Shopping List, Your Saves)
+    // Bottom Navigation Switcher (Matches Sketch 1)
     function switchTab(tab) {
       const tabs = ['home', 'planner', 'shopping', 'saves'];
       tabs.forEach(t => {
@@ -1783,8 +2396,6 @@
         }
         const recipeGrid = document.getElementById('recipe-grid');
         recipeGrid.scrollIntoView({ behavior: 'smooth' });
-      } else if (tab === 'profile') {
-        alert("👤 User Profile: Ria (NIFT Student Account) • Smart Dietary Preferences: Flexible Vegetarian / Low Oil.");
       }
     }
   </script>
