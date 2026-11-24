@@ -16,15 +16,32 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
+    /* Clean & Simplified Color Palette */
+    :root {
+      --brand-red: #E53935;
+      --brand-red-dark: #C62828;
+      --icon-grey: #4A4A4A;
+      --icon-grey-light: #666666;
+    }
+    
+    .text-brand-red { color: #E53935; }
+    .bg-brand-red { background-color: #E53935; }
+    .border-brand-red { border-color: #E53935; }
+    
+    .icon-grey {
+      color: #4A4A4A;
+      fill: currentColor;
+    }
+    
     /* Exact Figma Card Styling */
     .figma-card {
-      background: linear-gradient(145deg, #5a4b45 0%, #3a302c 60%, #2b2320 100%);
+      background: linear-gradient(145deg, #2D2725 0%, #201C1B 60%, #171413 100%);
       border-radius: 36px;
       box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.28);
       position: relative;
     }
     .figma-card-top-curve {
-      background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+      background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
     }
     
     /* Dark Mode Theme Support */
@@ -135,69 +152,41 @@
   <!-- ================= MAIN APP BODY ================= -->
   <main class="max-w-5xl mx-auto px-4 py-4 w-full flex-1 space-y-5">
 
-    <!-- ================= CONTINUOUS ANIMATION HERO WITH OVERLAY CONTROLS ================= -->
-    <!-- Sketch 1: Animation container with Logo/Name, Greetings, Profile, Search bar, Mic, and Veg toggle on top -->
-    <div class="relative rounded-[32px] overflow-hidden border-2 border-stone-300/80 shadow-md bg-stone-900 min-h-[260px] sm:min-h-[290px] flex flex-col justify-between p-5">
+    <!-- ================= CHEF HERO CONTAINER (User Artwork with Top Overlay Controls) ================= -->
+    <div class="relative rounded-[32px] overflow-hidden border-2 border-stone-200/90 shadow-md bg-[#E53935] min-h-[280px] sm:min-h-[340px] flex flex-col justify-start p-4 sm:p-5">
       
-      <!-- Continuous Looping Background Animation (Pure CSS tactile kitchen waft + Sizzle) -->
-      <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
-        <!-- Ambient Warm Kitchen Glow -->
-        <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/80 to-stone-900/60 z-10"></div>
+      <!-- Full-bleed Crisp Chef Artwork (No upper-left or upper-right text) -->
+      <img src="chef_hero.png" alt="Witchin' Chef Illustration" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none">
+
+      <!-- Subtle gradient overlay at top for search readability -->
+      <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/50 via-black/20 to-transparent pointer-events-none z-10"></div>
+
+      <!-- OVERLAY LAYER AT TOP OF IMAGE: Live Search Bar + Minimalist Veg/Non-Veg Icon -->
+      <div class="relative z-20 flex flex-row gap-2.5 items-center w-full">
         
-        <!-- Animated Steam Wafts -->
-        <div class="absolute top-12 left-1/4 w-20 h-20 rounded-full bg-orange-400/20 blur-xl animate-steam-1"></div>
-        <div class="absolute top-8 left-1/2 w-28 h-28 rounded-full bg-amber-300/15 blur-2xl animate-steam-2"></div>
-        <div class="absolute top-16 right-1/4 w-24 h-24 rounded-full bg-orange-500/20 blur-xl animate-steam-3"></div>
-
-        <!-- Center Skillet with Sizzling Breakfast Illustration -->
-        <div class="absolute inset-0 flex items-center justify-center opacity-30 transform scale-110 animate-pan-sizzle">
-          <span class="text-9xl filter drop-shadow-2xl">🍳</span>
-        </div>
-      </div>
-
-      <!-- OVERLAY LAYER: Title & Status -->
-      <div class="relative z-20 flex justify-between items-start text-white">
-        <div>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 backdrop-blur-md text-amber-200 rounded-full text-[11px] font-extrabold uppercase tracking-wider font-sans-clean border border-white/10 shadow-xs">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Continuous Cooking Waft
-          </span>
-          <h2 class="text-xl sm:text-2xl font-extrabold font-baloo text-white mt-1.5 leading-tight">
-            What's Witchin' in your kitchen?
-          </h2>
-        </div>
-        <div class="hidden sm:block text-right">
-          <span class="text-xs text-stone-300 font-medium">36 Authenticated Recipes</span>
-        </div>
-      </div>
-
-      <!-- OVERLAY LAYER: Search Bar, Working Mic, and Single Interactive Veg/All Toggle -->
-      <div class="relative z-20 mt-4 flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
-        
-        <!-- Live Search Bar with Mic Icon -->
-        <div class="flex-1 relative flex items-center bg-white/95 backdrop-blur-md rounded-2xl border-2 border-white/60 px-3.5 py-2.5 shadow-lg focus-within:border-orange-500 transition">
-          <span class="text-stone-500 mr-2.5 text-base select-none">🔍</span>
+        <!-- Live Search Bar with Dark Grey Mic Icon -->
+        <div class="flex-1 relative flex items-center bg-white/95 backdrop-blur-md rounded-2xl border border-stone-200/80 px-3.5 py-2.5 shadow-md focus-within:border-[#E53935] transition">
+          <span class="icon-grey mr-2.5 text-base select-none">🔍</span>
           <input 
             id="search-input" 
             type="text" 
             oninput="applyFilters()" 
-            placeholder="Search any dish or recipe (e.g. burger, biryani, pasta)..." 
-            class="w-full text-xs sm:text-sm font-medium outline-none bg-transparent placeholder-stone-500 text-stone-900"
+            placeholder="Search any dish or recipe..." 
+            class="w-full text-xs sm:text-sm font-semibold outline-none bg-transparent placeholder-stone-400 text-black"
           >
-          <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-stone-600 font-bold text-xs p-1 mr-1">✕</button>
+          <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-black font-bold text-xs p-1 mr-1">✕</button>
           
-          <!-- Working Mic Button -->
-          <button onclick="triggerVoiceSearch()" title="Voice Search" class="text-stone-500 hover:text-orange-600 p-1 text-base transition cursor-pointer">
+          <!-- Mic Button with dark grey icon -->
+          <button onclick="triggerVoiceSearch()" title="Voice Search" class="text-[#4A4A4A] hover:text-[#E53935] p-1 text-base transition cursor-pointer">
             🎙️
           </button>
         </div>
 
-        <!-- Single Veg / All Toggle (Sketch 4: Grey for All, Green for Veg) -->
-        <button id="veg-toggle-single" onclick="toggleSingleVegDiet()" title="Toggle Veg Only / All Recipes" class="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md border-2 border-white/60 shadow-lg text-xs font-extrabold transition cursor-pointer select-none shrink-0 self-center sm:self-auto">
-          <!-- Switch Capsule -->
-          <div id="veg-toggle-track" class="w-9 h-5 rounded-full bg-stone-300 p-0.5 flex items-center transition-colors">
-            <div id="veg-toggle-thumb" class="w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform"></div>
-          </div>
-          <span id="veg-toggle-label" class="text-stone-700">All (Veg &amp; Non-Veg)</span>
+        <!-- Minimal Interactive Veg Toggle (Icon-only: Grey when All, Green with 'Veg' when active) -->
+        <button id="veg-toggle-single" onclick="toggleSingleVegDiet()" title="Toggle Veg Only / All Recipes" class="flex items-center gap-1.5 px-3 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200/80 shadow-md text-xs font-bold transition cursor-pointer select-none shrink-0 hover:bg-white">
+          <!-- Tactile switch indicator -->
+          <div id="veg-toggle-dot" class="w-3.5 h-3.5 rounded-full border-2 border-stone-400 bg-stone-300 transition-colors"></div>
+          <span id="veg-toggle-label" class="text-[#4A4A4A] text-xs font-bold">All</span>
         </button>
 
       </div>
@@ -207,25 +196,25 @@
     <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
       
       <!-- Customisation Trigger (Sketch 5) -->
-      <button onclick="openCustomisationModal()" class="flex-1 flex items-center justify-between p-4 bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:border-orange-400 transition cursor-pointer group text-left">
+      <button onclick="openCustomisationModal()" class="flex-1 flex items-center justify-between p-4 bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:border-[#E53935] transition cursor-pointer group text-left">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-lg text-orange-600">
+          <div class="w-10 h-10 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center text-lg text-[#4A4A4A]">
             ✨
           </div>
           <div>
-            <h3 class="text-sm sm:text-base font-extrabold font-baloo text-stone-900 group-hover:text-orange-600 transition">
+            <h3 class="text-sm sm:text-base font-extrabold font-baloo text-black group-hover:text-[#E53935] transition">
               Customise Your Recipes
             </h3>
-            <p class="text-[11px] text-stone-500 font-medium">Ingredients on hand • Servings • Prep Time</p>
+            <p class="text-[11px] text-[#4A4A4A] font-medium">Ingredients on hand • Servings • Prep Time</p>
           </div>
         </div>
-        <span class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-200">
+        <span class="text-xs font-bold text-[#E53935] bg-red-50 px-3 py-1.5 rounded-xl border border-red-200">
           Open ➔
         </span>
       </button>
 
       <!-- Filters Trigger (Sketch 6) -->
-      <button onclick="openFiltersModal()" class="flex items-center justify-between sm:justify-center gap-2.5 px-5 py-4 bg-stone-900 hover:bg-black text-white rounded-3xl shadow-xs transition cursor-pointer border border-stone-800">
+      <button onclick="openFiltersModal()" class="flex items-center justify-between sm:justify-center gap-2.5 px-5 py-4 bg-[#1E1E1E] hover:bg-black text-white rounded-3xl shadow-xs transition cursor-pointer border border-stone-800">
         <span class="text-lg">🎛️</span>
         <div class="text-left sm:text-center">
           <span class="block text-xs font-extrabold font-baloo tracking-wide">Filters</span>
@@ -239,29 +228,29 @@
     <!-- ================= HORIZONTAL CUISINE PILLS (Sketch 1) ================= -->
     <div class="bg-white rounded-3xl p-4 border border-stone-200/90 shadow-xs space-y-2">
       <div class="flex justify-between items-center mb-1">
-        <span class="text-xs font-bold text-stone-500 uppercase tracking-wider font-sans-clean">Cuisines</span>
-        <button onclick="setCuisineFilter('all')" class="text-xs font-bold text-orange-600 hover:underline cursor-pointer">See all</button>
+        <span class="text-xs font-bold text-[#4A4A4A] uppercase tracking-wider font-sans-clean">Cuisines</span>
+        <button onclick="setCuisineFilter('all')" class="text-xs font-bold text-[#E53935] hover:underline cursor-pointer">See all</button>
       </div>
       <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-        <button onclick="setCuisineFilter('all')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs" data-cuisine="all">
+        <button onclick="setCuisineFilter('all')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-[#E53935] text-white shrink-0 shadow-xs" data-cuisine="all">
           🌟 All
         </button>
-        <button onclick="setCuisineFilter('north')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="north">
+        <button onclick="setCuisineFilter('north')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-[#4A4A4A] hover:bg-stone-200 shrink-0" data-cuisine="north">
           🫓 North Indian
         </button>
-        <button onclick="setCuisineFilter('italian')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="italian">
+        <button onclick="setCuisineFilter('italian')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-[#4A4A4A] hover:bg-stone-200 shrink-0" data-cuisine="italian">
           🍝 Italian
         </button>
-        <button onclick="setCuisineFilter('street')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="street">
+        <button onclick="setCuisineFilter('street')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-[#4A4A4A] hover:bg-stone-200 shrink-0" data-cuisine="street">
           🥟 Street food
         </button>
-        <button onclick="setCuisineFilter('continental')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="continental">
+        <button onclick="setCuisineFilter('continental')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-[#4A4A4A] hover:bg-stone-200 shrink-0" data-cuisine="continental">
           🥪 Continental
         </button>
-        <button onclick="setCuisineFilter('south')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="south">
+        <button onclick="setCuisineFilter('south')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-[#4A4A4A] hover:bg-stone-200 shrink-0" data-cuisine="south">
           🥥 South Indian
         </button>
-        <button onclick="setCuisineFilter('healthy')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="healthy">
+        <button onclick="setCuisineFilter('healthy')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-[#4A4A4A] hover:bg-stone-200 shrink-0" data-cuisine="healthy">
           🥗 Healthy
         </button>
       </div>
@@ -270,12 +259,12 @@
     <!-- ================= RECOMMENDED FOR YOU (Sketch: Recommended for you.) ================= -->
     <div class="flex justify-between items-center px-1 pt-1">
       <div>
-        <h3 class="text-xl sm:text-2xl font-extrabold font-baloo text-stone-900 leading-tight">
+        <h3 class="text-xl sm:text-2xl font-extrabold font-baloo text-black leading-tight">
           Recommended for you.
         </h3>
-        <p class="text-xs text-stone-500 font-medium">Curated dishes with live dynamic portion scaling and quick video reels</p>
+        <p class="text-xs text-[#4A4A4A] font-medium">Curated dishes with live dynamic portion scaling and quick video reels</p>
       </div>
-      <span id="results-count" class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200 shrink-0">
+      <span id="results-count" class="text-xs font-bold text-[#E53935] bg-red-50 px-3 py-1 rounded-full border border-red-200 shrink-0">
         Showing 36 dishes
       </span>
     </div>
@@ -651,33 +640,33 @@
     </div>
   </div>
 
-  <!-- ================= BOTTOM NAVIGATION BAR (Sketch: Home, Meal Planner, Shopping List, Your Saves) ================= -->
+  <!-- ================= BOTTOM NAVIGATION BAR (Dark Grey Icons, Brand Red Highlight) ================= -->
   <nav class="sticky bottom-0 bg-white/95 backdrop-blur-md border-t border-stone-200 z-40 py-2.5 px-6 shadow-lg">
-    <div class="max-w-md mx-auto flex justify-between items-center text-stone-500">
+    <div class="max-w-md mx-auto flex justify-between items-center text-[#4A4A4A]">
       
-      <!-- Tab 1: Home (Active with elevated circle indicator) -->
-      <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center gap-1 text-orange-600 transition cursor-pointer relative py-1 px-2.5">
+      <!-- Tab 1: Home (Active with Brand Red highlight) -->
+      <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center gap-1 text-[#E53935] transition cursor-pointer relative py-1 px-2.5">
         <span class="text-xl">🏠</span>
-        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Home</span>
-        <span id="tab-home-dot" class="w-1.5 h-1.5 rounded-full bg-orange-600 mt-0.5"></span>
+        <span class="text-[10px] font-black font-baloo tracking-tight">Home</span>
+        <span id="tab-home-dot" class="w-1.5 h-1.5 rounded-full bg-[#E53935] mt-0.5"></span>
       </button>
 
       <!-- Tab 2: Meal Planner (Bento Board) -->
-      <button onclick="switchTab('planner')" id="tab-planner" class="flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5">
+      <button onclick="switchTab('planner')" id="tab-planner" class="flex flex-col items-center gap-1 text-[#4A4A4A] hover:text-black transition cursor-pointer py-1 px-2.5">
         <span class="text-xl">🗓️</span>
         <span class="text-[10px] font-extrabold font-baloo tracking-tight">Meal Planner</span>
         <span id="tab-planner-dot" class="w-1.5 h-1.5 rounded-full bg-transparent mt-0.5"></span>
       </button>
 
       <!-- Tab 3: Shopping List (Grocery Checklist) -->
-      <button onclick="switchTab('shopping')" id="tab-shopping" class="flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5">
+      <button onclick="switchTab('shopping')" id="tab-shopping" class="flex flex-col items-center gap-1 text-[#4A4A4A] hover:text-black transition cursor-pointer py-1 px-2.5">
         <span class="text-xl">🛒</span>
         <span class="text-[10px] font-extrabold font-baloo tracking-tight">Shopping List</span>
         <span id="tab-shopping-dot" class="w-1.5 h-1.5 rounded-full bg-transparent mt-0.5"></span>
       </button>
 
       <!-- Tab 4: Your Saves (Heart Filter) -->
-      <button onclick="switchTab('saves')" id="tab-saves" class="flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5">
+      <button onclick="switchTab('saves')" id="tab-saves" class="flex flex-col items-center gap-1 text-[#4A4A4A] hover:text-black transition cursor-pointer py-1 px-2.5">
         <span class="text-xl">❤️</span>
         <span class="text-[10px] font-extrabold font-baloo tracking-tight">Your Saves</span>
         <span id="tab-saves-dot" class="w-1.5 h-1.5 rounded-full bg-transparent mt-0.5"></span>
@@ -2018,22 +2007,21 @@
 
     // ================= INTERACTIVE CONTROLLERS ================= //
 
-    // Single Veg Toggle Switch (Sketch 4)
+    // Minimal Interactive Veg Toggle (Icon-only: Grey when All, Green with 'Veg' when active)
     function toggleSingleVegDiet() {
-      const track = document.getElementById('veg-toggle-track');
-      const thumb = document.getElementById('veg-toggle-thumb');
+      const dot = document.getElementById('veg-toggle-dot');
       const label = document.getElementById('veg-toggle-label');
 
       if (activeDiet === 'all') {
         activeDiet = 'veg';
-        track.className = "w-9 h-5 rounded-full bg-emerald-500 p-0.5 flex items-center justify-end transition-colors";
-        thumb.className = "w-4 h-4 rounded-full bg-white shadow-xs transform";
-        label.innerHTML = '<span class="text-emerald-700 font-extrabold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> VEG ONLY</span>';
+        dot.className = "w-3.5 h-3.5 rounded-full border-2 border-emerald-600 bg-emerald-500 shadow-xs";
+        label.className = "text-emerald-700 font-extrabold text-xs";
+        label.innerText = "Veg";
       } else {
         activeDiet = 'all';
-        track.className = "w-9 h-5 rounded-full bg-stone-300 p-0.5 flex items-center transition-colors";
-        thumb.className = "w-4 h-4 rounded-full bg-white shadow-xs transform";
-        label.innerHTML = '<span class="text-stone-700">All (Veg &amp; Non-Veg)</span>';
+        dot.className = "w-3.5 h-3.5 rounded-full border-2 border-stone-400 bg-stone-300";
+        label.className = "text-[#4A4A4A] font-bold text-xs";
+        label.innerText = "All";
       }
       renderRecipes();
     }
@@ -2373,10 +2361,10 @@
         const dot = document.getElementById('tab-' + t + '-dot');
         if (!btn) return;
         if (t === tab) {
-          btn.className = "flex flex-col items-center gap-1 text-orange-600 transition cursor-pointer relative py-1 px-2.5";
-          if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-orange-600 mt-0.5";
+          btn.className = "flex flex-col items-center gap-1 text-[#E53935] transition cursor-pointer relative py-1 px-2.5";
+          if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-[#E53935] mt-0.5";
         } else {
-          btn.className = "flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5";
+          btn.className = "flex flex-col items-center gap-1 text-[#4A4A4A] hover:text-black transition cursor-pointer py-1 px-2.5";
           if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-transparent mt-0.5";
         }
       });
