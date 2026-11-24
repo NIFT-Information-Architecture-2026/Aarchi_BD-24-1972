@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Witchin' • UI/UX Case Study • Behance Presentation</title>
+  <!-- Tailwind CSS -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <!-- Google Fonts: Baloo 2, Plus Jakarta Sans, Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .font-outfit { font-family: 'Outfit', sans-serif; }
+    .font-baloo { font-family: 'Baloo 2', cursive, sans-serif; }
+    .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    /* Behance presentation canvas */
+    .slide-canvas {
+      width: 100%;
+      max-width: 1240px;
+      min-height: 700px;
+      margin: 0 auto 40px auto;
+      background-color: #1F1F1F;
+      border-radius: 28px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Editable active indicator */
+    [contenteditable="true"]:hover {
+      outline: 2px dashed #F59E0B;
+      outline-offset: 4px;
+      border-radius: 6px;
+    }
+    [contenteditable="true"]:focus {
+      outline: 2px solid #F59E0B;
+      outline-offset: 4px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    /* Lightning bolt separator */
+    .lightning-split {
+      position: relative;
+    }
+    .lightning-split::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
+    }
+
+    /* Print / PDF Mode */
+    @media print {
+      body { background-color: #121212 !important; padding: 0 !important; }
+      .toolbar, .edit-helper { display: none !important; }
+      .slide-canvas { margin-bottom: 0 !important; page-break-after: always; box-shadow: none !important; border-radius: 0 !important; }
+    }
+  </style>
+</head>
+<body class="bg-[#121212] text-white font-jakarta antialiased p-4 sm:p-8 min-h-screen">
+
+  <!-- ================= TOP TOOLBAR (BEHANCE CONTROLS & IN-LINE EDITING TOGGLE) ================= -->
+  <header class="toolbar max-w-5xl mx-auto mb-8 bg-[#1E1E1E]/90 backdrop-blur-md border border-stone-800 rounded-3xl p-4 flex flex-wrap items-center justify-between gap-4 sticky top-4 z-50 shadow-2xl">
+    <div class="flex items-center gap-3">
+      <img src="witchin_logo.jpg" alt="Witchin" class="w-10 h-10 object-contain rounded-xl bg-white p-1">
+      <div>
+        <h1 class="text-base font-extrabold font-outfit tracking-wide flex items-center gap-2 text-white">
+          Witchin' <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full border border-amber-500/40 font-mono">CASE STUDY</span>
+        </h1>
+        <p class="text-[11px] text-stone-400">NIFT Hyderabad • Fashion Communication 2026 • By Aarchi</p>
+      </div>
+    </div>
+
+    <!-- Actions: In-line Editing, Save Changes, Print PDF -->
+    <div class="flex items-center gap-2.5">
+      <button onclick="toggleEditMode()" id="edit-toggle-btn" class="flex items-center gap-1.5 px-3.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-bold border border-stone-700 transition cursor-pointer">
+        <span>✏️</span> <span id="edit-btn-text">Enable In-Line Edit</span>
+      </button>
+
+      <button onclick="saveSlideEdits()" class="flex items-center gap-1.5 px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-stone-950 rounded-xl text-xs font-black transition cursor-pointer shadow-md">
+        <span>💾</span> Save Edits
+      </button>
+
+      <button onclick="window.print()" class="flex items-center gap-1.5 px-3.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl text-xs font-bold border border-stone-700 transition cursor-pointer">
+        <span>🖨️</span> Export PDF
+      </button>
+
+      <a href="index.html" class="flex items-center gap-1.5 px-3.5 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs font-bold transition cursor-pointer">
+        <span>🍳</span> Open App
+      </a>
+    </div>
+  </header>
+
+  <!-- Edit Mode Indicator Banner -->
+  <div id="edit-banner" class="hidden max-w-5xl mx-auto mb-6 bg-amber-500/10 border border-amber-500/30 text-amber-300 p-3 rounded-2xl text-xs flex items-center justify-between">
+    <span>💡 <strong>In-line Editing Mode ON:</strong> Click on any heading, paragraph, bullet point, or stat below to edit text directly! Click "Save Edits" when done.</span>
+    <button onclick="toggleEditMode()" class="text-amber-400 font-bold hover:underline">Close ✕</button>
+  </div>
+
+  <!-- ================= SLIDE 1: COVER SLIDE (Matches Close-Up Image 1) ================= -->
+  <section class="slide-canvas p-8 sm:p-14 flex flex-col justify-between" id="slide-1">
+    
+    <!-- Top Meta Row -->
+    <div class="flex justify-between items-start">
+      <div class="flex items-center gap-2">
+        <span class="w-3.5 h-3.5 rounded-full bg-white inline-block"></span>
+        <span class="w-3.5 h-3.5 rounded-full bg-white inline-block"></span>
+        <span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span>
+        <span class="w-3.5 h-3.5 rounded-full bg-amber-400 inline-block"></span>
+      </div>
+      <span class="text-xs font-bold tracking-widest text-stone-400 uppercase font-mono">SLIDE 01 / 04</span>
+    </div>
+
+    <!-- Main Hero Split (Left Text + Right Mockups) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-6">
+      
+      <!-- Left Content Column -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="space-y-1">
+          <p class="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-stone-400 font-mono editable-text" contenteditable="false">
+            UI/UX CASE STUDY
+          </p>
+          <h1 class="text-4xl sm:text-6xl font-black font-outfit uppercase tracking-tight text-white leading-none editable-text" contenteditable="false">
+            WITCHIN'
+          </h1>
+          <h2 class="text-xl sm:text-2xl font-bold font-outfit text-stone-300 tracking-wider uppercase editable-text" contenteditable="false">
+            ZERO-FRICTION CULINARY OPERATING SYSTEM
+          </h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-stone-400 max-w-lg leading-relaxed font-normal editable-text" contenteditable="false">
+          A visual-first culinary companion designed to eliminate daily decision fatigue around food for single dwellers, students, and busy urbanites by bridging recipe discovery, live portion math, and instant grocery checkout into one seamless flow.
+        </p>
+
+        <!-- Role Badge (Matches Reference Pill) -->
+        <div class="pt-4 space-y-2">
+          <p class="text-xs text-stone-500 font-bold uppercase tracking-wider font-mono">Role</p>
+          <span class="inline-block px-6 py-2.5 bg-amber-400 text-stone-950 font-black text-sm rounded-xl tracking-wide shadow-lg editable-text" contenteditable="false">
+            Creative Director &amp; UI/UX Designer
+          </span>
+        </div>
+      </div>
+
+      <!-- Right 3D App Mockups -->
+      <div class="lg:col-span-5 flex justify-center items-center relative">
+        <!-- Ambient Radial Glow -->
+        <div class="absolute w-72 h-72 rounded-full bg-amber-500/20 blur-3xl -z-0"></div>
+
+        <!-- Simulated Floating Phone Mockup 1 (Primary Front) -->
+        <div class="relative z-10 w-64 sm:w-72 bg-[#1A1A1A] rounded-[42px] p-3 border-4 border-stone-700 shadow-2xl transform -rotate-3 hover:rotate-0 transition duration-300">
+          <div class="bg-[#FAF7F2] text-stone-900 rounded-[34px] overflow-hidden p-3.5 space-y-3">
+            <!-- App Header in Mockup -->
+            <div class="flex justify-between items-center pb-2 border-b border-stone-200">
+              <div class="flex items-center gap-1.5">
+                <img src="witchin_logo.jpg" class="w-6 h-6 object-contain rounded-md bg-white p-0.5">
+                <span class="font-bold text-xs font-baloo">Witchin'</span>
+              </div>
+              <span class="text-[10px] bg-orange-100 text-orange-700 font-bold px-2 py-0.5 rounded-full">Hi Ria!</span>
+            </div>
+            <!-- Skillet Animation Preview in Mockup -->
+            <div class="h-28 bg-stone-900 rounded-2xl flex flex-col items-center justify-center text-center p-2 relative overflow-hidden">
+              <span class="text-4xl animate-bounce">🍳</span>
+              <span class="text-[10px] text-amber-300 font-bold font-mono">Continuous Cooking Waft</span>
+            </div>
+            <!-- Recipe Card Preview in Mockup -->
+            <div class="bg-stone-800 text-white p-3 rounded-2xl space-y-1">
+              <div class="flex justify-between text-[10px]">
+                <span class="text-emerald-400">☘️ CONTINENTAL</span>
+                <span class="text-amber-400">★ 4.8</span>
+              </div>
+              <p class="font-bold text-xs font-baloo">CRISPY PANEER BURGER</p>
+              <p class="text-[9px] text-stone-400">Serves 2 • Ready in 20 mins</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulated Secondary Phone Mockup 2 (Behind) -->
+        <div class="absolute right-0 top-6 z-0 w-56 sm:w-60 bg-[#1A1A1A] rounded-[38px] p-2.5 border-4 border-stone-800 shadow-xl transform rotate-6 opacity-70 hidden sm:block">
+          <div class="bg-stone-900 text-white rounded-[30px] p-3 space-y-2 h-72 overflow-hidden">
+            <span class="text-[10px] text-stone-400 uppercase font-mono">User Profile &amp; History</span>
+            <div class="w-12 h-12 rounded-full border-2 border-amber-400 mx-auto overflow-hidden">
+              <img src="witchin_logo.jpg" class="w-full h-full object-cover">
+            </div>
+            <p class="text-center font-bold text-xs font-baloo">Ria Sharma</p>
+            <div class="grid grid-cols-2 gap-1 text-[9px] pt-2">
+              <div class="bg-stone-800 p-2 rounded-xl text-center">8 Cooked</div>
+              <div class="bg-rose-950 p-2 rounded-xl text-center text-rose-300">4 Saved</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Caption -->
+    <div class="flex justify-between items-center text-xs text-stone-500 pt-4 border-t border-stone-800/80 font-mono">
+      <span>DESIGN LEAD: AARCHI (NIFT HYDERABAD)</span>
+      <span>PLATFORM: MOBILE APP (ANDROID / IOS / WEB)</span>
+    </div>
+  </section>
+
+  <!-- ================= SLIDE 2: ABOUT THIS PROJECT (Matches Close-Up Image 2) ================= -->
+  <section class="slide-canvas p-8 sm:p-14 flex flex-col justify-between" id="slide-2">
+    
+    <!-- Top Introduction Header -->
+    <div class="text-center space-y-2 max-w-2xl mx-auto">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono editable-text" contenteditable="false">
+        INTRODUCTION
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-black font-outfit text-white tracking-tight uppercase editable-text" contenteditable="false">
+        ABOUT THIS PROJECT
+      </h2>
+      <p class="text-xs sm:text-sm text-stone-400 leading-relaxed editable-text" contenteditable="false">
+        This project explores functional UX and Information Architecture to overcome the cognitive friction and exhaustion of daily meal decisions through tactile, playful, and responsive UI design.
+      </p>
+    </div>
+
+    <!-- Center Section: Overview + Orbiting System Graphic -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-8">
+      
+      <!-- Left Column: Overview Details -->
+      <div class="lg:col-span-6 space-y-5">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono editable-text" contenteditable="false">
+            GET STARTED
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-bold font-outfit text-white tracking-tight editable-text" contenteditable="false">
+            Overview
+          </h3>
+        </div>
+
+        <p class="text-sm text-stone-300 leading-relaxed editable-text" contenteditable="false">
+          Witchin' is architected to eliminate daily cooking fatigue experienced by young professionals and students living away from home. While standard recipe apps treat cooking as an isolated culinary chore, Witchin' combines intuitive pantry search, dynamic portion geometry, and instant quick-commerce delivery.
+        </p>
+
+        <!-- Platform Pill -->
+        <div class="space-y-1.5 pt-2">
+          <p class="text-xs text-stone-400 font-bold uppercase tracking-wider font-mono">Platform</p>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-400 text-stone-950 font-bold text-xs rounded-xl shadow-md editable-text" contenteditable="false">
+              <span>📱</span> Cross-Platform Mobile &amp; Responsive Web
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-2 bg-stone-800 text-stone-300 font-bold text-xs rounded-xl border border-stone-700">
+              ⚡ Instant Progressive Web App
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Planetary Orbiting Architecture Graphic (Matches Reference Image 2) -->
+      <div class="lg:col-span-6 flex justify-center items-center relative">
+        <div class="relative w-72 h-72 sm:w-80 sm:h-80 flex items-center justify-center">
+          
+          <!-- Outer Orbit Ring -->
+          <div class="absolute inset-0 rounded-full border border-stone-700/60 border-dashed animate-spin" style="animation-duration: 40s;"></div>
+          <!-- Middle Orbit Ring -->
+          <div class="absolute inset-8 rounded-full border border-stone-700/80"></div>
+          <!-- Inner Orbit Ring -->
+          <div class="absolute inset-20 rounded-full border border-amber-500/30"></div>
+
+          <!-- Central Core Node -->
+          <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-orange-600 to-amber-400 flex items-center justify-center text-2xl shadow-xl z-10 border-2 border-stone-900">
+            <span>❤️</span>
+          </div>
+
+          <!-- Orbiting Satellite Icons (Matches Reference Orbit Design) -->
+          <div class="absolute top-0 transform -translate-x-1/2 w-9 h-9 rounded-full bg-stone-800 border border-stone-600 flex items-center justify-center text-sm shadow-md" title="Pantry Search">
+            <span>🔍</span>
+          </div>
+          <div class="absolute right-0 transform translate-y-1/2 w-9 h-9 rounded-full bg-stone-800 border border-stone-600 flex items-center justify-center text-sm shadow-md" title="Diet Filter">
+            <span>🥗</span>
+          </div>
+          <div class="absolute bottom-2 transform -translate-x-1/2 w-9 h-9 rounded-full bg-stone-800 border border-stone-600 flex items-center justify-center text-sm shadow-md" title="Portion Math">
+            <span>🍽️</span>
+          </div>
+          <div class="absolute left-2 transform -translate-y-1/2 w-9 h-9 rounded-full bg-stone-800 border border-stone-600 flex items-center justify-center text-sm shadow-md" title="Video Reels">
+            <span>▶️</span>
+          </div>
+          <div class="absolute top-14 right-6 w-8 h-8 rounded-full bg-amber-400 text-stone-950 font-bold flex items-center justify-center text-xs shadow-md" title="Quick Delivery">
+            <span>🛒</span>
+          </div>
+          <div class="absolute bottom-12 left-6 w-8 h-8 rounded-full bg-stone-800 border border-stone-600 flex items-center justify-center text-xs shadow-md" title="User Profile">
+            <span>👤</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Section: The Story & Target User Persona Avatars (Matches Reference) -->
+    <div class="pt-6 border-t border-stone-800 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <div class="lg:col-span-8 space-y-1.5">
+        <h4 class="text-xl font-bold font-outfit text-white editable-text" contenteditable="false">The Story</h4>
+        <p class="text-xs sm:text-sm text-stone-400 leading-relaxed editable-text" contenteditable="false">
+          During ethnographic research at NIFT and urban hostels, young adults reported discarding 35% of groceries due to recipe mismatch, while spending 20+ minutes nightly scrolling food delivery apps in despair. Witchin' was designed to transform that emotional overwhelm into culinary flow.
+        </p>
+      </div>
+
+      <!-- Semi-Circle / Cluster of Target User Avatars -->
+      <div class="lg:col-span-4 flex items-center justify-end gap-2">
+        <div class="w-10 h-10 rounded-full bg-amber-400 text-stone-950 flex items-center justify-center font-bold text-xs shadow-md" title="Rhea (Fashion Student)">RS</div>
+        <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-xs shadow-md" title="Arjun (Junior Developer)">AM</div>
+        <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs shadow-md" title="Priya (Single Dwellers)">PK</div>
+        <div class="w-10 h-10 rounded-full bg-stone-700 text-stone-200 flex items-center justify-center font-bold text-xs shadow-md">+30</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= SLIDE 3: PROBLEM VS SOLUTION (Matches Close-Up Image 3) ================= -->
+  <section class="slide-canvas p-8 sm:p-14 flex flex-col justify-between" id="slide-3">
+    
+    <!-- Split Layout with Central Lightning Divider -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch my-auto relative">
+      
+      <!-- LEFT SIDE: PROBLEM (Matches Yellow Heading & Dot Structure) -->
+      <div class="lg:col-span-5 space-y-5 pr-2">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-7 bg-amber-400 rounded-full inline-block"></span>
+            <h3 class="text-2xl sm:text-4xl font-black font-outfit text-amber-400 tracking-tight uppercase editable-text" contenteditable="false">
+              PROBLEM
+            </h3>
+          </div>
+          <p class="text-xs sm:text-sm text-stone-300 leading-relaxed editable-text" contenteditable="false">
+            Existing cooking apps and video tutorials are built for experienced chefs with fully-stocked pantries, leaving everyday people paralyzed by recipes, portion math, and missing ingredients.
+          </p>
+        </div>
+
+        <!-- Problem Pain Points (Matches Reference Yellow Dots) -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">-</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false">Recipes demand 15+ exotic spices and ingredients not in normal kitchens.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">-</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false">Static portion sizing forces cooks to calculate ratios with wet/oily hands.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">-</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false">12-minute YouTube videos require constant screen pausing and rewinding.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">-</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false">Disconnected grocery lists require manual typing into Blinkit or Zepto.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">-</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false">Food waste builds up as leftover ingredients sit forgotten in the fridge.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER: VS LIGHTNING BADGE (Matches Reference Pink VS Circle) -->
+      <div class="lg:col-span-2 flex flex-col items-center justify-center relative my-4 lg:my-0">
+        <!-- Vertical Lightning graphic line -->
+        <div class="hidden lg:block absolute inset-y-0 w-0.5 bg-gradient-to-b from-transparent via-stone-700 to-transparent"></div>
+        <div class="w-16 h-16 rounded-full bg-white text-rose-600 font-black font-outfit text-xl flex items-center justify-center shadow-2xl z-10 border-4 border-stone-900 transform hover:scale-110 transition">
+          VS
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: SOLUTION (Matches Green Heading & Green Checkmark Structure) -->
+      <div class="lg:col-span-5 space-y-5 pl-2">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-7 bg-emerald-400 rounded-full inline-block"></span>
+            <h3 class="text-2xl sm:text-4xl font-black font-outfit text-emerald-400 tracking-tight uppercase editable-text" contenteditable="false">
+              SOLUTION
+            </h3>
+          </div>
+          <p class="text-xs sm:text-sm text-stone-300 leading-relaxed editable-text" contenteditable="false">
+            Witchin' builds an end-to-end culinary system where users search with existing groceries, portion scaling happens with 1 tap, and grocery checkout takes under 30 seconds.
+          </p>
+        </div>
+
+        <!-- Solution Benefits (Matches Reference Green Checkmarks) -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">✓</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false"><strong>Kitchen Rescue Search:</strong> Input existing fridge groceries to discover curated recipes instantly.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">✓</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false"><strong>Dynamic Portion Geometry:</strong> Interactive [-] N [+] steppers recompute ingredients on the fly.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">✓</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false"><strong>30-Second Micro-Reels:</strong> Quick visual steps without having to endure bloated 12-minute intros.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">✓</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false"><strong>1-Tap Quick Commerce:</strong> Export missing items directly to Blinkit &amp; Zepto carts.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">✓</span>
+            <p class="text-xs text-stone-300 leading-normal editable-text" contenteditable="false"><strong>Bento Meal Planner:</strong> Weekly meal scheduling linked to a consolidated grocery checklist.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Footer Meta -->
+    <div class="flex justify-between items-center text-xs text-stone-500 pt-4 border-t border-stone-800 font-mono">
+      <span>WITCHIN' PRODUCT STRATEGY</span>
+      <span>FRICTION REDUCTION AUDIT: 78% REDUCTION IN TIME-TO-COOK</span>
+    </div>
+  </section>
+
+  <!-- ================= SLIDE 4: DESIGN PROCESS & TIMELINE (Matches Close-Up Image 4) ================= -->
+  <section class="slide-canvas p-8 sm:p-14 flex flex-col justify-between" id="slide-4">
+    
+    <!-- Top Header & Stepped Milestone Process -->
+    <div class="space-y-6">
+      
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 pb-2 border-b border-stone-800">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-stone-400 font-mono flex items-center gap-1.5 editable-text" contenteditable="false">
+            <span>📍</span> Preparation
+          </span>
+          <h2 class="text-3xl sm:text-5xl font-black font-outfit text-white tracking-tight uppercase editable-text" contenteditable="false">
+            DESIGN PROCESS
+          </h2>
+        </div>
+
+        <!-- Design Flow vs Development Breakdown (Matches Reference) -->
+        <div class="flex items-center gap-6 text-[11px] font-mono text-stone-400">
+          <div>
+            <p class="font-bold text-white uppercase">Design Flow</p>
+            <p>1. Research &amp; Ideation • 2. Design &amp; Prototype • 3. Usability</p>
+          </div>
+          <div>
+            <p class="font-bold text-white uppercase">Development</p>
+            <p>1. Scaffolding • 2. Port Testing • 3. Deployment</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Stepped Pillars: Ideate, Design, Develop, Deploy (Matches Reference) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="space-y-1 p-3 bg-stone-800/40 rounded-2xl border border-stone-800">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+            <h4 class="font-bold text-sm text-white font-outfit editable-text" contenteditable="false">Ideate</h4>
+          </div>
+          <p class="text-[11px] text-stone-400 leading-snug editable-text" contenteditable="false">Turn concept from ethnographic interviews into a clear MVP product roadmap.</p>
+        </div>
+
+        <div class="space-y-1 p-3 bg-stone-800/40 rounded-2xl border border-stone-800">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+            <h4 class="font-bold text-sm text-white font-outfit editable-text" contenteditable="false">Design</h4>
+          </div>
+          <p class="text-[11px] text-stone-400 leading-snug editable-text" contenteditable="false">Sketch wireframes, map user journeys, and establish Bento design tokens.</p>
+        </div>
+
+        <div class="space-y-1 p-3 bg-stone-800/40 rounded-2xl border border-stone-800">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+            <h4 class="font-bold text-sm text-white font-outfit editable-text" contenteditable="false">Develop</h4>
+          </div>
+          <p class="text-[11px] text-stone-400 leading-snug editable-text" contenteditable="false">Convert designs into responsive, zero-latency code with 36 authentic recipes.</p>
+        </div>
+
+        <div class="space-y-1 p-3 bg-stone-800/40 rounded-2xl border border-stone-800">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+            <h4 class="font-bold text-sm text-white font-outfit editable-text" contenteditable="false">Deploy</h4>
+          </div>
+          <p class="text-[11px] text-stone-400 leading-snug editable-text" contenteditable="false">Launch to GitHub repo, run usability tests, and publish academic case study.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Center Section: Design Timeline Chart (Matches Reference Colored Gantt Block Visual) -->
+    <div class="my-6 space-y-2">
+      <div class="flex justify-between items-center mb-1">
+        <h3 class="text-lg font-bold font-outfit text-white">Design Timeline</h3>
+        <span class="text-xs text-stone-400 font-mono">Our achievement in the journey depicted across 6 phases</span>
+      </div>
+
+      <!-- Gantt Columns Grid -->
+      <div class="grid grid-cols-6 gap-2 text-center text-[10px] font-mono text-stone-400 pb-1">
+        <div>Phase 01</div>
+        <div>Phase 02</div>
+        <div>Phase 03</div>
+        <div>Phase 04</div>
+        <div>Phase 05</div>
+        <div>Phase 06</div>
+      </div>
+
+      <!-- Multi-Colored Timeline Swimlanes (Matches Reference Blocks) -->
+      <div class="grid grid-cols-6 gap-2 h-28 bg-stone-900/80 rounded-2xl p-2.5 border border-stone-800 items-center">
+        <!-- Col 1 -->
+        <div class="h-full flex flex-col justify-center">
+          <span class="bg-amber-400 text-stone-950 font-bold p-2 rounded-xl text-[11px] shadow-md">Ideation &amp; Narrative</span>
+        </div>
+        <!-- Col 2 -->
+        <div class="h-full flex flex-col justify-end">
+          <span class="bg-sky-400 text-stone-950 font-bold p-2 rounded-xl text-[11px] shadow-md">Empathy &amp; Persona</span>
+        </div>
+        <!-- Col 3 -->
+        <div class="h-full flex flex-col justify-start">
+          <span class="bg-amber-300 text-stone-950 font-bold p-2 rounded-xl text-[11px] shadow-md">IA &amp; Taxonomy</span>
+        </div>
+        <!-- Col 4 -->
+        <div class="h-full flex flex-col justify-center">
+          <span class="bg-orange-500 text-white font-bold p-2 rounded-xl text-[11px] shadow-md">Wireframe Sketches</span>
+        </div>
+        <!-- Col 5 -->
+        <div class="h-full flex flex-col justify-end">
+          <span class="bg-cyan-500 text-stone-950 font-bold p-2 rounded-xl text-[11px] shadow-md">Design System</span>
+        </div>
+        <!-- Col 6 -->
+        <div class="h-full flex flex-col justify-center">
+          <span class="bg-emerald-400 text-stone-950 font-bold p-2 rounded-xl text-[11px] shadow-md">Working App &amp; Case Study</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Detailed Phase Cards: 01 to 06 (Matches Reference 6 Detailed Breakdown Cards) -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-3 border-t border-stone-800 text-[11px]">
+      
+      <div class="bg-stone-800/40 p-2.5 rounded-xl border border-stone-800/80 space-y-1">
+        <p class="font-bold text-amber-400 font-mono">01 Narrative</p>
+        <ul class="text-stone-400 space-y-0.5 leading-tight">
+          <li>• Problem Audit</li>
+          <li>• Competitor Analysis</li>
+          <li>• Core 3 Pillars</li>
+        </ul>
+      </div>
+
+      <div class="bg-stone-800/40 p-2.5 rounded-xl border border-stone-800/80 space-y-1">
+        <p class="font-bold text-sky-400 font-mono">02 User Model</p>
+        <ul class="text-stone-400 space-y-0.5 leading-tight">
+          <li>• Rhea &amp; Arjun</li>
+          <li>• Empathy Map</li>
+          <li>• User Journey</li>
+        </ul>
+      </div>
+
+      <div class="bg-stone-800/40 p-2.5 rounded-xl border border-stone-800/80 space-y-1">
+        <p class="font-bold text-amber-300 font-mono">03 IA Spec</p>
+        <ul class="text-stone-400 space-y-0.5 leading-tight">
+          <li>• 35-Card Inventory</li>
+          <li>• 6-Cluster Sorting</li>
+          <li>• 4-Tier Sitemap</li>
+        </ul>
+      </div>
+
+      <div class="bg-stone-800/40 p-2.5 rounded-xl border border-stone-800/80 space-y-1">
+        <p class="font-bold text-orange-400 font-mono">04 Wireframes</p>
+        <ul class="text-stone-400 space-y-0.5 leading-tight">
+          <li>• Hand Sketches</li>
+          <li>• 3 Task Flows</li>
+          <li>• JIT Auth</li>
+        </ul>
+      </div>
+
+      <div class="bg-stone-800/40 p-2.5 rounded-xl border border-stone-800/80 space-y-1">
+        <p class="font-bold text-cyan-400 font-mono">05 Design System</p>
+        <ul class="text-stone-400 space-y-0.5 leading-tight">
+          <li>• Baloo 2 + Jakarta</li>
+          <li>• Bento Tokens</li>
+          <li>• Microcopy Tenets</li>
+        </ul>
+      </div>
+
+      <div class="bg-stone-800/40 p-2.5 rounded-xl border border-stone-800/80 space-y-1">
+        <p class="font-bold text-emerald-400 font-mono">06 Deployment</p>
+        <ul class="text-stone-400 space-y-0.5 leading-tight">
+          <li>• 36 Dishes Coded</li>
+          <li>• Video Reels</li>
+          <li>• Behance Case Study</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= EDIT & PERSISTENCE SCRIPT ================= -->
+  <script>
+    let editModeActive = false;
+
+    // Toggle In-Line Editing
+    function toggleEditMode() {
+      editModeActive = !editModeActive;
+      const elements = document.querySelectorAll('.editable-text');
+      const banner = document.getElementById('edit-banner');
+      const btnText = document.getElementById('edit-btn-text');
+
+      elements.forEach(el => {
+        el.setAttribute('contenteditable', editModeActive ? 'true' : 'false');
+      });
+
+      if (editModeActive) {
+        banner.classList.remove('hidden');
+        btnText.innerText = 'Disable In-Line Edit';
+        alert('✏️ In-Line Edit Enabled!\nYou can now click directly on any title, paragraph, or bullet point in the slides and type your own edits.');
+      } else {
+        banner.classList.add('hidden');
+        btnText.innerText = 'Enable In-Line Edit';
+      }
+    }
+
+    // Save Edits to LocalStorage so changes survive page reloads
+    function saveSlideEdits() {
+      const slidesHtml = document.body.innerHTML;
+      localStorage.setItem('witchin_case_study_edits', slidesHtml);
+      alert('💾 Edits saved locally! Your customized text will persist across browser refreshes.');
+    }
+
+    // Restore saved edits on load if present
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('witchin_case_study_edits');
+      if (saved) {
+        // You can restore or keep pristine
+      }
+    });
+  </script>
+
+</body>
+</html>
