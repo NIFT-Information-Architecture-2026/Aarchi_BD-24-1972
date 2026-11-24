@@ -153,20 +153,25 @@
   <main class="max-w-5xl mx-auto px-4 py-4 w-full flex-1 space-y-5">
 
     <!-- ================= CHEF HERO CONTAINER (User Artwork with Top Overlay Controls) ================= -->
-    <div class="relative rounded-[32px] overflow-hidden border-2 border-stone-200/90 shadow-md bg-[#E53935] min-h-[280px] sm:min-h-[340px] flex flex-col justify-start p-4 sm:p-5">
+    <div class="relative rounded-[32px] overflow-hidden border border-stone-300 shadow-md bg-[#E53935] w-full aspect-[16/10] sm:aspect-[16/8] max-h-[380px] flex flex-col justify-between p-4 sm:p-5">
       
-      <!-- Full-bleed Crisp Chef Artwork (No upper-left or upper-right text) -->
-      <img src="chef_hero.png" alt="Witchin' Chef Illustration" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none">
+      <!-- Full Chef Illustration Background (Crisp, centered, full cover) -->
+      <img 
+        src="chef_hero.png" 
+        alt="" 
+        class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none z-0"
+        onerror="this.src='media_1795548302036.png'"
+      >
 
-      <!-- Subtle gradient overlay at top for search readability -->
-      <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/50 via-black/20 to-transparent pointer-events-none z-10"></div>
+      <!-- Soft dark gradient at very top to ensure Search Bar stands out -->
+      <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 via-black/25 to-transparent pointer-events-none z-10"></div>
 
       <!-- OVERLAY LAYER AT TOP OF IMAGE: Live Search Bar + Minimalist Veg/Non-Veg Icon -->
       <div class="relative z-20 flex flex-row gap-2.5 items-center w-full">
         
         <!-- Live Search Bar with Dark Grey Mic Icon -->
-        <div class="flex-1 relative flex items-center bg-white/95 backdrop-blur-md rounded-2xl border border-stone-200/80 px-3.5 py-2.5 shadow-md focus-within:border-[#E53935] transition">
-          <span class="icon-grey mr-2.5 text-base select-none">🔍</span>
+        <div class="flex-1 relative flex items-center bg-white/95 backdrop-blur-md rounded-2xl border border-stone-200 px-3.5 py-2.5 shadow-md focus-within:border-[#E53935] transition">
+          <span class="text-[#4A4A4A] mr-2.5 text-sm select-none">🔍</span>
           <input 
             id="search-input" 
             type="text" 
@@ -174,7 +179,7 @@
             placeholder="Search any dish or recipe..." 
             class="w-full text-xs sm:text-sm font-semibold outline-none bg-transparent placeholder-stone-400 text-black"
           >
-          <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-black font-bold text-xs p-1 mr-1">✕</button>
+          <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-[#4A4A4A] hover:text-black font-bold text-xs p-1 mr-1">✕</button>
           
           <!-- Mic Button with dark grey icon -->
           <button onclick="triggerVoiceSearch()" title="Voice Search" class="text-[#4A4A4A] hover:text-[#E53935] p-1 text-base transition cursor-pointer">
@@ -183,7 +188,7 @@
         </div>
 
         <!-- Minimal Interactive Veg Toggle (Icon-only: Grey when All, Green with 'Veg' when active) -->
-        <button id="veg-toggle-single" onclick="toggleSingleVegDiet()" title="Toggle Veg Only / All Recipes" class="flex items-center gap-1.5 px-3 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200/80 shadow-md text-xs font-bold transition cursor-pointer select-none shrink-0 hover:bg-white">
+        <button id="veg-toggle-single" onclick="toggleSingleVegDiet()" title="Toggle Veg Only / All Recipes" class="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md border border-stone-200 shadow-md text-xs font-bold transition cursor-pointer select-none shrink-0 hover:bg-white">
           <!-- Tactile switch indicator -->
           <div id="veg-toggle-dot" class="w-3.5 h-3.5 rounded-full border-2 border-stone-400 bg-stone-300 transition-colors"></div>
           <span id="veg-toggle-label" class="text-[#4A4A4A] text-xs font-bold">All</span>
@@ -1916,10 +1921,16 @@
               <!-- Key Metrics Row: Servings Stepper & Time -->
               <div class="mt-4 space-y-2 text-xs sm:text-sm text-stone-200 font-medium">
                 
+              <!-- Key Metrics Row: Servings Stepper & Time -->
+              <div class="mt-4 space-y-2 text-xs sm:text-sm text-stone-200 font-medium">
+                
                 <!-- Servings with Interactive Stepper -->
                 <div class="flex items-center gap-2">
-                  <span class="text-stone-300">🍽️ Serves</span>
-                  <div class="inline-flex items-center bg-black/30 rounded-lg px-2 py-0.5 border border-white/10 gap-2">
+                  <span class="text-stone-400 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span>Servings</span>
+                  </span>
+                  <div class="inline-flex items-center bg-black/40 rounded-lg px-2 py-0.5 border border-white/10 gap-2">
                     <button onclick="changeServings('${recipe.id}', -1)" class="w-5 h-5 flex items-center justify-center rounded text-stone-300 hover:text-white hover:bg-white/10 font-bold cursor-pointer">-</button>
                     <span class="font-bold text-white text-xs">${recipe.activeServings}</span>
                     <button onclick="changeServings('${recipe.id}', 1)" class="w-5 h-5 flex items-center justify-center rounded text-stone-300 hover:text-white hover:bg-white/10 font-bold cursor-pointer">+</button>
@@ -1927,9 +1938,9 @@
                 </div>
 
                 <!-- Ready In Badge -->
-                <div class="flex items-center gap-2">
-                  <span class="text-stone-300">⏱️</span>
-                  <span>Ready In- ${recipe.readyIn}</span>
+                <div class="flex items-center gap-1.5 text-stone-300">
+                  <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span>Ready in ${recipe.readyIn}</span>
                 </div>
 
                 <!-- Rating & Reel Button -->
@@ -1939,8 +1950,8 @@
                   </span>
                   
                   <!-- Watch Reel Play Button -->
-                  <button onclick="openReelModal('${recipe.id}')" class="px-2.5 py-1 bg-white/15 hover:bg-white/25 border border-white/20 text-white rounded-full font-bold text-[11px] flex items-center gap-1 transition cursor-pointer">
-                    <span class="text-rose-400 text-xs">▶</span>
+                  <button onclick="openReelModal('${recipe.id}')" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-full font-bold text-[11px] flex items-center gap-1.5 transition cursor-pointer">
+                    <svg class="w-3 h-3 text-[#E53935] fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     <span>Reel</span>
                   </button>
                 </div>
@@ -1949,7 +1960,8 @@
               <!-- Basic Ingredients Section (Scaled live!) -->
               <div class="mt-4 pt-3 border-t border-white/10">
                 <p class="text-xs font-bold text-stone-200 flex items-center gap-1.5 mb-1.5">
-                  <span>📑</span> Basic Ingredients
+                  <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                  <span>Basic Ingredients</span>
                 </p>
                 <ul class="text-[11px] sm:text-xs text-stone-300 space-y-0.5 leading-relaxed font-sans-clean max-h-24 overflow-y-auto no-scrollbar">
                   ${ingredientsHtml}
@@ -1960,7 +1972,8 @@
               <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-end">
                 <div class="flex-1 pr-3">
                   <p class="text-xs font-bold text-stone-200 flex items-center gap-1.5 mb-1">
-                    <span>🍲</span> Quick Recipe
+                    <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span>Quick Recipe</span>
                   </p>
                   <p class="text-[11px] text-stone-300 font-sans-clean leading-snug line-clamp-2">
                     ${recipe.steps[0]}
@@ -1968,7 +1981,7 @@
                 </div>
 
                 <!-- Heart Icon Button (Saves to Favorites) -->
-                <button onclick="toggleSaveRecipe('${recipe.id}')" class="heart-btn text-2xl p-1 text-white/90 hover:text-rose-400 transition cursor-pointer">
+                <button onclick="toggleSaveRecipe('${recipe.id}')" class="heart-btn text-2xl p-1 text-white/90 hover:text-[#E53935] transition cursor-pointer">
                   ${isSaved ? '❤️' : '🤍'}
                 </button>
               </div>
