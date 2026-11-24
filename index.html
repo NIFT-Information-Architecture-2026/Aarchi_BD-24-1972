@@ -42,28 +42,37 @@
   <header class="sticky top-0 bg-[#FAF7F2]/95 backdrop-blur-md z-40 border-b border-stone-200/80 px-4 py-3 shadow-xs">
     <div class="max-w-5xl mx-auto flex justify-between items-center">
       
-      <!-- Logo & Name -->
-      <div class="flex items-center gap-2">
-        <span class="text-2xl select-none">🍜</span>
-        <div>
-          <h1 class="text-xl font-extrabold font-baloo text-orange-600 leading-none">CRAVEPLAN</h1>
-          <p class="text-[10px] text-stone-500 font-bold tracking-wider uppercase">Zero-Friction Cooking</p>
+      <!-- Logo & Name (KHOI brand logo) -->
+      <div class="flex items-center gap-2.5">
+        <img src="khoi_logo.jpg" alt="KHOI Logo" class="h-10 w-10 sm:h-11 sm:w-11 object-contain rounded-full shadow-xs border border-stone-300 bg-black/90 p-1" onerror="this.outerHTML='<span class=\'text-2xl\'>🍳</span>'">
+        <div class="flex flex-col">
+          <span class="text-xl sm:text-2xl font-black font-baloo tracking-wider text-stone-900 leading-none">KHOI</span>
+          <span class="text-[9px] text-stone-500 font-bold uppercase tracking-wider">Zero-Friction Cooking</span>
         </div>
       </div>
 
-      <!-- Greetings -->
-      <div class="hidden sm:block text-center">
-        <p class="text-xs text-stone-500 font-medium">Welcome back!</p>
-        <h2 class="text-base font-extrabold font-baloo text-stone-900 leading-tight">Good morning, Rhea 👋</h2>
+      <!-- Greetings: Hi! RIA, -->
+      <div class="text-center">
+        <h2 class="text-base sm:text-lg font-extrabold font-baloo text-stone-900 leading-tight">
+          Hi! RIA 👋
+        </h2>
+        <p class="text-[11px] text-stone-500 font-medium">Ready to cook today?</p>
       </div>
 
-      <!-- Saves / Favorite Filter Button -->
-      <div class="flex items-center gap-2">
-        <button id="saves-btn" onclick="toggleSavedFilter()" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-full font-bold text-xs shadow-xs transition cursor-pointer">
+      <!-- Profile Avatar & Quick Saves Badge -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="saves-btn" onclick="toggleSavedFilter()" title="Saved Recipes" class="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-full font-bold text-xs shadow-xs transition cursor-pointer">
           <span class="text-sm">❤️</span>
-          <span>Saves (<span id="saves-count">4</span>)</span>
+          <span class="hidden sm:inline">Saves</span>
+          <span id="saves-count" class="bg-rose-600 text-white rounded-full px-1.5 py-0.2 text-[10px] font-bold">4</span>
+        </button>
+
+        <!-- Profile Icon -->
+        <button onclick="switchTab('profile')" title="User Profile" class="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 border-2 border-white shadow-sm flex items-center justify-center text-white font-bold text-sm cursor-pointer hover:ring-2 hover:ring-orange-400 transition overflow-hidden">
+          <span>R</span>
         </button>
       </div>
+
     </div>
   </header>
 
@@ -71,34 +80,43 @@
   <main class="max-w-5xl mx-auto px-4 py-4 w-full flex-1 space-y-5">
 
     <!-- ================= SEARCH & VEG/NON-VEG FILTER ================= -->
+    <!-- Sketch Layout: [🔍 Search (search for recipes with existing groceries) 🎙️]  [🟢 Veg Toggle] -->
     <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
       
-      <!-- Live Search Bar -->
+      <!-- Live Search Bar with Mic Icon -->
       <div class="flex-1 relative flex items-center bg-white rounded-2xl border-2 border-stone-200 px-3.5 py-2.5 shadow-xs focus-within:border-orange-500 transition">
-        <span class="text-stone-400 mr-2.5 text-sm select-none">🔍</span>
+        <span class="text-stone-400 mr-2.5 text-base select-none">🔍</span>
         <input 
           id="search-input" 
           type="text" 
           oninput="applyFilters()" 
-          placeholder="Search by recipe, ingredient (e.g. potato, paneer, pasta)..." 
+          placeholder="Search recipes with existing groceries (e.g. potato, onion, paneer)..." 
           class="w-full text-xs sm:text-sm font-medium outline-none bg-transparent placeholder-stone-400 text-stone-900"
         >
-        <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-stone-600 font-bold text-xs p-1">✕</button>
+        <button onclick="clearSearch()" id="clear-search-btn" class="hidden text-stone-400 hover:text-stone-600 font-bold text-xs p-1 mr-1">✕</button>
+        <!-- Mic Button for Voice Search -->
+        <button onclick="triggerVoiceSearch()" title="Voice Search" class="text-stone-400 hover:text-orange-600 p-1 text-base transition cursor-pointer">
+          🎙️
+        </button>
       </div>
 
-      <!-- Veg / Non-Veg Toggle Switch -->
-      <div class="flex bg-stone-200/80 p-1 rounded-2xl text-xs font-bold shrink-0 self-center sm:self-auto">
-        <button id="diet-all" onclick="setDietFilter('all')" class="px-3 py-1.5 rounded-xl bg-white text-stone-900 shadow-xs transition">All</button>
-        <button id="diet-veg" onclick="setDietFilter('veg')" class="px-3 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1 transition">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Veg
+      <!-- Veg / Non-Veg Toggle Switch (Sketch: All vs Green Veg) -->
+      <div class="flex bg-stone-200/90 p-1 rounded-2xl text-xs font-bold shrink-0 self-center sm:self-auto border border-stone-300/60 shadow-xs">
+        <button id="diet-all" onclick="setDietFilter('all')" class="px-3.5 py-1.5 rounded-xl bg-white text-stone-900 shadow-xs transition">
+          All
         </button>
-        <button id="diet-nonveg" onclick="setDietFilter('nonveg')" class="px-3 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1 transition">
-          <span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span> Non-Veg
+        <button id="diet-veg" onclick="setDietFilter('veg')" class="px-3.5 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1.5 transition">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-xs"></span>
+          <span class="text-emerald-700 font-extrabold">VEG</span>
+        </button>
+        <button id="diet-nonveg" onclick="setDietFilter('nonveg')" class="px-3 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 flex items-center gap-1.5 transition">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span>
+          <span>Non-Veg</span>
         </button>
       </div>
     </div>
 
-    <!-- ================= STOP-MOTION PAPERCRAFT HERO BANNER ================= -->
+    <!-- ================= HERO ANIMATION BANNER (Sketch: Animation Container) ================= -->
     <div class="bg-[#F5EFEB] border-2 border-stone-300/80 rounded-[32px] p-4 sm:p-5 shadow-xs relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4">
       
       <!-- Left Editorial Text -->
@@ -110,12 +128,12 @@
           A Paper-Animation Breakfast
         </h2>
         <p class="text-xs text-stone-600 font-medium leading-relaxed font-sans-clean">
-          Tactile stop-motion paper art featuring toast, fried egg, and butter. Zero loud gradients—just pure culinary craft.
+          Tactile stop-motion paper art featuring toast, fried egg, and butter. Zero loud gradients—just pure culinary craft wafting warmth.
         </p>
       </div>
 
       <!-- Right Continuous Looping Animation Frame -->
-      <div class="w-full md:w-72 h-48 bg-stone-200/60 rounded-2xl overflow-hidden border border-stone-300 relative shadow-inner flex items-center justify-center">
+      <div class="w-full md:w-80 h-48 sm:h-52 bg-stone-200/60 rounded-2xl overflow-hidden border border-stone-300 relative shadow-inner flex items-center justify-center">
         <!-- Pinterest Embedded Stop-Motion Animation -->
         <iframe 
           src="https://assets.pinterest.com/ext/embed.html?id=548735535862224869" 
@@ -127,70 +145,115 @@
       </div>
     </div>
 
-    <!-- ================= CUSTOMIZATION & FILTER CONTROLS ================= -->
-    <div class="bg-white rounded-3xl p-4 border border-stone-200/90 shadow-xs space-y-3">
+    <!-- ================= CUSTOMISE YOUR RECIPES & CUISINE CAROUSEL (Sketch: Customisation Container) ================= -->
+    <div class="bg-white rounded-3xl p-4 sm:p-5 border border-stone-200/90 shadow-xs space-y-3.5">
       
-      <!-- Row 1: Cuisines Horizontal Carousel -->
-      <div>
-        <div class="flex justify-between items-center mb-1.5">
-          <span class="text-xs font-bold text-stone-500 uppercase tracking-wider font-sans-clean">Cuisines</span>
-          <span id="results-count" class="text-xs font-bold text-orange-600 font-sans-clean">Showing 36 dishes</span>
+      <!-- Top Row: "Customise Your Recipes" Header with Filter Toggle Button -->
+      <div class="flex justify-between items-center pb-2 border-b border-stone-100">
+        <div>
+          <h3 class="text-base sm:text-lg font-extrabold font-baloo text-stone-900 tracking-tight flex items-center gap-2">
+            <span>✨</span> Customise Your Recipes
+          </h3>
+          <p class="text-[11px] text-stone-500 font-medium">Fine-tune preparation time, meal courses, and ratings</p>
         </div>
-        <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
-          <button onclick="setCuisineFilter('all')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs" data-cuisine="all">🌟 All Cuisines</button>
-          <button onclick="setCuisineFilter('north')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="north">🫓 North Indian</button>
-          <button onclick="setCuisineFilter('south')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="south">🥥 South Indian</button>
-          <button onclick="setCuisineFilter('street')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="street">🥟 Street Food</button>
-          <button onclick="setCuisineFilter('continental')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="continental">🥪 Continental / Café</button>
-          <button onclick="setCuisineFilter('italian')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="italian">🍝 Italian</button>
-          <button onclick="setCuisineFilter('asian')" class="cuisine-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="asian">🥢 Asian / Chinese</button>
+        
+        <!-- Filter Sliders Button (Opens secondary filters) -->
+        <button onclick="toggleFiltersPanel()" id="filters-toggle-btn" class="flex items-center gap-1.5 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl font-bold text-xs border border-stone-300 shadow-xs transition cursor-pointer">
+          <span class="text-sm">🎛️</span>
+          <span>Filters</span>
+          <span id="filters-arrow" class="text-[10px] text-stone-500 transition-transform">▼</span>
+        </button>
+      </div>
+
+      <!-- Expandable Secondary Filter Panel (Prep Time, Meal Type, Ratings) -->
+      <div id="secondary-filters" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+        
+        <!-- Meal Type Selector -->
+        <div>
+          <label class="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">Meal Course</label>
+          <select id="meal-type-filter" onchange="applyFilters()" class="w-full text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-3 py-2 border border-stone-300 outline-none cursor-pointer">
+            <option value="all">🍽️ All Meal Types</option>
+            <option value="breakfast">🥞 Breakfast</option>
+            <option value="lunch">🥗 Lunch</option>
+            <option value="dinner">🍲 Dinner</option>
+            <option value="snack">🥟 Snacks &amp; Drinks</option>
+          </select>
+        </div>
+
+        <!-- Preparation Time Filter -->
+        <div>
+          <label class="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">Max Prep Time</label>
+          <select id="time-filter" onchange="applyFilters()" class="w-full text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-3 py-2 border border-stone-300 outline-none cursor-pointer">
+            <option value="all">⏱️ Any Prep Time</option>
+            <option value="15">⚡ Under 15 mins</option>
+            <option value="30">⏳ 20 - 30 mins</option>
+            <option value="45">🥘 35+ mins</option>
+          </select>
+        </div>
+
+        <!-- Ratings Filter -->
+        <div>
+          <label class="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">Minimum Rating</label>
+          <select id="rating-filter" onchange="applyFilters()" class="w-full text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-3 py-2 border border-stone-300 outline-none cursor-pointer">
+            <option value="all">★ All Ratings</option>
+            <option value="4.8">★ 4.8 &amp; above (Top Rated)</option>
+            <option value="4.5">★ 4.5 &amp; above</option>
+            <option value="4.0">★ 4.0 &amp; above</option>
+          </select>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="sm:col-span-3 flex justify-end pt-1">
+          <button onclick="resetAllFilters()" class="text-xs font-bold text-orange-600 hover:text-orange-800 transition cursor-pointer">
+            Reset All Customisations ↺
+          </button>
         </div>
       </div>
 
-      <!-- Row 2: Secondary Navigations (Meal Type, Time, Rating) -->
-      <div class="flex flex-wrap gap-2 pt-2 border-t border-stone-100 items-center">
-        
-        <!-- Meal Type Selector -->
-        <select id="meal-type-filter" onchange="applyFilters()" class="text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-2.5 py-1.5 border border-stone-300 outline-none cursor-pointer">
-          <option value="all">🍽️ All Meal Types</option>
-          <option value="breakfast">🥞 Breakfast</option>
-          <option value="lunch">🥗 Lunch</option>
-          <option value="dinner">🍲 Dinner</option>
-          <option value="snack">🥟 Snacks &amp; Drinks</option>
-        </select>
-
-        <!-- Preparation Time Filter -->
-        <select id="time-filter" onchange="applyFilters()" class="text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-2.5 py-1.5 border border-stone-300 outline-none cursor-pointer">
-          <option value="all">⏱️ Any Prep Time</option>
-          <option value="15">⚡ Under 15 mins</option>
-          <option value="30">⏳ 20 - 30 mins</option>
-          <option value="45">🥘 35+ mins</option>
-        </select>
-
-        <!-- Ratings Filter -->
-        <select id="rating-filter" onchange="applyFilters()" class="text-xs font-bold bg-[#FAF7F2] text-stone-800 rounded-xl px-2.5 py-1.5 border border-stone-300 outline-none cursor-pointer">
-          <option value="all">★ All Ratings</option>
-          <option value="4.8">★ 4.8 &amp; above (Top Rated)</option>
-          <option value="4.5">★ 4.5 &amp; above</option>
-          <option value="4.0">★ 4.0 &amp; above</option>
-        </select>
-
-        <!-- Reset Button -->
-        <button onclick="resetAllFilters()" class="text-xs font-bold text-orange-600 hover:text-orange-800 ml-auto px-2 py-1 transition cursor-pointer">
-          Reset Filters ↺
-        </button>
+      <!-- Horizontal Cuisine Pills (Sketch: North, Italian, Street food, Continental, South, Healthy + See all) -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs font-bold text-stone-500 uppercase tracking-wider font-sans-clean">Cuisines</span>
+          <button onclick="setCuisineFilter('all')" class="text-xs font-bold text-orange-600 hover:underline cursor-pointer">See all</button>
+        </div>
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          <button onclick="setCuisineFilter('all')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-orange-600 text-white shrink-0 shadow-xs" data-cuisine="all">
+            🌟 All
+          </button>
+          <button onclick="setCuisineFilter('north')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="north">
+            🫓 North
+          </button>
+          <button onclick="setCuisineFilter('italian')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="italian">
+            🍝 Italian
+          </button>
+          <button onclick="setCuisineFilter('street')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="street">
+            🥟 Street food
+          </button>
+          <button onclick="setCuisineFilter('continental')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="continental">
+            🥪 Continental
+          </button>
+          <button onclick="setCuisineFilter('south')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="south">
+            🥥 South
+          </button>
+          <button onclick="setCuisineFilter('healthy')" class="cuisine-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-stone-100 text-stone-700 hover:bg-stone-200 shrink-0" data-cuisine="healthy">
+            🥗 Healthy
+          </button>
+        </div>
       </div>
 
     </div>
 
-    <!-- ================= SECTION HEADER ================= -->
-    <div class="flex justify-between items-center px-1">
+    <!-- ================= RECOMMENDED FOR YOU (Sketch: Recommended for you.) ================= -->
+    <div class="flex justify-between items-center px-1 pt-1">
       <div>
         <h3 class="text-xl sm:text-2xl font-extrabold font-baloo text-stone-900 leading-tight">
-          RECOMMENDED RECIPES
+          Recommended for you.
         </h3>
-        <p class="text-xs text-stone-500 font-medium">Curated for your palate with live portion scaling &amp; video reels</p>
+        <p class="text-xs text-stone-500 font-medium">Curated dishes with live dynamic portion scaling and quick video reels</p>
       </div>
+      <span id="results-count" class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200 shrink-0">
+        Showing 36 dishes
+      </span>
     </div>
 
     <!-- ================= RECIPE CARD GRID ================= -->
@@ -244,32 +307,36 @@
     </div>
   </div>
 
-  <!-- ================= BOTTOM NAVIGATION BAR ================= -->
-  <nav class="sticky bottom-0 bg-white/95 backdrop-blur-md border-t border-stone-200 z-40 py-2 px-6">
+  <!-- ================= BOTTOM NAVIGATION BAR (Sketch: Home, Meal Planner, Shopping List, Your Saves) ================= -->
+  <nav class="sticky bottom-0 bg-white/95 backdrop-blur-md border-t border-stone-200 z-40 py-2.5 px-6 shadow-lg">
     <div class="max-w-md mx-auto flex justify-between items-center text-stone-500">
       
-      <!-- Home Tab (Active) -->
-      <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center gap-0.5 text-orange-600 transition cursor-pointer">
+      <!-- Tab 1: Home (Active with elevated circle indicator) -->
+      <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center gap-1 text-orange-600 transition cursor-pointer relative py-1 px-2.5">
         <span class="text-xl">🏠</span>
         <span class="text-[10px] font-extrabold font-baloo tracking-tight">Home</span>
+        <span id="tab-home-dot" class="w-1.5 h-1.5 rounded-full bg-orange-600 mt-0.5"></span>
       </button>
 
-      <!-- Host Mode Tab -->
-      <button onclick="switchTab('host')" id="tab-host" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer">
-        <span class="text-xl">🥂</span>
-        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Host Mode</span>
-      </button>
-
-      <!-- Meal Planner Tab -->
-      <button onclick="switchTab('planner')" id="tab-planner" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer">
+      <!-- Tab 2: Meal Planner (Bento Board) -->
+      <button onclick="switchTab('planner')" id="tab-planner" class="flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5">
         <span class="text-xl">🗓️</span>
         <span class="text-[10px] font-extrabold font-baloo tracking-tight">Meal Planner</span>
+        <span id="tab-planner-dot" class="w-1.5 h-1.5 rounded-full bg-transparent mt-0.5"></span>
       </button>
 
-      <!-- Profile Tab -->
-      <button onclick="switchTab('profile')" id="tab-profile" class="flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer">
-        <span class="text-xl">👤</span>
-        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Profile</span>
+      <!-- Tab 3: Shopping List (Grocery Checklist) -->
+      <button onclick="switchTab('shopping')" id="tab-shopping" class="flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5">
+        <span class="text-xl">🛒</span>
+        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Shopping List</span>
+        <span id="tab-shopping-dot" class="w-1.5 h-1.5 rounded-full bg-transparent mt-0.5"></span>
+      </button>
+
+      <!-- Tab 4: Your Saves (Heart Filter) -->
+      <button onclick="switchTab('saves')" id="tab-saves" class="flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5">
+        <span class="text-xl">❤️</span>
+        <span class="text-[10px] font-extrabold font-baloo tracking-tight">Your Saves</span>
+        <span id="tab-saves-dot" class="w-1.5 h-1.5 rounded-full bg-transparent mt-0.5"></span>
       </button>
 
     </div>
@@ -1644,29 +1711,80 @@
       document.getElementById('reel-modal').classList.add('hidden');
     }
 
-    // Bottom Navigation Switcher
+    // Toggle Customisation Secondary Filter Panel
+    function toggleFiltersPanel() {
+      const panel = document.getElementById('secondary-filters');
+      const arrow = document.getElementById('filters-arrow');
+      if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        arrow.innerText = '▲';
+      } else {
+        panel.classList.add('hidden');
+        arrow.innerText = '▼';
+      }
+    }
+
+    // Voice Search Trigger (Microphone)
+    function triggerVoiceSearch() {
+      const searchInput = document.getElementById('search-input');
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRec();
+        recognition.lang = 'en-IN';
+        recognition.start();
+        searchInput.placeholder = "Listening... say 'potato', 'pasta', or 'paneer'...";
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          searchInput.value = transcript;
+          applyFilters();
+          searchInput.placeholder = "Search recipes with existing groceries...";
+        };
+        recognition.onerror = function() {
+          searchInput.placeholder = "Search recipes with existing groceries...";
+          alert("🎙️ Mic note: You can speak or type grocery ingredients like potato, onion, eggs!");
+        };
+      } else {
+        const quickPrompt = prompt("🎙️ Voice Search Demo - Type what you have in your fridge (e.g. potato, tomato, garlic):", "potato");
+        if (quickPrompt) {
+          searchInput.value = quickPrompt;
+          applyFilters();
+        }
+      }
+    }
+
+    // Bottom Navigation Switcher (Matches Sketch: Home, Meal Planner, Shopping List, Your Saves)
     function switchTab(tab) {
-      const tabs = ['home', 'host', 'planner', 'profile'];
+      const tabs = ['home', 'planner', 'shopping', 'saves'];
       tabs.forEach(t => {
         const btn = document.getElementById('tab-' + t);
+        const dot = document.getElementById('tab-' + t + '-dot');
+        if (!btn) return;
         if (t === tab) {
-          btn.className = "flex flex-col items-center gap-0.5 text-orange-600 transition cursor-pointer";
+          btn.className = "flex flex-col items-center gap-1 text-orange-600 transition cursor-pointer relative py-1 px-2.5";
+          if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-orange-600 mt-0.5";
         } else {
-          btn.className = "flex flex-col items-center gap-0.5 text-stone-400 hover:text-stone-700 transition cursor-pointer";
+          btn.className = "flex flex-col items-center gap-1 text-stone-400 hover:text-stone-700 transition cursor-pointer py-1 px-2.5";
+          if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-transparent mt-0.5";
         }
       });
 
-      if (tab === 'host') {
-        alert("🥂 Host Mode Activated! Recipes automatically scaled to Serves 4 for dinner parties.");
-        RECIPES_DATA.forEach(r => r.activeServings = 4);
-        renderRecipes();
-      } else if (tab === 'home') {
+      if (tab === 'home') {
+        if (onlySaved) toggleSavedFilter();
         RECIPES_DATA.forEach(r => r.activeServings = r.baseServings);
         renderRecipes();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (tab === 'planner') {
-        alert("🗓️ Bento Meal Planner: Tuesday Meals scheduled! Truffle Pasta & Crispy Burger in queue.");
+        alert("🗓️ Bento Meal Planner: This week's scheduled meals:\n• Breakfast: Avocado Sourdough Toast\n• Lunch: Crispy Paneer Burger\n• Dinner: Truffle Cream Pasta\n(Syncs with your grocery checklist!)");
+      } else if (tab === 'shopping') {
+        alert("🛒 Shopping List (Grocery Checklist):\n• 400g Paneer (Blinkit - In Cart)\n• 250g Fettuccine Pasta (Zepto - In Cart)\n• 6 Potatoes & Red Onions\n\n1-Tap Instant Checkout with Delivery Chooser active!");
+      } else if (tab === 'saves') {
+        if (!onlySaved) {
+          toggleSavedFilter();
+        }
+        const recipeGrid = document.getElementById('recipe-grid');
+        recipeGrid.scrollIntoView({ behavior: 'smooth' });
       } else if (tab === 'profile') {
-        alert("👤 User Profile: Rhea Sharma (NIFT Hyderabad) • Student Account Active.");
+        alert("👤 User Profile: Ria (NIFT Student Account) • Smart Dietary Preferences: Flexible Vegetarian / Low Oil.");
       }
     }
   </script>
